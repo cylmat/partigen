@@ -1,0 +1,2 @@
+# partigen
+Partition generator
