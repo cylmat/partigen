@@ -1,0 +1,8 @@
+version: '3'
+services:
+  php: 
+    build: .
+    volumes:
+      - ${DIRECTORY}:/var/www
+    ports:
+      - 8989:80
