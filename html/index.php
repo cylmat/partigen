@@ -1,12 +1,13 @@
 <?php
 
-require '../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 use Spatie\PdfToImage\Pdf;
 use Spipu\Html2Pdf\Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
+chdir(__DIR__);
 Image::run();
 
 class Image
@@ -40,13 +41,14 @@ class Image
             $pdf = tempnam('/tmp', '') . '.pdf';
             $html2pdf->output($pdf, 'F');
 
-            if ($pdf) {
+            if (false !== $pdf && is_string($pdf)) {
                 return $pdf;
             } else {
                 throw new DomainException("Temporary file '$pdf' was not created");
             }
 
         } catch (Html2PdfException $e) {
+            echo $e->getMessage();
             unlink($pdf);
             $html2pdf->clean();
         }
@@ -71,8 +73,19 @@ class Image
     private function output(string $img): void
     {
         header("Content-type: image/png");
-        readfile($img);
+        $this->action($img);
         unlink($img);
         die();
+    }
+
+    private function action(string $img)
+    {
+        if (PHP_SAPI === 'cli') {
+            // Used for github actions
+            echo "Generated image: $img [ok]\n";
+        } else {
+            // From server
+            readfile($img);
+        }
     }
 }

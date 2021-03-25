@@ -11,6 +11,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: gd, imagick, mbstring
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
@@ -30,5 +36,8 @@ jobs:
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    # - name: Run test suite
-    #   run: composer run-script test
+    - name: Run local server
+      run: php -S localhost:80 -t html
+
+    - name: Run script
+      run: php -f html/index.php
