@@ -1,0 +1,38 @@
+<style type="text/css">
+<!--
+.test1
+{
+    border: solid 1px #FF0000;
+    background: #FFFFFF;
+    border-collapse: collapse;
+}
+-->
+</style>
+<page style="font-size: 14px">
+    <table border="1" bordercolor="#007" bgcolor="#AAAAAA" align="center">
+        <tr>
+            <td border="1">B1</td>
+            <td border="1" rowspan="2">
+                <table class="test1">
+                    <tr>
+                        <td style="border: solid 2px #007700">E1</td>
+                        <td style="border: solid 2px #000077; padding: 2mm">
+                            <table style="border: solid 1px #445500">
+                                <tr>
+                                    <td>
+                                        <img src="./res/fa.png" alt="Logo" width=100 />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: solid 2px #770000">F1</td>
+                        <td style="border: solid 2px #007777">F2</td>
+                    </tr>
+                </table>
+            </td>
+            <td border="1"><barcode type="EAN13" value="45" style="width: 30mm; height: 6mm; font-size: 4mm"></barcode></td>
+        </tr>
+    </table>
+</page>

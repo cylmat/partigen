@@ -2,30 +2,32 @@
 
 require '../vendor/autoload.php';
 
-use \Spipu\Html2Pdf\Debug\Debug;
+use Spipu\Html2Pdf\Html2Pdf;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
-new Debug;
-
-//Image::create();
+Image::html2pdf();
 
 class Image
 {
     static function create()
     {
-        // Create a blank image and add some text
-        $im = imagecreatetruecolor(120, 20);
-        $text_color = imagecolorallocate($im, 233, 14, 91);
-        imagestring($im, 1, 5, 5,  'A Simple Text String', $text_color);
+        
+    }
 
-        // Set the content type header - in this case image/jpeg
-        header('Content-Type: image/jpeg');
+    static function html2pdf()
+    {
+        try {
+            $content = file_get_contents(dirname(__FILE__).'/res/img.html');
+        
+            $html2pdf = new Html2Pdf('P', 'A4', 'fr');
+            $html2pdf->setDefaultFont('Arial');
+            $html2pdf->writeHTML($content);
+            $html2pdf->output('example00.pdf');
 
-        // Save image
-        imagejpeg($im, 'image.jpg');
-        // Output the image
-        //imagejpeg($im);
-
-        // Free up memory
-        imagedestroy($im);
+        } catch (Html2PdfException $e) {
+            $html2pdf->clean();
+            $formatter = new ExceptionFormatter($e);
+        }
     }
 }
