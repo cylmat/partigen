@@ -1,6 +1,12 @@
 <?php
 
-Image::create();
+require '../vendor/autoload.php';
+
+use \Spipu\Html2Pdf\Debug\Debug;
+
+new Debug;
+
+//Image::create();
 
 class Image
 {
@@ -17,7 +23,7 @@ class Image
         // Save image
         imagejpeg($im, 'image.jpg');
         // Output the image
-        imagejpeg($im);
+        //imagejpeg($im);
 
         // Free up memory
         imagedestroy($im);
