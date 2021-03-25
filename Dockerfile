@@ -1,6 +1,6 @@
 FROM php:7.4-apache
 
-RUN apt-get update
+RUN apt-get update && BUILD=1
 RUN apt-get install -y libfreetype6-dev libjpeg-dev libgd-dev libonig-dev libpng-dev zlib1g-dev git vim wget zip
 RUN docker-php-ext-configure gd --with-jpeg --enable-gd
 RUN docker-php-ext-install -j$(nproc) bcmath gd mbstring

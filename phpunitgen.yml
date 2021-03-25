@@ -1,0 +1,36 @@
+###############
+# Phpunit Gen #
+###############
+
+# WEBSITE
+# https://phpunitgen.io/
+
+# CODE
+# https://github.com/paul-thebaud/phpunitgen-core
+# https://github.com/paul-thebaud/phpunitgen-console
+
+# DOC
+# https://phpunitgen.io/docs#/fr/configuration
+
+overwriteFiles: false
+backupFiles: false
+excludedFiles: []
+includedFiles:
+  - '\.php$'
+generateOnMake: true
+automaticGeneration: true
+implementations:
+  PhpUnitGen\Core\Contracts\Generators\TestGenerator: PhpUnitGen\Core\Generators\Tests\Basic\BasicTestGenerator
+  PhpUnitGen\Core\Contracts\Generators\MockGenerator: PhpUnitGen\Core\Generators\Mocks\PhpUnitMockGenerator
+baseNamespace: Partigen
+baseTestNamespace: Partigen
+testCase: PHPUnit\Framework\TestCase
+excludedMethods:
+  - __construct
+  - __destruct
+mergedPhpDoc:
+  - author
+  - copyright
+  - license
+  - version
+phpDoc: []
