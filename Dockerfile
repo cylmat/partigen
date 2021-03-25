@@ -9,8 +9,7 @@ RUN docker-php-ext-install -j$(nproc) bcmath gd mbstring
 RUN apt-get install -y libmagickwand-dev
 RUN echo '' | pecl install imagick
 RUN echo "extension=imagick.so" > /usr/local/etc/php/conf.d/imagick.ini
-RUN sed -ie 's#<policy domain="coder" rights="none" pattern="PDF" />#<!--policy "coder" rights="none" pattern="PDF" /-->#' /etc/ImageMagick-6/policy.xml
-
+RUN sed -ie 's#<policy domain="coder" rights="none" pattern="PDF" />##' $(find /etc/Image* -name policy.xml)
 
 # composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"

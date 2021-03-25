@@ -36,6 +36,10 @@ jobs:
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
+    - name: Remove ImageMagick policy
+      run: sed -ie 's#<policy domain="coder" rights="none" pattern="PDF" />##' $(find /etc/Image* -name policy.xml)
+
+
     - name: Run local server
       run: sudo php -S localhost:80 -t html &
 
