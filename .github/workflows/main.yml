@@ -37,7 +37,7 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Remove ImageMagick policy
-      run: sed -ie 's#<policy domain="coder" rights="none" pattern="PDF" />##' $(find /etc/Image* -name policy.xml)
+      run: sed -ie 's#<policy domain="coder" rights="none" pattern="PDF" />##' $(find /etc/Image* -name policy.xml | grep policy.xml)
 
 
     - name: Run local server
