@@ -19,7 +19,7 @@ jobs:
         extensions: gd, imagick, mbstring
 
     - name: Validate composer.json and composer.lock
-      run: composer validate
+      run: composer validate --no-check-lock
 
     - name: Cache Composer packages
       id: composer-cache

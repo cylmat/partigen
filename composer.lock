@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1e1255691ffe4f09f2df728e6643ba4",
+    "content-hash": "2b2b49e62ad93204d3c9aaa57a6b2784",
     "packages": [
         {
             "name": "spatie/pdf-to-image",
