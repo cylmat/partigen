@@ -2,32 +2,77 @@
 
 require '../vendor/autoload.php';
 
+use Spatie\PdfToImage\Pdf;
 use Spipu\Html2Pdf\Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
-Image::html2pdf();
+Image::run();
 
 class Image
 {
-    static function create()
+    private const HTML_FILE = 'partition.html';
+    private static $resource;
+
+    public static function run() { $img = new Image(); $img->convert(); }
+
+    public function __construct()
     {
-        
+       self::$resource = dirname(__FILE__).'/res/' . self::HTML_FILE;
     }
 
-    static function html2pdf()
+    public function convert()
+    {
+        $pdf = $this->html2pdf();
+        $img = $this->pdf2img($pdf);
+        $this->output($img);
+    }
+
+    private function html2pdf(): string
     {
         try {
-            $content = file_get_contents(dirname(__FILE__).'/res/img.html');
+            $content = file_get_contents(self::$resource);
         
             $html2pdf = new Html2Pdf('P', 'A4', 'fr');
             $html2pdf->setDefaultFont('Arial');
             $html2pdf->writeHTML($content);
-            $html2pdf->output('example00.pdf');
+
+            $pdf = tempnam('/tmp', '') . '.pdf';
+            $html2pdf->output($pdf, 'F');
+
+            if ($pdf) {
+                return $pdf;
+            } else {
+                throw new DomainException("Temporary file '$pdf' was not created");
+            }
 
         } catch (Html2PdfException $e) {
+            unlink($pdf);
             $html2pdf->clean();
-            $formatter = new ExceptionFormatter($e);
         }
+    }
+
+    private function pdf2img(string $pdf): string
+    {
+        $pdfConverter = new Pdf($pdf);
+        $img = tempnam('/tmp', '') . '.png';
+
+        try {
+            $pdfConverter->setOutputFormat('png')->saveImage($img);
+            unlink($pdf);
+        } catch (\Exception $e) {
+            unlink($pdf);
+            unlink($img);
+        }
+
+        return $img;
+    }
+
+    private function output(string $img): void
+    {
+        header("Content-type: image/png");
+        readfile($img);
+        unlink($img);
+        die();
     }
 }
