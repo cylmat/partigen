@@ -1,11 +1,11 @@
-name: PHP Composer
+name: Partigen
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build:
+  run:
 
     runs-on: ubuntu-latest
 
@@ -19,7 +19,7 @@ jobs:
         extensions: gd, imagick, mbstring
 
     - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+      run: composer validate
 
     - name: Cache Composer packages
       id: composer-cache
