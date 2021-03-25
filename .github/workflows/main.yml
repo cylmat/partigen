@@ -37,7 +37,7 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run local server
-      run: php -S localhost:80 -t html
+      run: sudo php -S localhost:80 -t html
 
     - name: Run script
       run: php -f html/index.php
