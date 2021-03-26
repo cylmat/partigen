@@ -13,10 +13,4 @@ class AppSpec extends ObjectBehavior
     {
         $this->shouldHaveType(App::class);
     }
-
-    function it_should_generate_and_display_image(ImageManager $imageManager, Vue $vue)
-    {
-        $imageManager->generate()->shouldBeCalled();
-        $vue->output()->shouldBeCalled();
-    }
 }

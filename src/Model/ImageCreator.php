@@ -3,21 +3,42 @@
 namespace Partigen\Model;
 
 use Partigen\Model\Image;
+use Spatie\PdfToImage\Pdf;
+use Spipu\Html2Pdf\Html2Pdf;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
 class ImageCreator
 {
-    public function convert(): Image
+    private const HTML_FILE = 'partition.html';
+
+    /**
+     * @var Image
+     */
+    private $image;
+
+    /**
+     * @var string
+     */
+    private $filepath;
+
+    public function __construct(Image $image)
+    {
+        $this->filepath = dirname(__FILE__).'/../Resources/' . self::HTML_FILE;
+        $this->image = $image;
+    }
+
+    public function create(): Image
     {
         $pdf = $this->html2pdf();
         $img = $this->pdf2img($pdf);
-        $image = new Image($img);
-        return $this->getImage($img);
+        return $this->image;
     }
 
     private function html2pdf(): string
     {
         try {
-            $content = file_get_contents(self::$resource);
+            $content = file_get_contents($this->filepath);
         
             $html2pdf = new Html2Pdf('P', 'A4', 'fr');
             $html2pdf->setDefaultFont('Arial');
