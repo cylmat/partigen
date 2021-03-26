@@ -17,8 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Partigen\\": "src/",
-            "Partigen\\App\\": "src/App"
+            "Partigen\\": "src/"
         }
     }
 }

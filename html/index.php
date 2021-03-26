@@ -2,6 +2,6 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-chdir(__DIR__);
+chdir(__DIR__ . '/../src/Resources/');
 
-Partigen\App::run();
+(new Partigen\App\App)->run();
