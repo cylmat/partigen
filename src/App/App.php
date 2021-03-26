@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Partigen;
+namespace Partigen\App;
 
 class App
 {
-    public static function run()
+    public function run()
     {
-
+        
     }
 }

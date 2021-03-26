@@ -1,31 +1,17 @@
 <?php
 
-declare(strict_types=1);
+namespace Partigen\Model;
 
-namespace Partigen\Generate;
+use Partigen\Model\Image;
 
-use Spatie\PdfToImage\Pdf;
-use Spipu\Html2Pdf\Html2Pdf;
-use Spipu\Html2Pdf\Exception\Html2PdfException;
-use Spipu\Html2Pdf\Exception\ExceptionFormatter;
-
-class Image
+class ImageCreator
 {
-    private const HTML_FILE = 'partition.html';
-    private static $resource;
-
-    public static function run() { $img = new Image(); $img->convert(); }
-
-    public function __construct()
-    {
-       self::$resource = dirname(__FILE__).'/res/' . self::HTML_FILE;
-    }
-
-    public function convert()
+    public function convert(): Image
     {
         $pdf = $this->html2pdf();
         $img = $this->pdf2img($pdf);
-        $this->output($img);
+        $image = new Image($img);
+        return $this->getImage($img);
     }
 
     private function html2pdf(): string
