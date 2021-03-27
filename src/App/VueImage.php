@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Partigen\App;
 
-use Partigen\Manager\ImageManager;
+use Partigen\Model\Image;
 
 class VueImage implements VueInterface
 {
-    private $imageManager;
+    private $image;
 
-    public function __construct(ImageManager $imageManager)
+    public function __construct(Image $image)
     {
-        $this->imageManager = $imageManager;
+        $this->image = $image;
     }
 
     public function output(): void
     {
         header("Content-type: image/png");
         $this->action();
-        $this->imageManager->getImage()->unlink();
+        unlink($this->image->getFilepath());
         die();
     }
 
@@ -27,10 +27,10 @@ class VueImage implements VueInterface
     {
         if (PHP_SAPI === 'cli') {
             // Used for github actions
-            echo "Generated image: ".$this->imageManager->getImage()->getPath()." [ok]\n";
+            echo "Generated image: ".$this->image->getFilepath()." [ok]\n";
         } else {
             // From server
-            $this->image->readfile();
+            readfile($this->image->getFilepath());
         }
     }
 }

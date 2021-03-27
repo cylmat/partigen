@@ -3,14 +3,15 @@
 namespace spec\Partigen\App;
 
 use Partigen\App\VueImage;
-use Partigen\Manager\ImageManager;
+use Partigen\Model\Image;
 use PhpSpec\ObjectBehavior;
 
 class VueImageSpec extends ObjectBehavior
 {
-    function let(ImageManager $imageManager)
+    function let(Image $image)
     {
-        $this->beConstructedWith([$imageManager]);
+        $image->getFilepath()->willReturn(tempnam('/tmp'));
+        $this->beConstructedWith($image);
     }
 
     function it_is_initializable()
@@ -18,8 +19,8 @@ class VueImageSpec extends ObjectBehavior
         $this->shouldHaveType(VueImage::class);
     }
 
-    function it_can_output()
+    function it_can_output(Image $image)
     {
-
+        $this->output()->shouldBeCalled();
     }
 }

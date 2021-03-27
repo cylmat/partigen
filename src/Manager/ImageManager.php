@@ -2,18 +2,22 @@
 
 namespace Partigen\Manager;
 
+use Partigen\Model\Image;
 use Partigen\Model\ImageCreator;
 
 class ImageManager
 {
-    public function generate(): Image
+    public static function factoryImageCreator(): ImageCreator
     {
-        $imageCreator = new ImageCreator(new Image);
-        return $imageCreator->create();
+        return new ImageCreator();
     }
 
-    public function unlink($argument1)
+    public function generate(): Image
     {
-        // TODO: write logic here
+        $imageCreator = self::factoryImageCreator();
+        $params = [
+            ImageCreator::FORMAT => ImageCreator::FORMAT_A4
+        ];
+        return $imageCreator->create($params);
     }
 }

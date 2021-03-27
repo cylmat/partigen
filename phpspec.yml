@@ -33,7 +33,7 @@ suites:
 #     - Acme\Matchers\PositiveIntegerMatcher
 
 # Bootstrap php file
-# bootstrap: path/to/different-bootstrap.php
+bootstrap: src/bootstrap.php
 
 extensions:
   # https://github.com/friends-of-phpspec/phpspec-code-coverage

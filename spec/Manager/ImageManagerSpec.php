@@ -4,7 +4,6 @@ namespace spec\Partigen\Manager;
 
 use Partigen\Manager\ImageManager;
 use Partigen\Model\Image;
-use Partigen\Model\ImageCreator;
 use PhpSpec\ObjectBehavior;
 
 class ImageManagerSpec extends ObjectBehavior
@@ -14,14 +13,8 @@ class ImageManagerSpec extends ObjectBehavior
         $this->shouldHaveType(ImageManager::class);
     }
 
-    function it_can_call_creator(ImageCreator $imageCreator, Image $image)
+    function it_can_call_creator()
     {
-        $this->generate($imageCreator)->willReturn($image);
-    }
-
-    function it_can_manage_images(Image $image)
-    {
-        $image->getFilepath()->shouldBeCalled();
-        $this->unlink($image)->willReturn();
+        $this->generate()->shouldHaveType(Image::class);
     }
 }

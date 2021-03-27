@@ -2,16 +2,12 @@
 
 namespace spec\Partigen\Model;
 
+use Partigen\Model\Image;
 use Partigen\Model\ImageCreator;
 use PhpSpec\ObjectBehavior;
 
 class ImageCreatorSpec extends ObjectBehavior
 {
-    function let()
-    {
-        $this->beConstructedWith(['A4']);
-    }
-
     function it_is_initializable()
     {
         $this->shouldHaveType(ImageCreator::class);
@@ -19,6 +15,8 @@ class ImageCreatorSpec extends ObjectBehavior
 
     function it_can_create_image()
     {
-        $this->create()->willReturn();
+        $this->create([
+            ImageCreator::FORMAT => ImageCreator::FORMAT_A4
+        ])->shouldHaveType(Image::class);
     }
 }
