@@ -6,7 +6,7 @@ namespace Partigen\App;
 
 use Partigen\Model\Image;
 
-class VueImage implements VueInterface
+class VueImage
 {
     private $image;
 
