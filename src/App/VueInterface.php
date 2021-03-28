@@ -6,5 +6,5 @@ namespace Partigen\App;
 
 interface VueInterface
 {
-    public function output(): void;
+    public function render(): string;
 }

@@ -15,22 +15,27 @@ class VueImage implements VueInterface
         $this->image = $image;
     }
 
-    public function output(): void
+    public function render(): string
     {
         header("Content-type: image/png");
-        $this->action();
+        $content =  $this->getContent();
         unlink($this->image->getFilepath());
-        die();
+
+        return $content;
     }
 
-    private function action(): void
+    private function getContent(): string
     {
         if (PHP_SAPI === 'cli') {
             // Used for github actions
-            echo "Generated image: ".$this->image->getFilepath()." [ok]\n";
+            return "Generated image: ".$this->image->getFilepath()." [ok]\n";
         } else {
             // From server
-            readfile($this->image->getFilepath());
+            if (false !== $content = file_get_contents($this->image->getFilepath())) {
+                return $content;
+            } else {
+                throw new \RuntimeException("Impossible to get '".$this->image->getFilepath()."' content");
+            }
         }
     }
 }

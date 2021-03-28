@@ -10,7 +10,7 @@ class VueImageSpec extends ObjectBehavior
 {
     function let(Image $image)
     {
-        $image->getFilepath()->willReturn(tempnam('/tmp'));
+        $image->getFilepath()->willReturn(tempnam('/tmp', ''));
         $this->beConstructedWith($image);
     }
 
@@ -19,8 +19,8 @@ class VueImageSpec extends ObjectBehavior
         $this->shouldHaveType(VueImage::class);
     }
 
-    function it_can_output(Image $image)
+    function it_can_render()
     {
-        $this->output()->shouldBeCalled();
+        $this->render()->shouldBeString();
     }
 }
