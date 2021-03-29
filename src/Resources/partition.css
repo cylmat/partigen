@@ -13,31 +13,38 @@ table {
 .block {
     position: relative;
     width: 100%;
-    margin-top: 200px;
+    margin-top: 70px;
 }
 
-.first {
+.block-first {
     margin-top: 0px;
 }
 
-.block .line {
-    height: 2px;
-    border-bottom: solid 1px black;
-}
-
 .block .sol, .block .fa {
-    position: absolute;
+    position: relative;
     height: 100px;
     background-repeat: no-repeat;
 }
 
 .block .sol {
     background-image: url(img/sol.png);
-    background-position: 0;
+    background-position: 0 12px;
 }
 
 .block .fa {
     background-image: url(img/fa.png);
     background-position: 0 5px;
-    margin-top: 100px;
+    margin-top: 10px;
+}
+
+.block .sol .line, .block .fa .line {
+    height: 2px;
+    border-bottom: solid 1px black;
+}
+
+.note {
+    position: absolute;
+    height: 11px;
+    width: 20px;
+    background-image: url(img/ronde.png);
 }

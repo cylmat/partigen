@@ -10,12 +10,13 @@ function Container() {
 
 function resize($file, $w, $h=-1)
 {
-    $file = 'sol.png';
-    $image = imagecreatefrompng ("orig/$file");
-    $new = imagescale ( $image, 30, -1, IMG_BILINEAR_FIXED );
+    $image = imagecreatefrompng("orig/$file");
+    $new = imagescale ( $image, $w, $h, IMG_BILINEAR_FIXED );
     imagepng($new, "img/$file");
 }
 
-resize("sol.png", 30);
-resize("fa.png", 33);
-resize("ronde.png", 20);
+if ('cli' === PHP_SAPI) {
+    resize("sol.png", 30);
+    resize("fa.png", 33);
+    resize("ronde.png", 20);
+}
