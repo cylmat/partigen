@@ -2,18 +2,27 @@
 
 namespace Partigen\Service;
 
-use Partigen\App\Factory;
 use Partigen\Model\Image;
 use Spatie\PdfToImage\Pdf;
 
-class Pdf2ImageService
+class Pdf2Image
 {
+    /**
+     * @var Image
+     */
+    private $image;
+
+    public function __construct(Image $image)
+    {
+        $this->image = $image;
+    }
+
     public function convert(string $pdf): Image
     {
         $pdfConverter = new Pdf($pdf);
         $imgPath = tempnam('/tmp', '') . '.png';
 
-        $image = (Factory::Image())
+        $image = $this->image
             ->setFormat('A4')
             ->setFilepath($imgPath);
 

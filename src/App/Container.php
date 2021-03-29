@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\App;
 
-use Di\Container as Di_Container;
+use DI\Container as Di_Container;
 
 class Container
 {

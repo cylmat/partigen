@@ -8,35 +8,15 @@ use Partigen\Manager\ImageManager;
 
 class App
 {
-    /**
-     * @var ImageManager
-     */
-    private $imageManager;
-
-    /**
-     * @var VueImage
-     */
-    private $vueImage;
-
-    /*public function __construct(ImageManager $imageManager, VueImage $vueImage)
-    {
-        $this->imageManager = $imageManager;
-        $this->vueImage = $vueImage;
-    }*/
-
-    public function __construct()
-    {
-        Container::getInstance()->get(ImageManager::class);
-    }
-
     public function run(): void
     {
-        Container::getInstance()->get(ImageManager::class);
+        $imageManager = Container()->get(ImageManager::class);
+        $vueImage = Container()->get(VueImage::class);
 
-        /*$image = $this->imageManager->generate();
-        $content = $this->vueImage->render();
+        $image = $imageManager->generate();
+        $content = $vueImage->render($image);
 
-        $this->output($content);*/
+        $this->output($content);
     }
 
     public function output(string $content)

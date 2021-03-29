@@ -8,19 +8,14 @@ use PhpSpec\ObjectBehavior;
 
 class VueImageSpec extends ObjectBehavior
 {
-    function let(Image $image)
-    {
-        $image->getFilepath()->willReturn(tempnam('/tmp', ''));
-        $this->beConstructedWith($image);
-    }
-
     function it_is_initializable()
     {
         $this->shouldHaveType(VueImage::class);
     }
 
-    function it_can_render()
+    function it_can_render(Image $image)
     {
-        $this->render()->shouldBeString();
+        $image->getFilepath()->willReturn(tempnam('/tmp', ''));
+        $this->render($image)->shouldBeString();
     }
 }
