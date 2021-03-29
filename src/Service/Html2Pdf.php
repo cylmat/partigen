@@ -8,8 +8,7 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
 class Html2Pdf
 {
-    private const CSS_FILE = 'partition.css.php';
-    private const HTML_FILE = 'partition.html.php';
+    private const HTML_FILE = 'partition.phtml';
 
     /**
      * @var string
@@ -41,8 +40,7 @@ class Html2Pdf
     public function generate(): string
     {
         try {
-            $content = file_get_contents(self::$dirpath . self::CSS_FILE);
-            $content .= file_get_contents(self::$dirpath . self::HTML_FILE);
+            $content = include self::$dirpath . self::HTML_FILE;
 
             $html2pdf = new Spipu_Html2Pdf('P', $this->getFormat(), 'fr');
             $html2pdf->setDefaultFont('Arial');

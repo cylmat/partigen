@@ -1,0 +1,17 @@
+<?php
+
+include 'blocks.php';
+
+$output = 
+'<style type="text/css">'.
+file_get_contents('partition.css').
+'</style>'.
+"<page>".
+
+$blocks("block first").
+$blocks("block").
+$blocks("block").
+
+"</page>";
+
+return $output;

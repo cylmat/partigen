@@ -8,14 +8,14 @@ function Container() {
     return Partigen\App\Container::getInstance();
 }
 
-/*
-$file = 'sol.png';
-$image = imagecreatefrompng ("orig/$file");
-$new = imagescale ( $image, 30, -1, IMG_BILINEAR_FIXED );
-imagepng($new, "$file");
+function resize($file, $w, $h=-1)
+{
+    $file = 'sol.png';
+    $image = imagecreatefrompng ("orig/$file");
+    $new = imagescale ( $image, 30, -1, IMG_BILINEAR_FIXED );
+    imagepng($new, "img/$file");
+}
 
-$file = 'fa.png';
-$image = imagecreatefrompng ("orig/$file");
-$new = imagescale ( $image, 33, -1, IMG_BILINEAR_FIXED );
-imagepng($new, "$file");
-*/
+resize("sol.png", 30);
+resize("fa.png", 33);
+resize("ronde.png", 20);
