@@ -9,8 +9,13 @@ function Container() {
 }
 
 /*
+$file = 'sol.png';
+$image = imagecreatefrompng ("orig/$file");
+$new = imagescale ( $image, 30, -1, IMG_BILINEAR_FIXED );
+imagepng($new, "$file");
+
 $file = 'fa.png';
 $image = imagecreatefrompng ("orig/$file");
-$new = imagescale ( $image, 20, -1, IMG_BILINEAR_FIXED );
+$new = imagescale ( $image, 33, -1, IMG_BILINEAR_FIXED );
 imagepng($new, "$file");
 */
