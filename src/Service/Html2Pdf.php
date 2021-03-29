@@ -2,30 +2,47 @@
 
 namespace Partigen\Service;
 
-use Spipu\Html2Pdf\Html2Pdf;
+use Spipu\Html2Pdf\Html2Pdf as Spipu_Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
-class Html2PdfService
+class Html2Pdf
 {
     private const HTML_FILE = 'partition.html';
 
     /**
      * @var string
      */
-    private $filepath;
+    private $format = 'A4';
+
+    /**
+     * @var string
+     */
+    private static $filepath;
 
     public function __construct()
     {
-        $this->filepath = dirname(__FILE__).'/../Resources/' . self::HTML_FILE;
+        self::$filepath = dirname(__FILE__).'/../Resources/' . self::HTML_FILE;
     }
 
-    public function convert(): string
+    public function setFormat(string $format): self
+    {
+        $this->format = $format;
+
+        return $this;
+    }
+
+    public function getFormat(): string
+    {
+        return $this->format;
+    }
+
+    public function generate(): string
     {
         try {
-            $content = file_get_contents($this->filepath);
+            $content = file_get_contents(self::$filepath);
 
-            $html2pdf = new Html2Pdf('P', $this->creationParams[self::FORMAT], 'fr');
+            $html2pdf = new Spipu_Html2Pdf('P', $this->getFormat(), 'fr');
             $html2pdf->setDefaultFont('Arial');
             $html2pdf->writeHTML($content);
 
@@ -46,3 +63,4 @@ class Html2PdfService
             throw new Html2PdfException($e->getMessage());
         }
     }
+}

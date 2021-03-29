@@ -4,27 +4,26 @@ namespace Partigen\Manager;
 
 use Partigen\App\Factory;
 use Partigen\Model\Image;
-use Partigen\Service\ImageCreatorService;
+use Partigen\Service\ImageCreator;
 
 class ImageManager
 {
     /**
-     * @var ImageCreatorService
+     * @var ImageCreator
      */
-    private $imageCreatorService;
+    private $imageCreator;
 
-    public function __construct(ImageCreatorService $imageCreatorService)
+    public function __construct(ImageCreator $imageCreator)
     {
-        $this->imageCreatorService = $imageCreatorService;
-        var_dump('alpha');
+        $this->imageCreator = $imageCreator;
     }
 
     public function generate(): Image
     {
         $params = [
-            ImageCreatorService::FORMAT => ImageCreatorService::FORMAT_A4
+            ImageCreator::FORMAT => ImageCreator::FORMAT_A4
         ];
-        
-        return $this->imageCreatorService->create($params);
+
+        return $this->imageCreator->create($params);
     }
 }
