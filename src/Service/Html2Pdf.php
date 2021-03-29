@@ -8,7 +8,7 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
 class Html2Pdf
 {
-    private const HTML_FILE = 'partition.html';
+    private const HTML_FILE = 'partition.phtml';
 
     /**
      * @var string
