@@ -42,9 +42,20 @@ table {
     border-bottom: solid 1px black;
 }
 
-.note {
+.note, .notesplit, .split {
     position: absolute;
-    height: 11px;
-    width: 20px;
+    height: 13px;
+    width: 22px;
+}
+
+.note {
     background-image: url(img/ronde.png);
+}
+
+.notesplit {
+    background-image: url(img/rondesplit.png);
+}
+
+.split {
+    background-image: url(img/split.png);
 }

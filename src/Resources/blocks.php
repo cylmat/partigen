@@ -1,15 +1,31 @@
 <?php
 
-/**
- * All scopes
- */
-$scopes = [];
+function params() {
+    return [
+        'number' => 10, // number of notes
+        'higher' => 10,
+        'lower'  => 10
+    ];
+}
+
+function random($min, $max) {
+    return mt_rand($min, $max);
+}
 
 /**
  * Note
  */
-$note = function($x, $y, $class = 'note') {
-    $style = "margin-left: ".$x."0px; margin-top: ".$y."0px;";
+$note = function($num, $class = 'notesplit') {
+    $INIT_LEFT_MARGIN_PX = 40;
+    $INIT_TOP_MARGIN_PX = 11;
+    $X_SPACE_PX = 30;
+    $Y_SPACE_PX = 15; //-15 to 60
+
+    $x = $INIT_LEFT_MARGIN_PX + $X_SPACE_PX * $num;
+    $level = random(-2, 8);
+    $y = $INIT_TOP_MARGIN_PX + ($Y_SPACE_PX * $level / 2);
+
+    $style = "margin-left: ".$x."px; margin-top: ".$y."px;";
     $note = '<div class="'.$class.'" style="'.$style.'"></div>';
     return $note;
 };
@@ -17,14 +33,12 @@ $note = function($x, $y, $class = 'note') {
 /**
  * Notes
  */
-$notes = function() use (&$scopes, $note) {
+$notes = function() use ($note) {
     $notes = '';
-    foreach ($scopes as $scope) {
-        $left = 4 + $scopes[0]*2;
-        $style = "margin-left: ".$left."0px; margin-top: ".$y."0px;";
-
-        $notes = '<div class="'.$class.'" style="'.$style.'"></div>';
-        $scopes[0]++;
+    $count = 0;
+    
+    for ($i=0; $i<params()['number']; $i++) {
+        $notes .= $note($count++);
     }
 
     return $notes;
@@ -52,10 +66,9 @@ $lines = function() use ($line) {
 /**
  * Scope
  */
-$scope = function($class) use ($lines, &$scopes) {
-    $scopes[] = []; //add a new scope
-
+$scope = function($class) use ($lines, $notes) {
     $scope = '<div class="'.$class.'">'.
+        $notes().
         $lines().
     '</div>';
 
