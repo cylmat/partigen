@@ -1,12 +1,20 @@
 <?php
 
-require 'defined.php';
+define('LABEL', ['C', 'D', 'E', 'F', 'G', 'A', 'B']);
+
+function labelToInterval(string $key) {
+    $label = substr($key, 0, 1);
+    $num = substr($key, 1, 2);
+    $interkey = array_search($label, LABEL) - 4; //G
+    $internum = ($num-3) * 7;
+    return -($interkey + $internum);
+}
 
 function params() {
     return [
         'number' => 24, // number of notes
-        'higher' => NOTES['A3'], //upper line: -2
-        'lower'  => NOTES['F3'] //lower line: 8
+        'higher' => 'F5', //upper line: -2
+        'lower'  => 'F1' //lower line: 8
     ];
 }
 
@@ -32,21 +40,45 @@ $note = function($num, $scopeName) {
     $x = $INIT_LEFT_MARGIN_PX + $X_SPACE_PX * $num;
 
     // Y
-    $higher = params()['higher'];
-    $lower = params()['lower'];
+    $higher = labelToInterval(params()['higher']);
+    $lower = labelToInterval(params()['lower']);
+
     $level = random($higher, $lower);
     $y = $INIT_TOP_MARGIN_PX + ($Y_SPACE_PX * $level / 2);
 
-    // for up and down OUT lines
+    // for up and down OUT of lines
     switch($scopeName) {
+        /**
+         * G
+         */
         case 'sol': 
-            $class = 'notesplit'; 
-            $y += $Y_SPACE_PX * 3; //init on G line
+            $class = 'note'; 
+            $y += $Y_SPACE_PX * 3; // init on G line
+
+            // outline
+            if ($y < -2 * $Y_SPACE_PX) {
+                //$class = 'notesplit';
+            } elseif ($y > $Y_SPACE_PX * 4) {
+                //$class = ''; //no display
+            }
             break;
-        case 'fa': //already on F line
-            $class = 'split'; 
+
+        /**
+         * F
+         */
+        case 'fa': // already on F line
+            $class = 'note'; 
+            $y -= $Y_SPACE_PX / 2; // cause labelToInterval is set on G
+
+            // outline
+            if ($y < $Y_SPACE_PX * 4) {
+                //$class = ''; //no display
+            } elseif ($y > $Y_SPACE_PX * 8) {
+                //$class = 'notesplit';
+            }
             break;
-        default: 
+
+        default:
             $class = 'note';
     }
 
@@ -107,7 +139,7 @@ $scope = function($class) use ($lines, $notes) {
 $block = function($class = "block") use ($scope) {
     $block = '<div class="'.$class.'">'.
         $scope('sol').
-        $scope('fa').
+        //$scope('fa').
     '</div>';
     return $block;
 };
