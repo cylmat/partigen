@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Partigen\App;
+namespace Partigen\App\View;
 
 use Partigen\Model\Image;
 
-class VueImage
+class ImageView
 {
     public function render($image): string
     {

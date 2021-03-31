@@ -1,6 +1,6 @@
 <?php
 
-namespace Partigen\Service;
+namespace Partigen\Library\Wrapper;
 
 use Partigen\Model\Image;
 use Spatie\PdfToImage\Pdf;

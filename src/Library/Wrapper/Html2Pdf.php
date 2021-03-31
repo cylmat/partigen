@@ -1,6 +1,6 @@
 <?php
 
-namespace Partigen\Service;
+namespace Partigen\Library\Wrapper;
 
 use Spipu\Html2Pdf\Html2Pdf as Spipu_Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;

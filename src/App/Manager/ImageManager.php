@@ -1,6 +1,6 @@
 <?php
 
-namespace Partigen\Manager;
+namespace Partigen\App\Manager;
 
 use Partigen\App\Factory;
 use Partigen\Model\Image;
