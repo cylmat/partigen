@@ -22,6 +22,8 @@ class NoteBlock extends AbstractBlock
     private const HIGHER = 'G5'; 
     private const LOWER  = 'G3';
 
+    private static $buffer = [];
+
     /**
      * @var int
      */
@@ -76,7 +78,7 @@ class NoteBlock extends AbstractBlock
         $higher = $this->labelToInterval(self::HIGHER);
         $lower = $this->labelToInterval(self::LOWER);
         $random = $this->random($lower, $higher);
-        $y = $this->intervalToPlacement(-2);
+        $y = $this->intervalToPlacement($random);
 
         return intval($y);
     }
@@ -87,9 +89,9 @@ class NoteBlock extends AbstractBlock
         switch($this->scopeName) {
             /* G */
             case 'sol': 
-                if ($y < self::Y_SPACE_PX * $this->labelToInterval('C3')) {
+                if ($y < $this->labelToPlacement('C3')) {
                     // outline up
-                    //$this->class = 'split';
+                    $this->class = 'split';
                 } elseif ($y > $this->labelToInterval(self::G_LOWER_LINE)) {
                     // outline down
                     //$this->class = ''; //no display
@@ -110,6 +112,11 @@ class NoteBlock extends AbstractBlock
         }
     }
 
+    private function labelToPlacement(string $labelnum): int
+    {
+        return $this->intervalToPlacement($this->labelToInterval($labelnum));
+    }
+    
     /**
      * Interval from G3 for scope G
      *   ex: A3 => 1
@@ -118,8 +125,12 @@ class NoteBlock extends AbstractBlock
      */
     private function labelToInterval(string $labelnum): int
     {
-        $G_PLACE = 4;
+        $BUFFER_KEY  = $this->scope.'int';
+        if ($buffer = $this->getBuffer($BUFFER_KEY, $labelnum)) {
+            return $buffer;
+        } 
 
+        $G_PLACE = 4;
         $label = substr($labelnum, 0, 1);
         $num = substr($labelnum, 1, 2);
         $interkey = array_search($label, self::LABEL) - $G_PLACE;
@@ -130,7 +141,9 @@ class NoteBlock extends AbstractBlock
         }
 
         $internum = ($num-3) * 7;
-        return $interkey + $internum;
+        $interval = $interkey + $internum;
+        $this->setBuffer($BUFFER_KEY, $labelnum, $interval);
+        return $interval;
     }
 
     /**
@@ -138,6 +151,11 @@ class NoteBlock extends AbstractBlock
      */
     private function intervalToPlacement(int $interval): int
     {
+        $BUFFER_KEY  = $this->scope.'place';
+        if ($buffer = $this->getBuffer($BUFFER_KEY, strval($interval))) {
+            return $buffer;
+        } 
+
         $interval = -$interval;
 
         // set pixel baseline
@@ -150,6 +168,7 @@ class NoteBlock extends AbstractBlock
         // set pixel placement
         $y = self::INIT_TOP_MARGIN_PX + ($interval * self::Y_SPACE_PX / 2);
 
+        $this->setBuffer($BUFFER_KEY, strval($interval), $y);
         return intval($y);
     }
 
@@ -159,6 +178,31 @@ class NoteBlock extends AbstractBlock
         foreach (range(0, mt_rand(300, 500)) as $r) {
             $random_array[] = random_int($min, $max);
         }
+        return $this->a++;
         return $random_array[array_rand($random_array)];
+    }
+    private $a=-10;
+
+    /**
+     * BUFFER
+     */
+    private function setBuffer(string $name, string $key, $value): self
+    {
+        $this->buffer[$name][$key] = $value;
+
+        return $this;
+    }
+
+    private function getBuffer(string $name, string $key)
+    {
+        if (!array_key_exists($name, self::$buffer)) {
+            return null;
+        }
+
+        if (array_key_exists($key, self::$buffer[$name])) {
+            return self::$buffer[$name][$key];
+        }
+
+        return null;
     }
 }
