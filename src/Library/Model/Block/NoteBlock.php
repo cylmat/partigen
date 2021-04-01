@@ -14,33 +14,15 @@ class NoteBlock extends AbstractBlock
     private const INIT_LEFT_MARGIN_PX = 40;
     private const X_SPACE_PX = 30;
 
-    private const F = 'F';
-    private const G = 'G';
-    private const FG = 'FG';
-
-    private const G_BASELINE = 'G3';
-    private const G_TOP_LINE = 'F4';
-    private const G_BOTTOM_LINE = 'E3';
-    private const G_MAX_NOTE = 'C5';
-    private const G_MIN_NOTE = 'C2';
-
-    private const F_BASELINE = 'F2';
-    private const F_TOP_LINE = 'A2';
-    private const F_BOTTOM_LINE = 'G1';
-    private const F_MAX_NOTE = 'F4';
-    private const F_MIN_NOTE = 'C1';
-
-    private const FG_CROSS  = 'C2';
+    /**
+     * @var string
+     */
+    private $higher;
 
     /**
      * @var string
      */
-    private $customHigher;
-
-    /**
-     * @var string
-     */
-    private $customLower;
+    private $lower;
 
     /**
      * @var int
@@ -67,16 +49,16 @@ class NoteBlock extends AbstractBlock
         return $this;
     }
 
-    public function setHigher(string $customHigher): self
+    public function setHigher(string $higher): self
     {
-        $this->customHigher = $customHigher;
+        $this->higher = $higher;
 
         return $this;
     }
 
-    public function setLower(string $customLower): self
+    public function setLower(string $lower): self
     {
-        $this->customLower = $customLower;
+        $this->lower = $lower;
 
         return $this;
     }
@@ -102,17 +84,9 @@ class NoteBlock extends AbstractBlock
 
     private function getRandomizedHigh(): int
     {
-        switch ($this->scopeName) {
-            case self::G:
-                $higher = $this->labelToInterval(self::G_MAX_NOTE);
-                $lower = $this->labelToInterval(self::G_MIN_NOTE);
-                break;
-            case self::F:
-                $higher = $this->labelToInterval(self::F_MAX_NOTE);
-                $lower = $this->labelToInterval(self::F_MIN_NOTE);
-                break;
-        }
-        
+        $lower = $this->labelToInterval($this->lower);
+        $higher = $this->labelToInterval($this->higher);
+
         $random = $this->random($lower, $higher);
         $y = $this->intervalToPlacement($random);
 
