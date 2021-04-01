@@ -19,9 +19,9 @@ class Partition
         '</style>'.
         "<page>".
 
-        $block->setClass("block block-first")->onlyG().
-        //$block.
-        //$block().
+        $block->setClass("block block-first")->g().
+        $block->g().
+        $block->g().
 
         "</page>";
 

@@ -24,7 +24,7 @@ class NotesBlock extends AbstractBlock
 
     public function setScopeName(string $scopeName): self
     {
-        $this->scopeName = $scopeName;
+        $this->scopeName = strtoupper($scopeName);
         
         return $this;
     }
@@ -35,9 +35,11 @@ class NotesBlock extends AbstractBlock
         $count = 0;
         
         for ($i = 0; $i < self::NUMBER; $i++) {
-            $notes .= $this->note
+            $notes .= (clone $this->note)
                 ->setNum($count++)
                 ->setScopeName($this->scopeName)
+                ->setHigher('C4')
+                ->setLower('C2')
                 ->getHtml();
         }
 

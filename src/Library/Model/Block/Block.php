@@ -8,8 +8,14 @@ use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
 
 class Block extends AbstractBlock
 {
-    private $F = true;
-    private $G = true;
+    const F = 'f';
+    const G = 'g';
+    const FG = 'fg';
+
+    /**
+     * @var string
+     */
+    private $type;
 
     private $scope;
 
@@ -24,26 +30,42 @@ class Block extends AbstractBlock
         $this->setClass('block');
     }
 
-    public function onlyG(): self
+    public function f(): self
     {
-        $this->F = false;
+        $this->type = 'f';
 
         return $this;
     }
 
-    public function onlyF(): self
+    public function g(): self
     {
-        $this->G = false;
+        $this->type = 'g';
+
+        return $this;
+    }
+
+    public function fg(): self
+    {
+        $this->type = 'fg';
 
         return $this;
     }
 
     public function getHtml(): string
     {
-        $block = '<div class="'.$this->class.'">'.
-            ($this->G ? $this->scope->setName('sol') : '').
-            ($this->F ? $this->scope->setName('fa') : '').
-        '</div>'."\n";
+        switch ($this->type) {
+            case 'g': 
+                $type = $this->scope->setName('g');
+                break;
+            case 'f': 
+                $type = $this->scope->setName('f');
+                break;
+            case 'fg': 
+                $type = $this->scope->setName('g').$this->scope->setName('f');
+                break;
+        }
+
+        $block = '<div class="'.$this->class.'">'.$type.'</div>'."\n";
 
         return $block;
     }
