@@ -1,6 +1,6 @@
 <?php
 
-namespace Partigen\Library\Wrapper;
+namespace Partigen\Library\Bridge;
 
 use Spipu\Html2Pdf\Html2Pdf as Spipu_Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -8,22 +8,10 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
 class Html2Pdf
 {
-    private const HTML_FILE = 'partition.phtml';
-
     /**
      * @var string
      */
     private $format = 'A4';
-
-    /**
-     * @var string
-     */
-    private static $dirpath;
-
-    public function __construct()
-    {
-        self::$dirpath = dirname(__FILE__).'/../Resources/';
-    }
 
     public function setFormat(string $format): self
     {
@@ -37,11 +25,9 @@ class Html2Pdf
         return $this->format;
     }
 
-    public function generate(): string
+    public function generate(string $content): string
     {
         try {
-            $content = include self::$dirpath . self::HTML_FILE;
-
             $html2pdf = new Spipu_Html2Pdf('P', $this->getFormat(), 'fr');
             $html2pdf->setDefaultFont('Arial');
             $html2pdf->writeHTML($content);

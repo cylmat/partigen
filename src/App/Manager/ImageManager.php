@@ -2,9 +2,8 @@
 
 namespace Partigen\App\Manager;
 
-use Partigen\App\Factory;
-use Partigen\Model\Image;
-use Partigen\Service\ImageCreator;
+use Model\Image;
+use Partigen\Library\ImageCreator;
 
 class ImageManager
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Partigen\Service;
+namespace Partigen\Library;
 
-use Partigen\Model\Image;
-use Partigen\Service\Html2Pdf;
-use Partigen\Service\Pdf2Image;
+use Partigen\Library\Model\Partition;
+use Partigen\Library\Bridge\Html2Pdf;
+use Partigen\Library\Bridge\Pdf2Image;
 
 class ImageCreator
 {
@@ -21,17 +21,23 @@ class ImageCreator
      */
     private $pdf2image;
 
-    public function __construct(Html2Pdf $html2pdf, Pdf2Image $pdf2image)
+    /**
+     * @var Partition
+     */
+    private $partition;
+
+    public function __construct(Html2Pdf $html2pdf, Pdf2Image $pdf2image, Partition $partition)
     {
         $this->html2pdf = $html2pdf;
         $this->pdf2image = $pdf2image;
+        $this->partition = $partition;
     }
 
-    public function create(array $creationParams): Image
+    public function create(array $creationParams): string
     {
         self::validateParams($creationParams);
 
-        $pdf = $this->html2pdf->generate();
+        $pdf = $this->html2pdf->generate($this->partition->getHtml());
         $image = $this->pdf2image->convert($pdf);
 
         return $image;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\App;
 
-use Partigen\Manager\ImageManager;
+use Manager\ImageManager;
 
 class App
 {
