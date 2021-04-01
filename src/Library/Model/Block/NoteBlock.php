@@ -19,8 +19,8 @@ class NoteBlock extends AbstractBlock
     private const F_HIGHER_LINE = 'A2';
     private const F_LOWER_LINE = 'F1';
 
-    private const HIGHER = 'F5'; 
-    private const LOWER  = 'F1';
+    private const HIGHER = 'G5'; 
+    private const LOWER  = 'G3';
 
     /**
      * @var int
@@ -54,12 +54,12 @@ class NoteBlock extends AbstractBlock
     public function getHtml(): string
     {
         $x = $this->getXPlacement();
-        $y = $this->getYBaseline();
+        $y = $this->getRandomizedHigh();
         $this->setClassFromYPlace($y);
 
         // return note html
         $style = "margin-left: ".$x."px; margin-top: ".$y."px;";
-        $note = '<div class="'.$this->class.'" style="'.$style.'"></div>';
+        $note = '<div class="'.$this->class.'" style="'.$style.'"></div>'."\n";
 
         return $note;
     }
@@ -71,12 +71,12 @@ class NoteBlock extends AbstractBlock
         return $x;
     }
 
-    private function getYBaseline(): int
+    private function getRandomizedHigh(): int
     {
         $higher = $this->labelToInterval(self::HIGHER);
         $lower = $this->labelToInterval(self::LOWER);
-        //$level = $this->labelToInterval('G3'); //$this->random($higher, $lower);
-        $y = $this->labelToPlacement('F2');
+        $random = $this->random($lower, $higher);
+        $y = $this->intervalToPlacement(-2);
 
         return intval($y);
     }
@@ -98,12 +98,13 @@ class NoteBlock extends AbstractBlock
 
             /* F */
             case 'fa': // already on F line
+                $this->class = 'split';
                 if ($y < self::Y_SPACE_PX * 4) {
                     // outline up
-                    //$class = ''; //no display
+                    //$this->class = ''; //no display
                 } elseif ($y > self::Y_SPACE_PX * 8) {
                     // outline down
-                    //$class = 'notesplit';
+                    //$this->class = 'notesplit';
                 }
                 break;
         }
@@ -133,18 +134,20 @@ class NoteBlock extends AbstractBlock
     }
 
     /**
-     * ex: G3 to A3 => -7px
+     * ex: -1 will be => -7px
      */
-    private function labelToPlacement(string $labelnum): int
+    private function intervalToPlacement(int $interval): int
     {
-        $interval = -$this->labelToInterval($labelnum); //interval-style to pixels-style
-        
-        // set baseline
+        $interval = -$interval;
+
+        // set pixel baseline
         switch ($this->scopeName) { 
             case 'sol': 
-                $interval += 6; 
+                $interval += 6;
                 break;
         }
+
+        // set pixel placement
         $y = self::INIT_TOP_MARGIN_PX + ($interval * self::Y_SPACE_PX / 2);
 
         return intval($y);

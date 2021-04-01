@@ -21,7 +21,7 @@ class Block extends AbstractBlock
         $block = '<div class="'.$this->class.'">'.
             $this->scope->setName('sol').
             $this->scope->setName('fa').
-        '</div>';
+        '</div>'."\n";
 
         return $block;
     }

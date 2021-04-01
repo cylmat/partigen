@@ -10,8 +10,10 @@ use Partigen\Library\Bridge\Pdf2Image;
 
 class ImageCreator
 {
-    const FORMAT = 'format';
-    const FORMAT_A4 = 'A4';
+    public const FORMAT = 'format';
+    public const FORMAT_A4 = 'A4';
+
+    private const DEBUG_OUTPUT_HTML = false;
 
     /**
      * @var Html2Pdf
@@ -38,6 +40,12 @@ class ImageCreator
     public function create(array $creationParams): string
     {
         self::validateParams($creationParams);
+
+        if (self::DEBUG_OUTPUT_HTML) {
+            header("Content-type: text/html");
+            echo $this->partition->getHtml();
+            die();
+        }
 
         $pdf = $this->html2pdf->generate($this->partition->getHtml());
         $image = $this->pdf2image->convert($pdf);

@@ -15,7 +15,7 @@ class LineBlock extends AbstractBlock
 
     public function getHtml(): string
     {
-        $line = '<div class="'.$this->class.'"></div>';
+        $line = '<div class="'.$this->class.'"></div>'."\n";
         
         return $line;
     }

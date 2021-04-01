@@ -10,10 +10,10 @@ class ImageView
 {
     public function render($image): string
     {
-        header("Content-type: image/png");
         $content =  $this->getContent($image);
         unlink($image->getFilepath());
-
+        
+        header("Content-type: image/png");
         return $content;
     }
 

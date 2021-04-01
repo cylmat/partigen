@@ -32,7 +32,7 @@ class ScopeBlock extends AbstractBlock
         $scope = '<div class="'.$this->class.'">'.
             $this->notes->setScopeName($this->name).
             $this->lines.
-        '</div>';
+        '</div>'."\n";
 
         return $scope;
     }
