@@ -20,7 +20,7 @@ class Partition
         "<page>".
 
         $block->setClass("block block-first").
-        //$block().
+        $block.
         //$block().
 
         "</page>";
