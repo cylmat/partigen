@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Partigen\Library;
 
 use Partigen\Library\Model\Partition;

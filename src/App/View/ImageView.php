@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\App\View;
 
-use Partigen\Model\Image;
+use Partigen\App\AppModel\Image;
 
 class ImageView
 {

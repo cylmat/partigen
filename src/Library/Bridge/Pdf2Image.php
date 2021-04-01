@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Partigen\Library\Bridge;
 
 use Spatie\PdfToImage\Pdf;

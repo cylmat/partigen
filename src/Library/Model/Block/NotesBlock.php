@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Partigen\Library\Model\Block;
 
-class NotesBlock extends Abstract\AbstractBlock
+use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
+
+class NotesBlock extends AbstractBlock
 {
     private $note;
 
@@ -30,7 +34,7 @@ class NotesBlock extends Abstract\AbstractBlock
         $notes = '';
         $count = 0;
         
-        for ($i=0; $i<self::NUMBER; $i++) {
+        for ($i = 0; $i < self::NUMBER; $i++) {
             $notes .= $this->note
                 ->setNum($count++)
                 ->setScopeName($this->scopeName)

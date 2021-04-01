@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Partigen\Library\Bridge;
 
 use Spipu\Html2Pdf\Html2Pdf as Spipu_Html2Pdf;
@@ -30,7 +32,11 @@ class Html2Pdf
         try {
             $html2pdf = new Spipu_Html2Pdf('P', $this->getFormat(), 'fr');
             $html2pdf->setDefaultFont('Arial');
+
+            $currentdir = getcwd();
+            chdir(__DIR__.'/../Resources');
             $html2pdf->writeHTML($content);
+            chdir($currentdir);
 
             $pdf = tempnam('/tmp', '');
 

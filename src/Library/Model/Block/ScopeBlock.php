@@ -1,24 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Partigen\Library\Model\Block;
 
-class ScopeBlock extends Abstract\AbstractBlock
+use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
+
+class ScopeBlock extends AbstractBlock
 {
     private $notes;
+    private $lines;
 
-    private $line;
+    private $name;
 
-    public function __construct(NotesBlock $notes, LineBlock $line)
+    public function __construct(NotesBlock $notes, LinesBlock $lines)
     {
         $this->notes = $notes;
-        $this->line = $line;
+        $this->lines = $lines;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        $this->setClass($name);
+
+        return $this;
     }
 
     public function getHtml(): string
     {
         $scope = '<div class="'.$this->class.'">'.
-            $this->notes($this->class).
-            $this->line().
+            $this->notes->setScopeName($this->name).
+            $this->lines.
         '</div>';
 
         return $scope;

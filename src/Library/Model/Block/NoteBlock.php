@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Partigen\Library\Model\Block;
 
-class NoteBlock extends Abstract\AbstractBlock
+use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
+
+class NoteBlock extends AbstractBlock
 {
     private const INIT_LEFT_MARGIN_PX = 40;
     private const INIT_TOP_MARGIN_PX = 11;
@@ -22,6 +26,11 @@ class NoteBlock extends Abstract\AbstractBlock
      * @var string
      */
     private $scopeName;
+
+    public function __construct()
+    {
+        $this->setClass('note');
+    }
 
     public function setNum(int $num): self
     {

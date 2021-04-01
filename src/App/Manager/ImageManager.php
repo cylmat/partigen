@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Partigen\App\Manager;
 
-use Model\Image;
+use Partigen\App\Model\Image;
 use Partigen\Library\ImageCreator;
 
 class ImageManager
@@ -12,9 +14,15 @@ class ImageManager
      */
     private $imageCreator;
 
-    public function __construct(ImageCreator $imageCreator)
+    /**
+     * @var Image
+     */
+    private $image;
+
+    public function __construct(ImageCreator $imageCreator, Image $image)
     {
         $this->imageCreator = $imageCreator;
+        $this->image = $image;
     }
 
     public function generate(): Image
@@ -22,7 +30,9 @@ class ImageManager
         $params = [
             ImageCreator::FORMAT => ImageCreator::FORMAT_A4
         ];
+        $imgPath = $this->imageCreator->create($params);
+        $image = $this->image->setFilepath($imgPath)->setFormat('A4');
 
-        return $this->imageCreator->create($params);
+        return $image;
     }
 }

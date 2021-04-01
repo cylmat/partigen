@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Partigen\Library\Model\Block;
 
-class LinesBlock extends Abstract\AbstractBlock
+use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
+
+class LinesBlock extends AbstractBlock
 {
     private $line;
 

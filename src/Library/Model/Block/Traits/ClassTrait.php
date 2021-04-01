@@ -1,13 +1,15 @@
 <?php
 
-namespace Partigen\Library\Model\Block\Trait;
+declare(strict_types=1);
+
+namespace Partigen\Library\Model\Block\Traits;
 
 trait ClassTrait
 {
     /**
      * @var string
      */
-    private $class = '';
+    protected $class = '';
 
     public function setClass(string $class): self
     {
