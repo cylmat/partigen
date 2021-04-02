@@ -39,6 +39,7 @@ class NotesBlock extends AbstractBlock
     public function setScope(ScopeBlock $scope): self
     {
         $this->scope = $scope;
+        $this->scopeName = $scope->getName();
         
         return $this;
     }
@@ -48,26 +49,17 @@ class NotesBlock extends AbstractBlock
         $notes = '';
         $count = 0;
 
-        $lower = $this->getHighLowLabels()[0];
-        $higher = $this->getHighLowLabels()[1];
+        $lowerLabel = $this->getHighLowLabels()[0];
+        $higherLabel = $this->getHighLowLabels()[1];
+        
+        for ($i = 0; $i < self::NUMBER; $i++) {
+            $randomInterval = $this->getRandomizedInterval($lowerLabel, $higherLabel);
 
-        //$random = $this->getRandomizedHigh($lower, $higher);
-        $interval = $this->getRandomizedInterval($lower, $higher);
-        
-        $notes .= $this->get(ChordBlock::class)
-            ->setNum($count)
-            ->setScopeName($this->scope->getName())
-            ->setLower('G3')
-            ->setType(ChordBlock::MAJ)
-            ->getHtml();
-        
-        /*for ($i = 0; $i < self::NUMBER; $i++) {
             $notes .= $this->get(NoteBlock::class)
                 ->setNum($count++)
-                //->setScopeName($this->scope->getName())
-                ->setInterval($interval)
+                ->setInterval($randomInterval)
                 ->getHtml();
-        }*/
+        }
 
         return $notes;
     }
@@ -93,8 +85,8 @@ class NotesBlock extends AbstractBlock
     {
         $lower = $this->labelToInterval($lowerLabel);
         $higher = $this->labelToInterval($higherLabel);
-        $interval = $this->random($lower, $higher);
-        //$interval = $this->adjustIntervalOnBaseline($interval);
+        $randomInterval = $this->random($lower, $higher);
+        $interval = $this->adjustIntervalOnBaseline($randomInterval);
 
         return $interval;
     }

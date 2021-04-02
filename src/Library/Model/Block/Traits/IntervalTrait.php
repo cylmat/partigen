@@ -13,8 +13,17 @@ trait IntervalTrait
 
     private static $LABEL = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
-    //private static $INIT_TOP_MARGIN_PX = 11;
-    //private static $Y_SPACE_PX = 15; // space betweeen lines
+    /**
+     * @var string
+     */
+    private $scopeName;
+
+    public function setScopeName(string $scopeName): self
+    {
+        $this->scopeName = $scopeName;
+
+        return $this;
+    }
 
     private function labelToPlacement(string $labelnum): int
     {
@@ -29,17 +38,19 @@ trait IntervalTrait
      */
     private function labelToInterval(string $labelnum): int
     {
-        $BUFFER_KEY  = $this->scope->getName().'int';
+        $BUFFER_KEY  = $this->scopeName.'int';
         if ($buffer = $this->getBuffer($BUFFER_KEY, $labelnum)) {
             return $buffer;
         } 
+
+        $this->checkScopeName();
 
         $G_PLACE = 4;
         $label = substr($labelnum, 0, 1);
         $num = substr($labelnum, 1, 2);
         $interkey = array_search($label, self::$LABEL) - $G_PLACE;
 
-        switch ($this->scope->getName()) {
+        switch ($this->scopeName) {
             case ScopeBlock::F: 
                 $interkey += 8; //F2 to G3 is 8
         }
@@ -55,28 +66,17 @@ trait IntervalTrait
      */
     private function adjustIntervalOnBaseline(int $interval): int
     {
-        $BUFFER_KEY  = $this->scope.'place';
-        if ($buffer = $this->getBuffer($BUFFER_KEY, strval($interval))) {
-            return $buffer;
-        }
+        $this->checkScopeName();
 
         $interval = -$interval;
 
-        if (!$this->scopeName) {
-            throw new \Exception("Scope name must be set");
-        }
-
         // set pixel baseline
         switch ($this->scopeName) { 
-            case ScopeBlock::G: 
+            case ScopeBlock::G:
                 $interval += 4; // G pixel lines is on default at 4th line
                 break;
         }
 
-        // set pixel placement
-        //$y = self::$INIT_TOP_MARGIN_PX + ($interval * self::$Y_SPACE_PX / 2);
-
-        $this->setBuffer($BUFFER_KEY, 'interval', strval($interval)); //, $y);
         return $interval;
     }
 
@@ -88,5 +88,12 @@ trait IntervalTrait
         }
 
         return $random_array[array_rand($random_array)];
+    }
+
+    private function checkScopeName()
+    {
+        if (!$this->scopeName) {
+            throw new \Exception("Scope name must be set");
+        }
     }
 }

@@ -11,8 +11,11 @@ class NoteBlock extends AbstractBlock
     private const INIT_LEFT_MARGIN_PX = 40;
     private const X_SPACE_PX = 30;
 
+    private const INIT_TOP_MARGIN_PX = 11;
+    private const Y_SPACE_PX = 15; // space betweeen lines
+
     /**
-     * @var string
+     * @var int
      */
     private $interval;
 
@@ -20,11 +23,6 @@ class NoteBlock extends AbstractBlock
      * @var int
      */
     private $num;
-
-    /**
-     * @var string
-     */
-    //private $scopeName;
 
     public function setNum(int $num): self
     {
@@ -34,14 +32,10 @@ class NoteBlock extends AbstractBlock
         return $this;
     }
 
-    /*public function setScopeName(string $scopeName): self
-    {
-        $this->scopeName = $scopeName;
-
-        return $this;
-    }*/
-
-    public function setInterval(string $interval): self
+    /**
+     * Interval between baseline and current
+     */
+    public function setInterval(int $interval): self
     {
         $this->interval = $interval;
 
@@ -62,18 +56,15 @@ class NoteBlock extends AbstractBlock
 
     private function getXPlacement(): int
     {
-        $x = self::INIT_LEFT_MARGIN_PX + self::X_SPACE_PX * $this->num;
+        $x = self::INIT_LEFT_MARGIN_PX + (self::X_SPACE_PX * $this->num);
 
         return $x;
     }
 
     private function getYPlacement(): int
     {
-        $y = self::$INIT_TOP_MARGIN_PX + ($this->interval * self::$Y_SPACE_PX / 2);
+        $y = self::INIT_TOP_MARGIN_PX + ($this->interval * self::Y_SPACE_PX / 2);
 
-        return $y;
+        return intval($y);
     }
-
-    private static $INIT_TOP_MARGIN_PX = 11;
-    private static $Y_SPACE_PX = 15; // space betweeen lines
 }
