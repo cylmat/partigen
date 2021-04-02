@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Partigen\Library\Model\Block\Traits;
 
+use Partigen\Library\Model\Block\NotesBlock;
+use Partigen\Library\Model\Block\ScopeBlock;
+
 trait IntervalTrait
 {
     use BufferTrait;
 
     private static $LABEL = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+
     private static $INIT_TOP_MARGIN_PX = 11;
     private static $Y_SPACE_PX = 15; // space betweeen lines
 
@@ -36,11 +40,11 @@ trait IntervalTrait
         $interkey = array_search($label, self::$LABEL) - $G_PLACE;
 
         switch ($this->scopeName) {
-            case 'fa': 
-                $interkey += 8;
+            case ScopeBlock::F: 
+                $interkey += 8; //F2 to G3 is 8
         }
 
-        $internum = ($num-3) * 7;
+        $internum = ($num - NotesBlock::G_BASELINE) * 7;
         $interval = $interkey + $internum;
         $this->setBuffer($BUFFER_KEY, $labelnum, $interval);
         return $interval;
@@ -54,14 +58,14 @@ trait IntervalTrait
         $BUFFER_KEY  = $this->scope.'place';
         if ($buffer = $this->getBuffer($BUFFER_KEY, strval($interval))) {
             return $buffer;
-        } 
+        }
 
         $interval = -$interval;
 
         // set pixel baseline
         switch ($this->scopeName) { 
-            case 'sol': 
-                $interval += 6;
+            case ScopeBlock::G: 
+                $interval += 4; // G pixel lines is on default at 4th line
                 break;
         }
 

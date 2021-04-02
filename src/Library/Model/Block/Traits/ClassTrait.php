@@ -17,5 +17,12 @@ trait ClassTrait
 
         return $this;
     }
+
+    public function addClass(string $class): self
+    {
+        $this->class .= ' '.$class;
+
+        return $this;
+    }
 }
     

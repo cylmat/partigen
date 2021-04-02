@@ -6,6 +6,8 @@ namespace Partigen\Library\Model\Block\Traits;
 
 trait BufferTrait
 {
+    private static $USE_BUFFER = false;
+
     private static $buffer = [];
 
     private function setBuffer(string $name, string $key, $value): self
@@ -17,6 +19,10 @@ trait BufferTrait
 
     private function getBuffer(string $name, string $key)
     {
+        if (!self::$USE_BUFFER) {
+            return null;
+        }
+
         if (!array_key_exists($name, self::$buffer)) {
             return null;
         }

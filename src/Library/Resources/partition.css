@@ -10,6 +10,9 @@ table {
     border-collapse: collapse;
 }
 
+/*
+ Block
+*/
 .block {
     position: relative;
     width: 100%;
@@ -20,28 +23,34 @@ table {
     margin-top: 50px;
 }
 
-.block .g, .block .f {
+/*
+ Scope
+*/
+.block .g-scope, .block .f-scope {
     position: relative;
     height: 100px;
     background-repeat: no-repeat;
 }
 
-.block .g {
+.block .g-scope {
     background-image: url(img/sol.png);
-    background-position: 0 12px;
+    background-position: 0 -3px;
 }
 
-.block .f {
+.block .f-scope {
     background-image: url(img/fa.png);
     background-position: 0 5px;
-    margin-top: 10px;
+    margin-top: -8px;
 }
 
-.block .g .line, .block .f .line {
+.block .g-scope .line, .block .f-scope .line {
     height: 2px;
     border-bottom: solid 1px black;
 }
 
+/*
+ Note
+*/
 .note, .notesplit, .split, .not {
     position: absolute;
     height: 13px;

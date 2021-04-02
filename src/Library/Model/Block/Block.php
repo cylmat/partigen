@@ -4,49 +4,38 @@ declare(strict_types=1);
 
 namespace Partigen\Library\Model\Block;
 
+use Partigen\App\Container;
 use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
 
 class Block extends AbstractBlock
 {
-    const F = 'f';
-    const G = 'g';
-    const FG = 'fg';
-
     /**
      * @var string
      */
     private $type;
 
-    private $scope;
-
-    /**
-     * @var string
-     */
-    private $content;
-
-    public function __construct(ScopeBlock $scope)
+    public function __construct()
     {
-        $this->scope = $scope;
         $this->setClass('block');
-    }
-
-    public function f(): self
-    {
-        $this->type = 'f';
-
-        return $this;
     }
 
     public function g(): self
     {
-        $this->type = 'g';
+        $this->type = ScopeBlock::G;
+
+        return $this;
+    }
+
+    public function f(): self
+    {
+        $this->type = ScopeBlock::F;
 
         return $this;
     }
 
     public function fg(): self
     {
-        $this->type = 'fg';
+        $this->type = ScopeBlock::F.ScopeBlock::G;
 
         return $this;
     }
@@ -54,14 +43,15 @@ class Block extends AbstractBlock
     public function getHtml(): string
     {
         switch ($this->type) {
-            case 'g': 
-                $type = $this->scope->setName('g');
+            case ScopeBlock::G: 
+                $type = $this->get(ScopeBlock::class)->setName(ScopeBlock::G);
                 break;
-            case 'f': 
-                $type = $this->scope->setName('f');
+            case ScopeBlock::F: 
+                $type = $this->get(ScopeBlock::class)->setName(ScopeBlock::F);
                 break;
-            case 'fg': 
-                $type = $this->scope->setName('g').$this->scope->setName('f');
+            case ScopeBlock::F.ScopeBlock::G: 
+                $type = $this->get(ScopeBlock::class)->setName(ScopeBlock::G)->setPaired().
+                    $this->get(ScopeBlock::class)->setName(ScopeBlock::F)->setPaired();
                 break;
         }
 

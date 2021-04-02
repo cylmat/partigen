@@ -9,41 +9,34 @@ use Partigen\Library\Model\Block\Traits\IntervalTrait;
 
 class NotesBlock extends AbstractBlock
 {
-    private $note;
-
+    public const G_BASELINE = 3; //G3
+    
     private const NUMBER = 24;
 
-    private const F = 'F';
-    private const G = 'G';
-    private const FG = 'FG';
-
-    private const G_BASELINE = 'G3';
+    // G
+    private const G_MAX_NOTE = 'C5';
+    private const G_MIN_NOTE = 'G2';
     private const G_TOP_LINE = 'F4';
     private const G_BOTTOM_LINE = 'E3';
-    private const G_MAX_NOTE = 'C5';
-    private const G_MIN_NOTE = 'C2';
 
-    private const F_BASELINE = 'F2';
+    // F
+    private const F_MAX_NOTE = 'E3';
+    private const F_MIN_NOTE = 'C1';
     private const F_TOP_LINE = 'A2';
     private const F_BOTTOM_LINE = 'G1';
-    private const F_MAX_NOTE = 'F4';
-    private const F_MIN_NOTE = 'C1';
 
-    private const FG_CROSS  = 'C2';
+    // paired
+    private const FG_CROSS_G  = 'D3';
+    private const FG_CROSS_F  = 'C3';
 
     /**
-     * @var string
+     * @var ScopeBlock
      */
-    private $scopeName;
+    private $scope;
 
-    function __construct(NoteBlock $note)
+    public function setScope(ScopeBlock $scope): self
     {
-        $this->note = $note;
-    }
-
-    public function setScopeName(string $scopeName): self
-    {
-        $this->scopeName = strtoupper($scopeName);
+        $this->scope = $scope;
         
         return $this;
     }
@@ -57,9 +50,9 @@ class NotesBlock extends AbstractBlock
         $high = $this->getHighLowLabels()[1];
         
         for ($i = 0; $i < self::NUMBER; $i++) {
-            $notes .= (clone $this->note)
+            $notes .= $this->get(NoteBlock::class)
                 ->setNum($count++)
-                ->setScopeName($this->scopeName)
+                ->setScopeName($this->scope->getName())
                 ->setLower($low)
                 ->setHigher($high)
                 ->getHtml();
@@ -70,17 +63,17 @@ class NotesBlock extends AbstractBlock
 
     private function getHighLowLabels(): array
     {
-        switch ($this->scopeName) {
-            case self::G:
+        switch ($this->scope->getName()) {
+            case ScopeBlock::G:
                 return [
-                    self::G_MIN_NOTE,
+                    $this->scope->isPaired() ? self::FG_CROSS_G : self::G_MIN_NOTE,
                     self::G_MAX_NOTE
                 ];
                 
-            case self::F:
+            case ScopeBlock::F:
                 return [
                     self::F_MIN_NOTE,
-                    self::F_MAX_NOTE
+                    $this->scope->isPaired() ? self::FG_CROSS_F : self::F_MAX_NOTE
                 ];
         }
     }

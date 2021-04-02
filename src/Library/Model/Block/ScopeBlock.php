@@ -8,30 +8,52 @@ use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
 
 class ScopeBlock extends AbstractBlock
 {
-    private $notes;
-    private $lines;
+    const F = 'F';
+    const G = 'G';
+    const FG = 'FG';
 
+    /**
+     * @var string
+     */
     private $name;
 
-    public function __construct(NotesBlock $notes, LinesBlock $lines)
-    {
-        $this->notes = $notes;
-        $this->lines = $lines;
-    }
+    /**
+     * @var bool
+     * 
+     * Paired with other scope
+     */
+    private $isPaired = false;
 
     public function setName(string $name): self
     {
-        $this->name = $name;
-        $this->setClass($name);
+        $this->name = strtoupper($name);
+        $this->setClass(strtolower($name).'-scope');
 
         return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setPaired(): self
+    {
+        $this->isPaired = true;
+
+        return $this;
+    }
+
+    public function isPaired(): bool
+    {
+        return $this->isPaired;
     }
 
     public function getHtml(): string
     {
         $scope = '<div class="'.$this->class.'">'.
-            $this->notes->setScopeName($this->name).
-            $this->lines.
+            $this->get(NotesBlock::class)->setScope($this).
+            $this->get(LinesBlock::class).
         '</div>'."\n";
 
         return $scope;
