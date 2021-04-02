@@ -1,16 +1,16 @@
 <?php
 
-namespace spec\Partigen\App;
+namespace spec\Partigen\App\View;
 
-use Partigen\App\VueImage;
+use Partigen\App\View\ImageView;
 use Partigen\Model\Image;
 use PhpSpec\ObjectBehavior;
 
-class VueImageSpec extends ObjectBehavior
+class ImageViewSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(VueImage::class);
+        $this->shouldHaveType(ImageView::class);
     }
 
     function it_can_render(Image $image)
