@@ -25,11 +25,6 @@ trait IntervalTrait
         return $this;
     }
 
-    private function labelToPlacement(string $labelnum): int
-    {
-        return $this->intervalToPlacement($this->labelToInterval($labelnum));
-    }
-    
     /**
      * Interval from G3 for scope G
      *   ex: A3 => 1

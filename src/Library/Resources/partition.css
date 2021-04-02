@@ -40,7 +40,6 @@ table {
 .block .f-scope {
     background-image: url(img/fa.png);
     background-position: 0 5px;
-    margin-top: -8px;
 }
 
 .block .g-scope .line, .block .f-scope .line {

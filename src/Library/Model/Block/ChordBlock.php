@@ -10,8 +10,8 @@ class ChordBlock extends NoteBlock
 {
     const MAJ = 'MAJ';
 
-    private const OUTLINE_UP = 'OUTLINE_UP';
-    private const OUTLINE_DOWN = 'OUTLINE_DOWN';
+    const OUTLINE_UP = 'OUTLINE_UP';
+    const OUTLINE_DOWN = 'OUTLINE_DOWN';
 
     /**
      * Chord is like NoteBlock
@@ -24,11 +24,6 @@ class ChordBlock extends NoteBlock
      */
     private $type;
 
-    /**
-     * @var string
-     */
-    private $outline;
-
     public function setType(string $type): self
     {
         $this->type = $type;
@@ -36,38 +31,69 @@ class ChordBlock extends NoteBlock
         return $this;
     }
 
-    public function isOutlineUp()
+    public function setBaseInterval(int $baseInterval): self
     {
-        $this->outline = self::OUTLINE_UP;
-    }
-
-    public function isOutlineDown()
-    {
-        $this->outline = self::OUTLINE_DOWN;
+        return $this->setInterval($baseInterval);
     }
 
     public function getHtml(): string
     {
         $chord = '';
 
-        //for ($i = 0; $i < 3; $i++) {
-            $chord .= $this->get(NoteBlock::class)
-                ->setNum(0)
-                ->setScopeName(ScopeBlock::G)
-                ->setLower($this->lower)
-                ->getHtml();
-        //}
-        $chord .= $this->get(NoteBlock::class)
-                ->setNum(0)
-                ->setScopeName(ScopeBlock::G)
-                ->setLower($this->lower)
-                ->getHtml();
+        $chord .= $this->getOutlineType();
 
-                $chord .= $this->get(NoteBlock::class)
-                ->setNum(0)
-                ->setScopeName(ScopeBlock::G)
-                ->setLower($this->lower)
-                ->getHtml();
+        return $chord;
+    }
+
+    private function getChordType()
+    {
+        $chord = '';
+
+        for ($i = 0; $i < 3; $i++) {
+            $chord .= $this->get(NoteBlock::class)
+                ->setNum($this->num)
+                ->setInterval($this->interval-2*$i);
+        }
+
+        return $chord;
+    }
+
+    private function getOutlineType()
+    {
+        $chord = '';
+
+        // note splitted or not
+        $note = $this->get(NoteBlock::class)
+            ->setNum($this->num)
+            ->setInterval($this->interval);
+            
+        if (0 === $this->interval % 2) {
+            $note->setIsOutline();
+        }
+
+        // interlines
+        $interlines = '';
+
+        if ($this->interval < -2) {
+            // out down
+            for ($i=-4; $i>$this->interval; $i-=2) {
+                $interlines .= $this->get(NoteBlock::class)
+                    ->setNum($this->num)
+                    ->setInterval($i)
+                    ->setIsInterline();
+            }
+        } elseif ($this->interval > 8) {
+            // out up
+            for ($i=8; $i<$this->interval; $i+=2) {
+                $interlines .= $this->get(NoteBlock::class)
+                    ->setNum($this->num)
+                    ->setInterval($i)
+                    ->setIsInterline();
+            }
+        }
+
+        $chord .= $interlines;
+        $chord .= $note;
 
         return $chord;
     }

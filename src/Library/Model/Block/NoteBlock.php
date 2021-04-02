@@ -14,20 +14,38 @@ class NoteBlock extends AbstractBlock
     private const INIT_TOP_MARGIN_PX = 11;
     private const Y_SPACE_PX = 15; // space betweeen lines
 
-    /**
-     * @var int
-     */
-    private $interval;
+    private const BASECLASS = 'note';
+    private const LINECLASS = 'split';
+    private const OUTCLASS = 'notesplit';
 
     /**
      * @var int
      */
-    private $num;
+    protected $num;
+
+    /**
+     * @var int
+     */
+    protected $interval;
 
     public function setNum(int $num): self
     {
         $this->num = $num;
-        $this->setClass('note');
+        $this->setClass(self::BASECLASS);
+
+        return $this;
+    }
+
+    public function setIsInterline(): self
+    {
+        $this->setClass(self::LINECLASS);
+
+        return $this;
+    }
+
+    public function setIsOutline(): self
+    {
+        $this->setClass(self::OUTCLASS);
 
         return $this;
     }

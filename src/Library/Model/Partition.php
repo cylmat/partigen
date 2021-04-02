@@ -20,8 +20,8 @@ class Partition
         "<page>".
 
         $block->g()->addClass("block-first").
-        //$block->f().
-        //$block->fg().
+        $block->f().
+        $block->fg().
 
         "</page>";
 

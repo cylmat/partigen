@@ -47,18 +47,21 @@ class NotesBlock extends AbstractBlock
     public function getHtml(): string
     {
         $notes = '';
-        $count = 0;
 
         $lowerLabel = $this->getHighLowLabels()[0];
         $higherLabel = $this->getHighLowLabels()[1];
+
+        $notes .= $this->get(ChordBlock::class)
+            ->setNum(0)
+            ->setBaseInterval($this->getInterval(8))
+            ->setType(ChordBlock::MAJ);
         
-        for ($i = 0; $i < self::NUMBER; $i++) {
-            $randomInterval = $this->getRandomizedInterval($lowerLabel, $higherLabel);
+        for ($i = 2; $i < self::NUMBER; $i++) {
+            $randomInterval = $this->getInterval($this->getRandomized($lowerLabel, $higherLabel));
 
             $notes .= $this->get(NoteBlock::class)
-                ->setNum($count++)
-                ->setInterval($randomInterval)
-                ->getHtml();
+                ->setNum($i)
+                ->setInterval($this->getInterval(0));
         }
 
         return $notes;
@@ -81,13 +84,17 @@ class NotesBlock extends AbstractBlock
         }
     }
 
-    private function getRandomizedInterval(string $lowerLabel, string $higherLabel): int
+    private function getRandomized(string $lowerLabel, string $higherLabel): int
     {
         $lower = $this->labelToInterval($lowerLabel);
         $higher = $this->labelToInterval($higherLabel);
         $randomInterval = $this->random($lower, $higher);
-        $interval = $this->adjustIntervalOnBaseline($randomInterval);
 
-        return $interval;
+        return $randomInterval;
+    }
+
+    private function getInterval(int $interval): int
+    {
+        return $this->adjustIntervalOnBaseline($interval);
     }
 }
