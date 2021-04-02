@@ -13,8 +13,8 @@ trait IntervalTrait
 
     private static $LABEL = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
-    private static $INIT_TOP_MARGIN_PX = 11;
-    private static $Y_SPACE_PX = 15; // space betweeen lines
+    //private static $INIT_TOP_MARGIN_PX = 11;
+    //private static $Y_SPACE_PX = 15; // space betweeen lines
 
     private function labelToPlacement(string $labelnum): int
     {
@@ -29,7 +29,7 @@ trait IntervalTrait
      */
     private function labelToInterval(string $labelnum): int
     {
-        $BUFFER_KEY  = $this->scope.'int';
+        $BUFFER_KEY  = $this->scope->getName().'int';
         if ($buffer = $this->getBuffer($BUFFER_KEY, $labelnum)) {
             return $buffer;
         } 
@@ -39,7 +39,7 @@ trait IntervalTrait
         $num = substr($labelnum, 1, 2);
         $interkey = array_search($label, self::$LABEL) - $G_PLACE;
 
-        switch ($this->scopeName) {
+        switch ($this->scope->getName()) {
             case ScopeBlock::F: 
                 $interkey += 8; //F2 to G3 is 8
         }
@@ -53,7 +53,7 @@ trait IntervalTrait
     /**
      * ex: -1 will be => -7px
      */
-    private function intervalToPlacement(int $interval): int
+    private function adjustIntervalOnBaseline(int $interval): int
     {
         $BUFFER_KEY  = $this->scope.'place';
         if ($buffer = $this->getBuffer($BUFFER_KEY, strval($interval))) {
@@ -61,6 +61,10 @@ trait IntervalTrait
         }
 
         $interval = -$interval;
+
+        if (!$this->scopeName) {
+            throw new \Exception("Scope name must be set");
+        }
 
         // set pixel baseline
         switch ($this->scopeName) { 
@@ -70,10 +74,10 @@ trait IntervalTrait
         }
 
         // set pixel placement
-        $y = self::$INIT_TOP_MARGIN_PX + ($interval * self::$Y_SPACE_PX / 2);
+        //$y = self::$INIT_TOP_MARGIN_PX + ($interval * self::$Y_SPACE_PX / 2);
 
-        $this->setBuffer($BUFFER_KEY, strval($interval), $y);
-        return intval($y);
+        $this->setBuffer($BUFFER_KEY, 'interval', strval($interval)); //, $y);
+        return $interval;
     }
 
     private function random($min, $max): int 

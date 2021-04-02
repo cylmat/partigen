@@ -5,24 +5,16 @@ declare(strict_types=1);
 namespace Partigen\Library\Model\Block;
 
 use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
-use Partigen\Library\Model\Block\Traits\IntervalTrait;
 
 class NoteBlock extends AbstractBlock
 {
-    use IntervalTrait;
-
     private const INIT_LEFT_MARGIN_PX = 40;
     private const X_SPACE_PX = 30;
 
     /**
      * @var string
      */
-    private $higher;
-
-    /**
-     * @var string
-     */
-    private $lower;
+    private $interval;
 
     /**
      * @var int
@@ -32,7 +24,7 @@ class NoteBlock extends AbstractBlock
     /**
      * @var string
      */
-    private $scopeName;
+    //private $scopeName;
 
     public function setNum(int $num): self
     {
@@ -42,31 +34,24 @@ class NoteBlock extends AbstractBlock
         return $this;
     }
 
-    public function setScopeName(string $scopeName): self
+    /*public function setScopeName(string $scopeName): self
     {
         $this->scopeName = $scopeName;
 
         return $this;
-    }
+    }*/
 
-    public function setHigher(string $higher): self
+    public function setInterval(string $interval): self
     {
-        $this->higher = $higher;
+        $this->interval = $interval;
 
         return $this;
     }
-
-    public function setLower(string $lower): self
-    {
-        $this->lower = $lower;
-
-        return $this;
-    }
-
+    
     public function getHtml(): string
     {
         $x = $this->getXPlacement();
-        $y = $this->getRandomizedHigh();
+        $y = $this->getYPlacement();
 
         // return note html
         $style = "margin-left: ".$x."px; margin-top: ".$y."px;";
@@ -82,14 +67,13 @@ class NoteBlock extends AbstractBlock
         return $x;
     }
 
-    private function getRandomizedHigh(): int
+    private function getYPlacement(): int
     {
-        $lower = $this->labelToInterval($this->lower);
-        $higher = $this->labelToInterval($this->higher);
+        $y = self::$INIT_TOP_MARGIN_PX + ($this->interval * self::$Y_SPACE_PX / 2);
 
-        $random = $this->random($lower, $higher);
-        $y = $this->intervalToPlacement($random);
-
-        return intval($y);
+        return $y;
     }
+
+    private static $INIT_TOP_MARGIN_PX = 11;
+    private static $Y_SPACE_PX = 15; // space betweeen lines
 }

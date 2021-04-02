@@ -9,6 +9,8 @@ use Partigen\Library\Model\Block\Traits\IntervalTrait;
 
 class NotesBlock extends AbstractBlock
 {
+    use IntervalTrait;
+
     public const G_BASELINE = 3; //G3
     
     private const NUMBER = 24;
@@ -46,17 +48,26 @@ class NotesBlock extends AbstractBlock
         $notes = '';
         $count = 0;
 
-        $low = $this->getHighLowLabels()[0];
-        $high = $this->getHighLowLabels()[1];
+        $lower = $this->getHighLowLabels()[0];
+        $higher = $this->getHighLowLabels()[1];
+
+        //$random = $this->getRandomizedHigh($lower, $higher);
+        $interval = $this->getRandomizedInterval($lower, $higher);
         
-        for ($i = 0; $i < self::NUMBER; $i++) {
+        $notes .= $this->get(ChordBlock::class)
+            ->setNum($count)
+            ->setScopeName($this->scope->getName())
+            ->setLower('G3')
+            ->setType(ChordBlock::MAJ)
+            ->getHtml();
+        
+        /*for ($i = 0; $i < self::NUMBER; $i++) {
             $notes .= $this->get(NoteBlock::class)
                 ->setNum($count++)
-                ->setScopeName($this->scope->getName())
-                ->setLower($low)
-                ->setHigher($high)
+                //->setScopeName($this->scope->getName())
+                ->setInterval($interval)
                 ->getHtml();
-        }
+        }*/
 
         return $notes;
     }
@@ -76,5 +87,15 @@ class NotesBlock extends AbstractBlock
                     $this->scope->isPaired() ? self::FG_CROSS_F : self::F_MAX_NOTE
                 ];
         }
+    }
+
+    private function getRandomizedInterval(string $lowerLabel, string $higherLabel): int
+    {
+        $lower = $this->labelToInterval($lowerLabel);
+        $higher = $this->labelToInterval($higherLabel);
+        $interval = $this->random($lower, $higher);
+        //$interval = $this->adjustIntervalOnBaseline($interval);
+
+        return $interval;
     }
 }
