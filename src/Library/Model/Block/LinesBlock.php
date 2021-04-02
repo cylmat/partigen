@@ -18,7 +18,7 @@ class LinesBlock extends AbstractBlock
     public function getHtml(): string
     {
         $lines=[]; 
-        foreach(range(0, 5) as $l) {
+        foreach(range(0, 4) as $l) {
             $lines[] = $this->line;
         }
 
