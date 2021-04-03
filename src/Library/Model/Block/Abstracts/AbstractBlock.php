@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\Library\Model\Block\Abstracts;
 
-use Partigen\App\Container;
+use Partigen\Container;
 use Partigen\Library\Model\Block\Traits\ClassTrait;
 
 abstract class AbstractBlock

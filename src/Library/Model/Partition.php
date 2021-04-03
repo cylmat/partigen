@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\Library\Model;
 
-use Partigen\App\Container;
+use Partigen\Container;
 use Partigen\Library\Model\Block\Block;
 
 class Partition
