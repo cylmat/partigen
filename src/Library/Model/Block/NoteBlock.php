@@ -8,12 +8,17 @@ use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
 
 class NoteBlock extends AbstractBlock
 {
-    private const INIT_LEFT_MARGIN_PX = 40;
     private const X_SPACE_PX = 30;
+    private const INIT_LEFT_MARGIN_PX = 40;
 
-    private const INIT_TOP_MARGIN_PX = 11;
     private const Y_SPACE_PX = 15; // space betweeen lines
+    private const INIT_TOP_MARGIN_PX = 11 + (3*self::Y_SPACE_PX); // init on bottom line
 
+    // Outlines intervales
+    private const TOP_LINE = 8;
+    private const BOTTOM_LINE = 0;
+
+    // Class name
     private const BASECLASS = 'note';
     private const LINECLASS = 'split';
     private const OUTCLASS = 'notesplit';
@@ -56,7 +61,7 @@ class NoteBlock extends AbstractBlock
     }
 
     /**
-     * Used to display chords
+     * Used to display chords and interline itself
      */
     public function disableOutlines(): self
     {
@@ -79,15 +84,14 @@ class NoteBlock extends AbstractBlock
     {
         $x = $this->getXPlacement();
         $y = $this->getYPlacement();
+        $this->initOutlineClass();
 
-        $this->initOutline();
+        // interlines
+        $note = $this->getInterlines();
         
-        // return note html
+        // note html
         $style = "margin-left: ".$x."px; margin-top: ".$y."px;";
-        $note = '<div class="'.$this->class.'" style="'.$style.'"></div>'."\n";
-        
-        $interlines = $this->getInterlines();
-        $note .= $interlines;
+        $note .= '<div class="'.$this->class.'" style="'.$style.'"></div>'."\n";
 
         return $note;
     }
@@ -101,13 +105,13 @@ class NoteBlock extends AbstractBlock
 
     private function getYPlacement(): int
     {
-        $y = self::INIT_TOP_MARGIN_PX + ($this->interval * self::Y_SPACE_PX / 2);
+        $y = self::INIT_TOP_MARGIN_PX + (-$this->interval * self::Y_SPACE_PX / 2);
 
         return intval($y);
     }
 
     // set outline note if baseclass
-    private function initOutline(): void
+    private function initOutlineClass(): void
     {
         // split note if outline
         if ($this->class === self::BASECLASS) {
@@ -123,27 +127,30 @@ class NoteBlock extends AbstractBlock
         if (!$this->interlinesEnabled) {
             return '';
         }
-
+        
         // interlines
         $interlines = '';
 
-        if ($this->interval < -2) {
-            // out down
-            for ($i=-4; $i>$this->interval; $i-=2) {
-                $interlines .= $this->get(NoteBlock::class)
-                    ->setNum($this->num)
-                    ->setInterval($i)
-                    ->setIsInterline();
-            }
-        } elseif ($this->interval > 8) {
+       if ($this->interval > self::TOP_LINE) {
             // out up
-            for ($i=8; $i<$this->interval; $i+=2) {
+            for ($i=self::TOP_LINE+2; $i<$this->interval; $i+=2) {
                 $interlines .= $this->get(NoteBlock::class)
                     ->setNum($this->num)
                     ->setInterval($i)
-                    ->setIsInterline();
+                    ->setIsInterline()
+                    ->disableOutlines(); //avoir recursive outline
             }
-        }
+        
+        } elseif ($this->interval < self::BOTTOM_LINE) {
+            // out down
+            for ($i=self::BOTTOM_LINE-2; $i>$this->interval; $i-=2) {
+                $interlines .= $this->get(NoteBlock::class)
+                    ->setNum($this->num)
+                    ->setInterval($i)
+                    ->setIsInterline()
+                    ->disableOutlines();
+            }
+        } 
 
         return $interlines;
     }

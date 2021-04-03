@@ -63,12 +63,15 @@ trait IntervalTrait
     {
         $this->checkScopeName();
 
-        $interval = -$interval;
+        //$interval = -$interval;
 
         // set pixel baseline
         switch ($this->scopeName) { 
             case ScopeBlock::G:
-                $interval += 4; // G pixel lines is on default at 4th line
+                $interval += 2; // G pixel lines is on default at 2th line
+                break;
+            case ScopeBlock::F:
+                $interval += 6; // G pixel lines is on default at 4th line
                 break;
         }
 

@@ -13,19 +13,15 @@ class NotesBlock extends AbstractBlock
 
     public const G_BASELINE = 3; //G3
     
-    private const NUMBER = 24;
+    private const NUMBER = 4;
 
     // G
     private const G_MAX_NOTE = 'C5';
     private const G_MIN_NOTE = 'G2';
-    private const G_TOP_LINE = 'F4';
-    private const G_BOTTOM_LINE = 'E3';
-
+    
     // F
     private const F_MAX_NOTE = 'E3';
     private const F_MIN_NOTE = 'C1';
-    private const F_TOP_LINE = 'A2';
-    private const F_BOTTOM_LINE = 'G1';
 
     // paired
     private const FG_CROSS_G  = 'D3';
@@ -57,11 +53,11 @@ class NotesBlock extends AbstractBlock
             ->setType(ChordBlock::MAJ);*/
         
         for ($i = 2; $i < self::NUMBER; $i++) {
-            $randomInterval = $this->getInterval($this->getRandomized($lowerLabel, $higherLabel));
+            $randomInterval = 0;//$this->getRandomized($lowerLabel, $higherLabel));
 
             $notes .= $this->get(NoteBlock::class)
                 ->setNum($i)
-                ->setInterval($this->getInterval(-10));
+                ->setInterval($this->getInterval($randomInterval));
         }
 
         return $notes;
