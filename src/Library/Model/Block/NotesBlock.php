@@ -13,7 +13,7 @@ class NotesBlock extends AbstractBlock
 
     public const G_BASELINE = 3; //G3
     
-    private const NUMBER = 4;
+    private const NUMBER = 24;
 
     // G
     private const G_MAX_NOTE = 'C5';
@@ -46,18 +46,24 @@ class NotesBlock extends AbstractBlock
 
         $lowerLabel = $this->getHighLowLabels()[0];
         $higherLabel = $this->getHighLowLabels()[1];
-
-        /*$notes .= $this->get(ChordBlock::class)
-            ->setNum(0)
-            ->setBaseInterval($this->getInterval(8))
-            ->setType(ChordBlock::MAJ);*/
         
-        for ($i = 2; $i < self::NUMBER; $i++) {
-            $randomInterval = 0;//$this->getRandomized($lowerLabel, $higherLabel));
+        for ($i = 0; $i < self::NUMBER; $i++) {
+            $isNote = rand(0, 10);
 
-            $notes .= $this->get(NoteBlock::class)
-                ->setNum($i)
-                ->setInterval($this->getInterval($randomInterval));
+            if ($isNote) {
+                // Notes
+                $randomInterval = $this->getRandomized($lowerLabel, $higherLabel);
+                $notes .= $this->get(NoteBlock::class)
+                    ->setNum($i)
+                    ->setInterval($this->getInterval($randomInterval));
+            } else {
+                // Chords
+                $randomChordInterval = $this->getRandomizedChord($lowerLabel, $higherLabel);
+                $notes .= $this->get(ChordBlock::class)
+                    ->setNum($i)
+                    ->setBaseInterval($this->getInterval($randomChordInterval))
+                    ->setType(ChordBlock::MAJ);
+            }
         }
 
         return $notes;
@@ -84,6 +90,15 @@ class NotesBlock extends AbstractBlock
     {
         $lower = $this->labelToInterval($lowerLabel);
         $higher = $this->labelToInterval($higherLabel);
+        $randomInterval = $this->random($lower, $higher);
+
+        return $randomInterval;
+    }
+
+    private function getRandomizedChord(string $lowerLabel, string $higherLabel): int
+    {
+        $lower = $this->labelToInterval($lowerLabel);
+        $higher = $this->labelToInterval($higherLabel) - 4;
         $randomInterval = $this->random($lower, $higher);
 
         return $randomInterval;

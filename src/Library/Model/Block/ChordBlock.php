@@ -9,6 +9,8 @@ use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
 class ChordBlock extends NoteBlock
 {
     const MAJ = 'MAJ';
+    
+    private const TYPE_MAJ = [0, 2, 4];
 
     /**
      * Chord is like NoteBlock
@@ -35,9 +37,7 @@ class ChordBlock extends NoteBlock
 
     public function getHtml(): string
     {
-        $chord = '';
-
-        //$chord .= $this->getOutlineType();
+        $chord = $this->getChordType();
 
         return $chord;
     }
@@ -46,10 +46,32 @@ class ChordBlock extends NoteBlock
     {
         $chord = '';
 
-        for ($i = 0; $i < 3; $i++) {
-            $chord .= $this->get(NoteBlock::class)
-                ->setNum($this->num)
-                ->setInterval($this->interval-2*$i);
+        switch ($this->type) {
+            case self::MAJ: 
+                if ($this->interval > 0) {
+                    //display from top
+                    foreach (array_reverse(self::TYPE_MAJ) as $inter) {
+                        $note = $this->get(NoteBlock::class)
+                                ->setNum($this->num)
+                                ->setInterval($this->interval + $inter);
+                        if ($inter === 0) {
+                            $note->disableOutlines();
+                        }
+                        $chord .= $note;
+                    }
+                } else {
+                    //display from bottom
+                    foreach (self::TYPE_MAJ as $inter) {
+                        $note = $this->get(NoteBlock::class)
+                                ->setNum($this->num)
+                                ->setInterval($this->interval + $inter);
+                        if ($inter === 0) {
+                            $note->disableOutlines();
+                        }
+                        $chord .= $note;
+                    }
+                }
+                break;
         }
 
         return $chord;
