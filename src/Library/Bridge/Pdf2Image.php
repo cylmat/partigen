@@ -1,30 +1,17 @@
 <?php
 
-namespace Partigen\Service;
+declare(strict_types=1);
 
-use Partigen\Model\Image;
+namespace Partigen\Library\Bridge;
+
 use Spatie\PdfToImage\Pdf;
 
 class Pdf2Image
 {
-    /**
-     * @var Image
-     */
-    private $image;
-
-    public function __construct(Image $image)
-    {
-        $this->image = $image;
-    }
-
-    public function convert(string $pdf): Image
+    public function convert(string $pdf): string
     {
         $pdfConverter = new Pdf($pdf);
         $imgPath = tempnam('/tmp', '') . '.png';
-
-        $image = $this->image
-            ->setFormat('A4')
-            ->setFilepath($imgPath);
 
         try {
             $pdfConverter->setOutputFormat('png')->saveImage($imgPath);
@@ -34,6 +21,6 @@ class Pdf2Image
             unlink($imgPath);
         }
 
-        return $image;
+        return $imgPath;
     }
 }

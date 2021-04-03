@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Partigen\App;
+namespace Partigen\App\View;
 
-use Partigen\Model\Image;
+use Partigen\App\AppModel\Image;
 
-class VueImage
+class ImageView
 {
     public function render($image): string
     {
-        header("Content-type: image/png");
         $content =  $this->getContent($image);
         unlink($image->getFilepath());
-
+        
+        header("Content-type: image/png");
         return $content;
     }
 
