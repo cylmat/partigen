@@ -10,9 +10,6 @@ class ChordBlock extends NoteBlock
 {
     const MAJ = 'MAJ';
 
-    const OUTLINE_UP = 'OUTLINE_UP';
-    const OUTLINE_DOWN = 'OUTLINE_DOWN';
-
     /**
      * Chord is like NoteBlock
      * - setLower is the base note label
@@ -40,7 +37,7 @@ class ChordBlock extends NoteBlock
     {
         $chord = '';
 
-        $chord .= $this->getOutlineType();
+        //$chord .= $this->getOutlineType();
 
         return $chord;
     }
@@ -54,46 +51,6 @@ class ChordBlock extends NoteBlock
                 ->setNum($this->num)
                 ->setInterval($this->interval-2*$i);
         }
-
-        return $chord;
-    }
-
-    private function getOutlineType()
-    {
-        $chord = '';
-
-        // note splitted or not
-        $note = $this->get(NoteBlock::class)
-            ->setNum($this->num)
-            ->setInterval($this->interval);
-            
-        if (0 === $this->interval % 2) {
-            $note->setIsOutline();
-        }
-
-        // interlines
-        $interlines = '';
-
-        if ($this->interval < -2) {
-            // out down
-            for ($i=-4; $i>$this->interval; $i-=2) {
-                $interlines .= $this->get(NoteBlock::class)
-                    ->setNum($this->num)
-                    ->setInterval($i)
-                    ->setIsInterline();
-            }
-        } elseif ($this->interval > 8) {
-            // out up
-            for ($i=8; $i<$this->interval; $i+=2) {
-                $interlines .= $this->get(NoteBlock::class)
-                    ->setNum($this->num)
-                    ->setInterval($i)
-                    ->setIsInterline();
-            }
-        }
-
-        $chord .= $interlines;
-        $chord .= $note;
 
         return $chord;
     }

@@ -28,6 +28,11 @@ class NoteBlock extends AbstractBlock
      */
     protected $interval;
 
+    /**
+     * @var bool
+     */
+    private $interlinesEnabled = true;
+
     public function setNum(int $num): self
     {
         $this->num = $num;
@@ -51,6 +56,16 @@ class NoteBlock extends AbstractBlock
     }
 
     /**
+     * Used to display chords
+     */
+    public function disableOutlines(): self
+    {
+        $this->interlinesEnabled = false;
+
+        return $this;
+    }
+
+    /**
      * Interval between baseline and current
      */
     public function setInterval(int $interval): self
@@ -65,9 +80,14 @@ class NoteBlock extends AbstractBlock
         $x = $this->getXPlacement();
         $y = $this->getYPlacement();
 
+        $this->initOutline();
+        
         // return note html
         $style = "margin-left: ".$x."px; margin-top: ".$y."px;";
         $note = '<div class="'.$this->class.'" style="'.$style.'"></div>'."\n";
+        
+        $interlines = $this->getInterlines();
+        $note .= $interlines;
 
         return $note;
     }
@@ -84,5 +104,47 @@ class NoteBlock extends AbstractBlock
         $y = self::INIT_TOP_MARGIN_PX + ($this->interval * self::Y_SPACE_PX / 2);
 
         return intval($y);
+    }
+
+    // set outline note if baseclass
+    private function initOutline(): void
+    {
+        // split note if outline
+        if ($this->class === self::BASECLASS) {
+            if (0 === $this->interval % 2) {
+                $this->setIsOutline();
+            }
+        }
+    }
+
+    // interlines in case of outline note
+    private function getInterlines(): string
+    {
+        if (!$this->interlinesEnabled) {
+            return '';
+        }
+
+        // interlines
+        $interlines = '';
+
+        if ($this->interval < -2) {
+            // out down
+            for ($i=-4; $i>$this->interval; $i-=2) {
+                $interlines .= $this->get(NoteBlock::class)
+                    ->setNum($this->num)
+                    ->setInterval($i)
+                    ->setIsInterline();
+            }
+        } elseif ($this->interval > 8) {
+            // out up
+            for ($i=8; $i<$this->interval; $i+=2) {
+                $interlines .= $this->get(NoteBlock::class)
+                    ->setNum($this->num)
+                    ->setInterval($i)
+                    ->setIsInterline();
+            }
+        }
+
+        return $interlines;
     }
 }

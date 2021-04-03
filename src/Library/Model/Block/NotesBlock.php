@@ -51,17 +51,17 @@ class NotesBlock extends AbstractBlock
         $lowerLabel = $this->getHighLowLabels()[0];
         $higherLabel = $this->getHighLowLabels()[1];
 
-        $notes .= $this->get(ChordBlock::class)
+        /*$notes .= $this->get(ChordBlock::class)
             ->setNum(0)
             ->setBaseInterval($this->getInterval(8))
-            ->setType(ChordBlock::MAJ);
+            ->setType(ChordBlock::MAJ);*/
         
         for ($i = 2; $i < self::NUMBER; $i++) {
             $randomInterval = $this->getInterval($this->getRandomized($lowerLabel, $higherLabel));
 
             $notes .= $this->get(NoteBlock::class)
                 ->setNum($i)
-                ->setInterval($this->getInterval(0));
+                ->setInterval($this->getInterval(-10));
         }
 
         return $notes;
