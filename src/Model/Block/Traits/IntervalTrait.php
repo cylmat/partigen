@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Library\Model\Block\Traits;
+namespace Partigen\Model\Block\Traits;
 
-use Partigen\Library\Model\Block\NotesBlock;
-use Partigen\Library\Model\Block\ScopeBlock;
+use Partigen\Model\Block\NotesBlock;
+use Partigen\Model\Block\ScopeBlock;
 
 trait IntervalTrait
 {
@@ -62,8 +62,6 @@ trait IntervalTrait
     private function adjustIntervalOnBaseline(int $interval): int
     {
         $this->checkScopeName();
-
-        //$interval = -$interval;
 
         // set pixel baseline
         switch ($this->scopeName) { 

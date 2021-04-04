@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Library\Model\Block\Abstracts;
+namespace Partigen\Model\Block\Abstracts;
 
 use Partigen\Container;
-use Partigen\Library\Model\Block\Traits\ClassTrait;
+use Partigen\Model\Block\Traits\ClassTrait;
 
 abstract class AbstractBlock
 {

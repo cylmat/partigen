@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Library\Model\Block\Traits;
+namespace Partigen\Model\Block\Traits;
 
 trait BufferTrait
 {

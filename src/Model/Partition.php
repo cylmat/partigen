@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Library\Model;
+namespace Partigen\Model;
 
 use Partigen\Container;
-use Partigen\Library\Model\Block\Block;
+use Partigen\Model\Block\Block;
 
 class Partition
 {

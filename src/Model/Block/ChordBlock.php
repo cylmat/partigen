@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Library\Model\Block;
+namespace Partigen\Model\Block;
 
-use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
+use Partigen\Model\Block\Abstracts\AbstractBlock;
 
 class ChordBlock extends NoteBlock
 {

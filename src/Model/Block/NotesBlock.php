@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Library\Model\Block;
+namespace Partigen\Model\Block;
 
-use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
-use Partigen\Library\Model\Block\Traits\IntervalTrait;
+use Partigen\Model\Block\Abstracts\AbstractBlock;
+use Partigen\Model\Block\Traits\IntervalTrait;
 
 class NotesBlock extends AbstractBlock
 {

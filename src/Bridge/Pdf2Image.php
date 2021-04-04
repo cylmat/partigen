@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Library\Bridge;
+namespace Partigen\Bridge;
 
 use Spatie\PdfToImage\Pdf;
 
@@ -19,6 +19,8 @@ class Pdf2Image
         } catch (\Exception $e) {
             unlink($pdf);
             unlink($imgPath);
+
+            throw new \Exception($e->getMessage());
         }
 
         return $imgPath;

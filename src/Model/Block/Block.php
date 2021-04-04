@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Library\Model\Block;
+namespace Partigen\Model\Block;
 
-use Partigen\Container;
-use Partigen\Library\Model\Block\Abstracts\AbstractBlock;
+use Partigen\Model\Block\Abstracts\AbstractBlock;
 
 class Block extends AbstractBlock
 {

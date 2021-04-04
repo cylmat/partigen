@@ -2,15 +2,11 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-function Container() {
-    return Partigen\App\Container::getInstance();
-}
-
 function resize($file, $w, $h=-1)
 {
-    $image = imagecreatefrompng("orig/$file");
+    $image = imagecreatefrompng(__DIR__."/Resources/orig/$file");
     $new = imagescale ( $image, $w, $h, IMG_BILINEAR_FIXED );
-    imagepng($new, "img/$file");
+    imagepng($new, __DIR__."/Resources/img/$file");
 }
 
 if ('cli' === PHP_SAPI) {

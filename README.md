@@ -1,2 +1,2 @@
 # Partigen
-Partition generator
+Partition image generator
