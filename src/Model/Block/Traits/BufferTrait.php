@@ -12,7 +12,7 @@ trait BufferTrait
 
     private function setBuffer(string $name, string $key, $value): self
     {
-        $this->buffer[$name][$key] = $value;
+        self::$buffer[$name][$key] = $value;
 
         return $this;
     }
