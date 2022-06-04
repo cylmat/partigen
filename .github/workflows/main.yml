@@ -2,11 +2,10 @@ name: Partigen
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
 
 jobs:
-  run:
-
+  tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,15 +32,8 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
-
     - name: Remove ImageMagick policy
       run: sudo sed -ie 's#<policy domain="coder" rights="none" pattern="PDF" />##' $(find /etc/Image* -name policy.xml | grep policy.xml)
 
-
-    - name: Run local server
-      run: sudo php -S localhost:80 -t html &
-
-    - name: Run script
-      run: php -f html/index.php
+    - name: Run test script
+      run: php -f tests/generate.php

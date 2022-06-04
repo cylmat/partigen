@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Partigen\App;
+namespace Partigen;
 
 use DI\Container as Di_Container;
 

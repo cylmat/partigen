@@ -1,0 +1,69 @@
+* {
+    box-sizing: border-box;
+}
+
+page {
+    font-size: 14px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+/*
+ Block
+*/
+.block {
+    position: relative;
+    width: 100%;
+    margin-top: 70px;
+}
+
+.block-first {
+    margin-top: 50px;
+}
+
+/*
+ Scope
+*/
+.block .g-scope, .block .f-scope {
+    position: relative;
+    height: 100px;
+    background-repeat: no-repeat;
+}
+
+.block .g-scope {
+    background-image: url(img/sol.png);
+    background-position: 0 -3px;
+}
+
+.block .f-scope {
+    background-image: url(img/fa.png);
+    background-position: 0 5px;
+}
+
+.block .g-scope .line, .block .f-scope .line {
+    height: 2px;
+    border-bottom: solid 1px black;
+}
+
+/*
+ Note
+*/
+.note, .notesplit, .split, .not {
+    position: absolute;
+    height: 13px;
+    width: 22px;
+}
+
+.note {
+    background-image: url(img/ronde.png);
+}
+
+.notesplit {
+    background-image: url(img/rondesplit.png);
+}
+
+.split {
+    background-image: url(img/split.png);
+}

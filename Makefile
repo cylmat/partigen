@@ -1,6 +1,9 @@
 SHELL := /bin/bash
 
-.PHONY: spec
+.PHONY: md, spec
+
+md:
+	vendor/bin/phpmd src ansi cleancode,codesize,controversial,design,naming,unused
 
 spec:
 	vendor/bin/phpspec run
