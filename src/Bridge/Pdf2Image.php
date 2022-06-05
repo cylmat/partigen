@@ -6,7 +6,7 @@ namespace Partigen\Bridge;
 
 use Spatie\PdfToImage\Pdf;
 
-class Pdf2Image
+final class Pdf2Image
 {
     public function convert(string $pdf): string
     {

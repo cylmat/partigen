@@ -7,7 +7,7 @@ namespace Partigen\Model;
 use DI\Container;
 use Partigen\Model\Block\BlockInterface;
 
-class BlockFactory
+final class BlockFactory
 {
     private $container;
 

@@ -6,8 +6,10 @@ namespace Partigen\Model;
 
 use Partigen\Model\Block\GlobalBlock;
 
-class Partition
+final class Partition
 { 
+    private const RESOURCES_PATH = __DIR__.'/../../resources';
+
     private $factory;
 
     public function __construct(BlockFactory $factory)
@@ -21,7 +23,7 @@ class Partition
 
         $output = 
         '<style type="text/css">'.
-        file_get_contents(__DIR__.'/../Resources/partition.css').
+        file_get_contents(self::RESOURCES_PATH . '/partition.css').
         '</style>'.
         "<page>".
 
