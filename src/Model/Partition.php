@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace Partigen\Model;
 
-use Partigen\Container;
-use Partigen\Model\Block\Block;
+use Partigen\Model\Block\GlobalBlock;
 
 class Partition
-{
+{ 
+    private $factory;
+
+    public function __construct(BlockFactory $factory)
+    {
+        $this->factory = $factory;
+    }
+
     public function getHtml()
     {
-        $block = Container::getInstance()->get(Block::class);
+        $globalBlock = $this->factory->create(GlobalBlock::class);
 
         $output = 
         '<style type="text/css">'.
@@ -19,9 +25,9 @@ class Partition
         '</style>'.
         "<page>".
 
-        $block->g()->addClass("block-first").
-        $block->f().
-        $block->fg().
+        $globalBlock->g()->addClass("block-first").
+        $globalBlock->f().
+        $globalBlock->fg().
 
         "</page>";
 

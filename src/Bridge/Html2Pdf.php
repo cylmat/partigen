@@ -10,10 +10,7 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
 class Html2Pdf
 {
-    /**
-     * @var string
-     */
-    private $format = 'A4';
+    private string $format = 'A4';
 
     private const DEBUG_OUTPUT_HTML = false;
 

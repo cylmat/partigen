@@ -13,36 +13,24 @@ class ImageCreator
     public const FORMAT = 'format';
     public const FORMAT_A4 = 'A4';
 
-    /**
-     * @var Html2Pdf
-     */
-    private $html2pdf;
+    private Partition $partition;
+    private Html2Pdf $html2pdf;
+    private Pdf2Image $pdf2image;
 
-    /**
-     * @var Pdf2Image
-     */
-    private $pdf2image;
-
-    /**
-     * @var Partition
-     */
-    private $partition;
-
-    public function __construct(Html2Pdf $html2pdf, Pdf2Image $pdf2image, Partition $partition)
+    public function __construct(Partition $partition, Html2Pdf $html2pdf, Pdf2Image $pdf2image)
     {
+        $this->partition = $partition;
         $this->html2pdf = $html2pdf;
         $this->pdf2image = $pdf2image;
-        $this->partition = $partition;
     }
 
     public function create(array $creationParams): string
     {
         self::validateParams($creationParams);
 
-        $pdf = $this->html2pdf->generate($this->partition->getHtml());
-        $image = $this->pdf2image->convert($pdf);
-
-        return $image;
+        $html = $this->partition->getHtml();
+        $pdf = $this->html2pdf->generate($html);
+        return $this->pdf2image->convert($pdf);
     }
 
     private static function validateParams(array $creationParams): void

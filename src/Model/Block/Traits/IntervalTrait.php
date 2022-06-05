@@ -12,11 +12,7 @@ trait IntervalTrait
     use BufferTrait;
 
     private static $LABEL = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-
-    /**
-     * @var string
-     */
-    private $scopeName;
+    private string $scopeName;
 
     public function setScopeName(string $scopeName): self
     {
@@ -53,12 +49,11 @@ trait IntervalTrait
         $internum = ($num - NotesBlock::G_BASELINE) * 7;
         $interval = $interkey + $internum;
         $this->setBuffer($BUFFER_KEY, $labelnum, $interval);
+
         return $interval;
     }
 
-    /**
-     * ex: -1 will be => -7px
-     */
+    //  e.g.: -1 will be => -7px
     private function adjustIntervalOnBaseline(int $interval): int
     {
         $this->checkScopeName();
@@ -86,7 +81,7 @@ trait IntervalTrait
         return $random_array[array_rand($random_array)];
     }
 
-    private function checkScopeName()
+    private function checkScopeName(): void
     {
         if (!$this->scopeName) {
             throw new \Exception("Scope name must be set");

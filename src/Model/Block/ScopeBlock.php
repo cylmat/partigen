@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-use Partigen\Model\Block\Abstracts\AbstractBlock;
+use Partigen\Model\Block\AbstractBlock;
 
 class ScopeBlock extends AbstractBlock
 {
@@ -12,17 +12,10 @@ class ScopeBlock extends AbstractBlock
     const G = 'G';
     const FG = 'FG';
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var bool
-     * 
-     * Paired with other scope
-     */
-    private $isPaired = false;
+    /* Paired with other scope */
+    private bool $isPaired = false;
 
     public function setName(string $name): self
     {

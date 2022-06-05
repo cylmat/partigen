@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-use Partigen\Model\Block\Abstracts\AbstractBlock;
+use Partigen\Model\Block\AbstractBlock;
+use Partigen\Model\BlockFactory;
 
-class Block extends AbstractBlock
+class GlobalBlock extends AbstractBlock
 {
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
-    public function __construct()
+    public function __construct(BlockFactory $factory)
     {
+        parent::__construct($factory);
         $this->setClass('block');
     }
 

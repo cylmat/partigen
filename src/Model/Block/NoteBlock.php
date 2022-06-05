@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-use Partigen\Model\Block\Abstracts\AbstractBlock;
+use Partigen\Model\Block\AbstractBlock;
 
 class NoteBlock extends AbstractBlock
 {
@@ -23,20 +23,9 @@ class NoteBlock extends AbstractBlock
     private const LINECLASS = 'split';
     private const OUTCLASS = 'notesplit';
 
-    /**
-     * @var int
-     */
-    protected $num;
-
-    /**
-     * @var int
-     */
-    protected $interval;
-
-    /**
-     * @var bool
-     */
-    private $interlinesEnabled = true;
+    protected int $num;
+    protected int $interval;
+    private bool $interlinesEnabled = true;
 
     public function setNum(int $num): self
     {

@@ -4,24 +4,18 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-use Partigen\Model\Block\Abstracts\AbstractBlock;
-
 class ChordBlock extends NoteBlock
 {
     const MAJ = 'MAJ';
     
     private const TYPE_MAJ = [0, 2, 4];
+    private string $type;
 
-    /**
+    /*
      * Chord is like NoteBlock
      * - setLower is the base note label
      * - setType is in (maj)
      */
-
-    /**
-     * @var string
-     */
-    private $type;
 
     public function setType(string $type): self
     {

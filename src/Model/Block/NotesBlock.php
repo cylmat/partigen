@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-use Partigen\Model\Block\Abstracts\AbstractBlock;
+use Partigen\Model\Block\AbstractBlock;
 use Partigen\Model\Block\Traits\IntervalTrait;
 
 class NotesBlock extends AbstractBlock
@@ -27,10 +27,7 @@ class NotesBlock extends AbstractBlock
     private const FG_CROSS_G  = 'D3';
     private const FG_CROSS_F  = 'C3';
 
-    /**
-     * @var ScopeBlock
-     */
-    private $scope;
+    private ScopeBlock $scope;
 
     public function setScope(ScopeBlock $scope): self
     {

@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-use Partigen\Model\Block\Abstracts\AbstractBlock;
+use Partigen\Model\Block\AbstractBlock;
+use Partigen\Model\BlockFactory;
 
 class LinesBlock extends AbstractBlock
 {
-    private $line;
+    private LineBlock $line;
 
-    public function __construct(LineBlock $line)
+    public function __construct(BlockFactory $factory, LineBlock $line)
     {
+        parent::__construct($factory);
         $this->line = $line;
     }
 

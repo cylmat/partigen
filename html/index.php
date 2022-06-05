@@ -2,12 +2,12 @@
 
 namespace tests\Partigen;
 
-use Partigen\Container;
+use DI\Container;
 use Partigen\ImageCreator;
 
 require __DIR__.'/../src/bootstrap.php';
 
-$path = Container::getInstance()->get(ImageCreator::class)->create(['format' => 'A4']);
+$path = (new Container())->get(ImageCreator::class)->create(['format' => 'A4']);
 
 if (file_exists($path)) {
     header('Content-Type: image/png');

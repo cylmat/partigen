@@ -6,10 +6,7 @@ namespace Partigen\Model\Block\Traits;
 
 trait ClassTrait
 {
-    /**
-     * @var string
-     */
-    protected $class = '';
+    protected string $class = '';
 
     public function setClass(string $class): self
     {
