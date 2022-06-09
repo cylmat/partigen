@@ -1,11 +1,10 @@
 <?php
 
-namespace spec\Partigen\Service;
+namespace spec\Partigen;
 
-use Partigen\Model\Image;
-use Partigen\Service\Html2Pdf;
-use Partigen\Service\ImageCreator;
-use Partigen\Service\Pdf2Image;
+use Partigen\ImageCreator;
+use Partigen\Bridge\Html2Pdf;
+use Partigen\Bridge\Pdf2Image;
 use PhpSpec\ObjectBehavior;
 
 class ImageCreatorSpec extends ObjectBehavior

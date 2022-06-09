@@ -37,7 +37,7 @@ class NotesBlock extends AbstractBlock
         return $this;
     }
 
-    public function getHtml(): string
+    public function getData(): array
     {
         $notes = '';
 
@@ -50,20 +50,24 @@ class NotesBlock extends AbstractBlock
             if ($isNote) {
                 // Notes
                 $randomInterval = $this->getRandomized($lowerLabel, $higherLabel);
-                $notes .= $this->get(NoteBlock::class)
+                $notes[] = $this->get(NoteBlock::class)
                     ->setNum($i)
-                    ->setInterval($this->getInterval($randomInterval));
+                    ->setInterval($this->getInterval($randomInterval))
+                    ->getData();
             } else {
                 // Chords
                 $randomChordInterval = $this->getRandomizedChord($lowerLabel, $higherLabel);
-                $notes .= $this->get(ChordBlock::class)
+                $notes[] = $this->get(ChordBlock::class)
                     ->setNum($i)
                     ->setBaseInterval($this->getInterval($randomChordInterval))
-                    ->setType(ChordBlock::MAJ);
+                    ->setType(ChordBlock::MAJ)
+                    ->getData();
             }
         }
 
-        return $notes;
+        return [
+            $notes
+        ];
     }
 
     private function getHighLowLabels(): array

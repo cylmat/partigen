@@ -6,9 +6,8 @@ namespace Partigen\Model\Block;
 
 use Partigen\Model\Block\Traits\ClassTrait;
 use Partigen\Model\BlockFactory;
-use Stringable;
 
-abstract class AbstractBlock implements BlockInterface, Stringable
+abstract class AbstractBlock implements BlockInterface
 {
     use ClassTrait;
 
@@ -18,16 +17,11 @@ abstract class AbstractBlock implements BlockInterface, Stringable
     {
         $this->factory = $factory;
     }
-
-    abstract public function getHtml(): string;
-
+    
     public function get(string $objectType): self
     {
         return $this->factory->create($objectType);
     }
 
-    public function __toString(): string
-    {
-        return $this->getHtml();
-    }
+    abstract public function getData(): array;
 }

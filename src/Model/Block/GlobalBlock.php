@@ -14,47 +14,43 @@ class GlobalBlock extends AbstractBlock
     public function __construct(BlockFactory $factory)
     {
         parent::__construct($factory);
-        $this->setClass('block');
     }
 
     public function g(): self
     {
         $this->type = ScopeBlock::G;
-
         return $this;
     }
 
     public function f(): self
     {
         $this->type = ScopeBlock::F;
-
         return $this;
     }
 
     public function fg(): self
     {
-        $this->type = ScopeBlock::F.ScopeBlock::G;
-
+        $this->type = ScopeBlock::F . ScopeBlock::G;
         return $this;
     }
 
-    public function getHtml(): string
+    public function getData(): array
     {
         switch ($this->type) {
             case ScopeBlock::G: 
-                $type = $this->get(ScopeBlock::class)->setName(ScopeBlock::G);
+                $scopeData = $this->get(ScopeBlock::class)->setName(ScopeBlock::G)->getData();
                 break;
             case ScopeBlock::F: 
-                $type = $this->get(ScopeBlock::class)->setName(ScopeBlock::F);
+                $scopeData = $this->get(ScopeBlock::class)->setName(ScopeBlock::F)->getData();
                 break;
-            case ScopeBlock::F.ScopeBlock::G: 
-                $type = $this->get(ScopeBlock::class)->setName(ScopeBlock::G)->setPaired().
-                    $this->get(ScopeBlock::class)->setName(ScopeBlock::F)->setPaired();
+            case ScopeBlock::F . ScopeBlock::G: 
+                $scopeData = $this->get(ScopeBlock::class)->setName(ScopeBlock::G)->setPaired()->getData().
+                    $this->get(ScopeBlock::class)->setName(ScopeBlock::F)->setPaired()->getData();
                 break;
+            default:
+                throw new \DomainException("Type " . $this->type . " not handled");
         }
 
-        $block = '<div class="'.$this->class.'">'.$type.'</div>'."\n";
-
-        return $block;
+        return $scopeData;
     }
 }

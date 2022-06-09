@@ -20,7 +20,7 @@ class ScopeBlock extends AbstractBlock
     public function setName(string $name): self
     {
         $this->name = strtoupper($name);
-        $this->setClass(strtolower($name).'-scope');
+        $this->setClass(strtolower($name));
 
         return $this;
     }
@@ -42,13 +42,13 @@ class ScopeBlock extends AbstractBlock
         return $this->isPaired;
     }
 
-    public function getHtml(): string
+    public function getData(): array
     {
-        $scope = '<div class="'.$this->class.'">'.
-            $this->get(NotesBlock::class)->setScope($this).
-            $this->get(LinesBlock::class).
-        '</div>'."\n";
-
-        return $scope;
+        return [
+            'class' => $this->class,
+            'notes' => [
+                //$this->get(NotesBlock::class)->setScope($this)->getData()
+            ]
+        ];
     }
 }
