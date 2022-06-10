@@ -26,30 +26,30 @@ class ViewModelSpec extends ObjectBehavior
     {
         $data = [
             [
-                [
-                    'type' => 'f',
-                    'notes' => [
-                        1,2,3
-                    ]
-                ],
-                [
-                    'type' => 'g',
-                    'notes' => [
-                        1,2,3
-                    ]
+                'type' => 'F',
+                'notes' => [
+                    1,2,3
                 ]
             ],
             [
-                [
-                    'type' => 'f',
-                    'notes' => [
-                        1,2,3
-                    ]
-                ],
+                'type' => 'G',
+                'notes' => [
+                    1,2,3
+                ]
+            ],
+            [
+                'type' => 'FG',
+                'notes' => [
+                    1,2,3
+                ]
             ],
         ];
 
-        $expectHtml = '<div class="scopes">s:f</div>';
+        $expectHtml = 
+            '<div class="scopes">s:f</div>' . "\n" .
+            '<div class="scopes">s:g</div>' . "\n" .
+            '<div class="scopes">s:f</div>'
+        ;
         $this->convert($data)->shouldContain($expectHtml);
     }
 }

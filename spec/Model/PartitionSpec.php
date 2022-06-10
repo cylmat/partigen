@@ -18,7 +18,7 @@ class PartitionSpec extends ObjectBehavior
     ) {
         $globalBlock->g()->willReturn($globalBlock);
         $globalBlock->f()->willReturn($globalBlock);
-        $globalBlock->getData()->willReturn(['scopedata']);
+        $globalBlock->getData()->willReturn(['scopesdata']);
 
         $view->style(Argument::type('string'))->willReturn('<style>css</style>');
         $view->convert(Argument::type('array'))->willReturn('global-data');

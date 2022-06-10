@@ -4,28 +4,29 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-use Partigen\Model\Block\AbstractBlock;
-
+/**
+ * @todo create ScopeDataValue 
+ */
 class ScopeBlock extends AbstractBlock
 {
-    const F = 'F';
-    const G = 'G';
-    const FG = 'FG';
+    public const F = 'F';
+    public const G = 'G';
+    public const FG = 'FG';
 
     private string $name;
 
     /* Paired with other scope */
     private bool $isPaired = false;
 
-    public function setName(string $name): self
+    public function setType(string $name): self
     {
         $this->name = strtoupper($name);
-        $this->setClass(strtolower($name));
+        //$this->setClass(strtolower($name));
 
         return $this;
     }
 
-    public function getName(): string
+    public function getType(): string
     {
         return $this->name;
     }
@@ -45,10 +46,9 @@ class ScopeBlock extends AbstractBlock
     public function getData(): array
     {
         return [
-            'class' => $this->class,
-            'notes' => [
-                //$this->get(NotesBlock::class)->setScope($this)->getData()
-            ]
+            'type' => $this->name,
+            'paired' => $this->isPaired(),
+            'notes' => $this->get(NotesBlock::class)->setScope($this)->getData()
         ];
     }
 }

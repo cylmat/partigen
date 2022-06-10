@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-use Partigen\Model\Block\AbstractBlock;
 use Partigen\Model\BlockFactory;
 
-class GlobalBlock extends AbstractBlock
+class ScopesBlock extends AbstractBlock
 {
     private string $type;
 
@@ -30,7 +29,7 @@ class GlobalBlock extends AbstractBlock
 
     public function fg(): self
     {
-        $this->type = ScopeBlock::F . ScopeBlock::G;
+        $this->type = ScopeBlock::FG;
         return $this;
     }
 
@@ -38,14 +37,16 @@ class GlobalBlock extends AbstractBlock
     {
         switch ($this->type) {
             case ScopeBlock::G: 
-                $scopeData = $this->get(ScopeBlock::class)->setName(ScopeBlock::G)->getData();
+                $scopeData = [$this->get(ScopeBlock::class)->setType(ScopeBlock::G)->getData()];
                 break;
             case ScopeBlock::F: 
-                $scopeData = $this->get(ScopeBlock::class)->setName(ScopeBlock::F)->getData();
+                $scopeData = [$this->get(ScopeBlock::class)->setType(ScopeBlock::F)->getData()];
                 break;
-            case ScopeBlock::F . ScopeBlock::G: 
-                $scopeData = $this->get(ScopeBlock::class)->setName(ScopeBlock::G)->setPaired()->getData().
-                    $this->get(ScopeBlock::class)->setName(ScopeBlock::F)->setPaired()->getData();
+            case ScopeBlock::FG:
+                $scopeData = [
+                    $this->get(ScopeBlock::class)->setType(ScopeBlock::G)->setPaired()->getData(),
+                    $this->get(ScopeBlock::class)->setType(ScopeBlock::F)->setPaired()->getData()
+                ];
                 break;
             default:
                 throw new \DomainException("Type " . $this->type . " not handled");

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\View;
 
-class ViewModel implements ViewModelInterface
+class ViewPartitionModel implements ViewModelInterface
 {
     private ViewScopeModel $viewScope;
 
@@ -20,14 +20,14 @@ class ViewModel implements ViewModelInterface
 
     public function page(string $pageContent): string
     {
-        return "<page>$pageContent</page>";
+        return "<page>\n$pageContent</page>";
     }
 
     public function convert(array $data): string
     {
         $html = '';
-        foreach ($data as $scopeData) {
-            $html .= $this->scopes($scopeData);
+        foreach ($data as $scopesData) {
+            $html .= $this->scopes($scopesData);
         }
 
         return $html;
@@ -37,10 +37,9 @@ class ViewModel implements ViewModelInterface
     {
         $scopesHtml = ''; 
         foreach ($scopesData as $scopeData) {
-            $scopeHtml = $this->viewScope->convert($scopeData);
-            $scopesHtml .= '<div class="scopes">' . $scopeHtml . "</div>\n";
-        }
+            $scopesHtml .= $this->viewScope->convert($scopeData);
+        }        
 
-        return $scopesHtml;
+        return "\n" . '<div class="block">' . "\n" . $scopesHtml . "</div>\n";
     }
 }

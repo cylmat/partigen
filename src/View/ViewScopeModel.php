@@ -20,22 +20,25 @@ class ViewScopeModel implements ViewModelInterface
             $lines5 .= '<div class="line"></div>'."\n";
         }
 
-        $scopeHtml = '';
-        foreach ($data as $notesData) {
-            $notesData = $this->notes($notesData);
-            $scopeHtml .= '<div class="scope-' . $data['type'] . '">'.'</div>'."\n";
-        }
+        $paired = $data['paired'] ? 'paired ' : '';
+        $scopeHtml = '<div class="scope ' . $paired . strtolower($data['type']) . '-scope' . '">' . "\n" ;
+        $scopeHtml .= $this->notes($data['notes'], $data['type']);
+        $scopeHtml .= $lines5 . '</div>'."\n";
 
         return $scopeHtml;
     }
 
-    private function notes(array $notesData): string
+    private function notes(array $notesData, string $scopeType): string
     {
         $notesHtml = '';
-        foreach ($notesData as $noteData) {
-            $notesHtml .= $this->viewNote->convert($noteData);
+        foreach ($notesData as $index => $noteData) {
+            $notesHtml .= $this->viewNote->convert([
+                'index' => $index, // x
+                'high' => $noteData['high'], // y
+                'scope' => $scopeType, // min-max
+            ]);
         }
 
-        return '<div class="notes">'.$notesHtml.'</div>'."\n";
+        return '<div class="notes">'."\n".$notesHtml.'</div>'."\n";
     }
 }

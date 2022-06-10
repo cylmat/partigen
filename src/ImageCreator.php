@@ -43,7 +43,7 @@ final class ImageCreator
         self::validateParams($creationParams);
 
         try {
-            $html = $this->partition->getHtml();
+            $html = $this->partition->getHtml($creationParams);
             $pdf = $this->html2pdf->generate($html);
             $this->path = $this->pdf2image->convert($pdf);
 

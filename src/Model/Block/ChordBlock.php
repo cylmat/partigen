@@ -29,7 +29,7 @@ class ChordBlock extends NoteBlock
         return $this->setInterval($baseInterval);
     }
 
-    public function getHtml(): string
+    public function getData(): array
     {
         $chord = $this->getChordType();
 

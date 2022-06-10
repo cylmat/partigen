@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace Partigen\Model;
 
 use Partigen\Model\BlockFactoryInterface;
-use Partigen\Model\Block\GlobalBlock;
-use Partigen\View\ViewModel;
+use Partigen\Model\Block\ScopesBlock;
+use Partigen\View\ViewPartitionModel;
 
 final class Partition
 { 
     private const RESOURCES_PATH = __DIR__.'/../../resources';
 
     private BlockFactoryInterface $factory;
-    private ViewModel $view;
+    private ViewPartitionModel $view;
 
-    public function __construct(BlockFactoryInterface $factory, ViewModel $view)
+    public function __construct(BlockFactoryInterface $factory, ViewPartitionModel $view)
     {
         $this->factory = $factory;
         $this->view = $view;
     }
 
-    public function getHtml(): string
+    public function getHtml(array $creationParams): string
     {
         $styleHtml = $this->view->style(
             file_get_contents(self::RESOURCES_PATH . '/partition.css')
@@ -37,14 +37,12 @@ final class Partition
 
     private function getBlocksData(): array
     {
-        $globalBlock = $this->factory->create(GlobalBlock::class);
-
-        $g = $globalBlock->g();
-        $f = $globalBlock->f();
+        $scopesBlock = $this->factory->create(ScopesBlock::class);
 
         $blocks = [
-            $g->getData(),
-            $f->getData()
+            $scopesBlock->g()->getData(),
+            $scopesBlock->f()->getData(),
+            $scopesBlock->fg()->getData()
         ];
 
         return $blocks;
