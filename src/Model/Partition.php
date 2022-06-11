@@ -41,8 +41,8 @@ final class Partition
 
         $blocks = [
             $scopesBlock->g()->getData(),
-            $scopesBlock->f()->getData(),
-            $scopesBlock->fg()->getData()
+            //$scopesBlock->f()->getData(),
+            //$scopesBlock->fg()->getData()
         ];
 
         return $blocks;

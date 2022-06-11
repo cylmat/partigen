@@ -49,7 +49,7 @@ class NotesBlock extends AbstractBlock
             if ($isNote) {
                 // Notes
                 $notes[] = [
-                    'high' => $this->getRandomizedNoteFromBaseline('C2', 'C6'),
+                    'highs' => $this->getRandomizedNoteFromBaseline('C2', 'C6'),
                     //$this->get(NoteBlock::class)
                     //->setNum($i)
                     //->setInterval($this->getInterval($randomInterval))
@@ -79,7 +79,7 @@ class NotesBlock extends AbstractBlock
      * @param string|int $customMaxDiff Can be a string (e.g. 'C5'), or a difference (e.g. 5)
      * @param string|int $customMinDiff Can be a string (e.g. 'C2'), or a difference (e.g. -5)
      */
-    private function getRandomizedNoteFromBaseline($customMinDiff, $customMaxDiff): int
+    private function getRandomizedNoteFromBaseline($customMinDiff, $customMaxDiff): array
     {
         if (\is_string($customMaxDiff)) {
             $customMaxDiff = $this->diffLabelWithBaseline($customMaxDiff);
@@ -93,7 +93,7 @@ class NotesBlock extends AbstractBlock
 
         $max = min($scopeMaxDiff, $customMaxDiff);
         $min = max($scopeMinDiff, $customMinDiff);
-return 0;
+
         return rand($min, $max);
     }
 

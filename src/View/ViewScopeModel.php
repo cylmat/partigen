@@ -31,10 +31,10 @@ class ViewScopeModel implements ViewModelInterface
     private function notes(array $notesData, string $scopeType): string
     {
         $notesHtml = '';
-        foreach ($notesData as $index => $noteData) {
+        foreach ($notesData as $index => $noteColumnData) {
             $notesHtml .= $this->viewNote->convert([
                 'index' => $index, // x
-                'high' => $noteData['high'], // y
+                'highs' => $noteColumnData['highs'], // y
                 'scope' => $scopeType, // min-max
             ]);
         }

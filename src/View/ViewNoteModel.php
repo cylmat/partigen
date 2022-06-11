@@ -11,56 +11,105 @@ class ViewNoteModel
     private const X_SPACE_PX = 30;
     private const INIT_LEFT_MARGIN_PX = 40;
 
-    private const Y_SPACE_PX = 16; // space betweeen lines
-    private const INIT_TOP_MARGIN_PX = 25 + (3 * self::Y_SPACE_PX); // init on bottom line
+    private const Y_SPACE_PX = 8; // space betweeen notes
+    private const INIT_TOP_MARGIN_PX = 25 + (6 * self::Y_SPACE_PX); // init on bottom line
 
     // <div> class name
-    private const BASECLASS = 'note';
-    private const LINECLASS = 'split';
-    private const OUTCLASS = 'notesplit';
+    private const NOTECLASS = 'note';
+    private const SPLITCLASS = 'split';
+    private const NOTESPLITCLASS = 'notesplit';
 
     public function convert(array $data): string
     {
         $index = $data['index'];
-        $high = $data['high'];
+        $highs = $data['highs'];
         $this->scope = $data['scope'];
 
-        $noteHtml = $this->createDiv($index, $high, self::BASECLASS);
+        $data = $this->generateClassData($highs);
 
-        $current = $high;
-        while (abs($current - $high) > 0) {
-            $noteHtml .= $this->createDiv($index, $high-2, self::OUTCLASS);
+        $noteHtml = '';
+        foreach ($data as $high => $class) {
+            // $noteHtml need to be after to display correctly
+            $noteHtml = $this->createClassHtml($index, $high, $class) . $noteHtml;
         }
 
         return $noteHtml;
     }
 
-    private function createDiv(int $index, int $high, string $class): string
+    private function generateClassData(array $highs): array
     {
-        $top = $this->setBaseline($this->scope);
-        $left = (self::INIT_LEFT_MARGIN_PX + self::X_SPACE_PX * $index);
-        $top += (self::INIT_TOP_MARGIN_PX - (int)(self::Y_SPACE_PX/2) * $high);
+        $base = $this->getBaseline();
+
+        $data = [];
+        foreach ($highs as $note) {
+            $data[$note] = 0 === $note % 2 ? self::NOTESPLITCLASS : self::NOTECLASS;
+
+            if (0 === $note) {
+                $data[$note] = self::NOTECLASS;
+                continue;
+            }
+            
+            // intermediate lines
+            $direction = $note > 0 ? 1 : -1;
+            $currentPos = $note - $direction;
+            while (abs($currentPos) > 0) {
+                // only display intermediates lines onto or under scope's lines
+                $currentLinePos = $currentPos - $base;
+                if ($currentLinePos < 0 || $currentLinePos > 8) {
+                    if (0 === $currentPos % 2) {
+                        $data[$currentPos] = self::SPLITCLASS;
+                    }
+                }
+                $currentPos -= $direction;
+            }
+        }
+
+        return $data;
+    }
+
+    private function createClassHtml(int $index, int $baseHigh, string $class): string
+    {
+        $top = self::INIT_TOP_MARGIN_PX + (self::Y_SPACE_PX * $this->getBaseline());
+        $top -= $baseHigh * self::Y_SPACE_PX;
+        $left = self::INIT_LEFT_MARGIN_PX + ($index * self::X_SPACE_PX);
 
         $style = '';
         $style .= "left: $left" . 'px; ';
         $style .= "top: $top"  . 'px; ';
 
-        $noteHtml = ' <div class="'.$class.'" style="'.$style.'"></div>'."\n";
-
-        return $noteHtml;
+        return ' <div class="'.$class.'" style="'.$style.'"></div>'."\n";
     }
 
-    private function setBaseline(string $scope): int
+    /*private function createIntermediateNoteLinesHtml(int $index, int $high): string
     {
-        switch ($scope) {
-            case ScopeBlock::G:
-                $top = -self::Y_SPACE_PX;
-                break;
-            case ScopeBlock::F:
-                $top = -3 * self::Y_SPACE_PX;
-                break;
+        $direction = $high > 0 ? 1 : -1;
+        $currentPosition = $high;
+        $noteHtml = '';
+
+        $currentPosition -= $direction; // avoid erasing note's own line
+        while (abs($currentPosition) > 0) {
+            // only display intermediates lines onto or under scope's lines
+            $currentLinePosition = $currentPosition - $this->getBaseline();
+            if ($currentLinePosition < 0 || $currentLinePosition > 8) {
+                if (0 === $currentLinePosition % 2) {
+                    $noteHtml .= $this->createClassHtml($index, $currentPosition, self::NOTESPLITCLASS);
+                }
+            }
+            $currentPosition -= $direction;
         }
 
-        return $top;
+        return $noteHtml;
+    }*/
+
+    private function getBaseline(): int
+    {
+        switch ($this->scope) {
+            case ScopeBlock::G:
+                return -2;
+            case ScopeBlock::F:
+                return -6;
+        }
+
+        throw new \Exception;
     }
 }
