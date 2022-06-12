@@ -2,13 +2,14 @@
 
 namespace Partigen\DataValue;
 
-class ScopeF implements ScopeInterface
+class ScopeF extends AbstractScope
 {
-    public const MAX_NOTE = 'E3'; // upper displayable note
-    public const UPPER_CROSS = 'C3'; // max note when other scope is upper it
+    protected const NAME = 'F';
 
-    public const BASELINE = 'F2'; //17
-    public const BOTTOM_LINE = 'G1'; // used to calculate bottomline - baseline
+    protected const MAX_NOTE = 'E3';
+    protected const MAX_CROSS = 'C3';
 
-    public const MIN_NOTE = 'C1'; // lower displayable note
+    protected const SCOPE_LINE = 'F2';
+    protected const BASELINE = 'G1';
+    protected const MIN_NOTE = 'C1';
 }

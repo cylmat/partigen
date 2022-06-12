@@ -6,6 +6,8 @@ namespace Partigen\View;
 
 class ViewPartitionModel implements ViewModelInterface
 {
+    private const SCOPE_TEMPLATE = "\n<div class=\"block\">\n%s</div>\n";
+
     private ViewScopeModel $viewScope;
 
     public function __construct(ViewScopeModel $viewScope)
@@ -26,20 +28,11 @@ class ViewPartitionModel implements ViewModelInterface
     public function convert(array $data): string
     {
         $html = '';
-        foreach ($data as $scopesData) {
-            $html .= $this->scopes($scopesData);
+        foreach ($data as $scopeData) {
+            $scope = $this->viewScope->convert($scopeData);
+            $html .= sprintf(self::SCOPE_TEMPLATE, $scope);
         }
 
         return $html;
-    }
-
-    private function scopes(array $scopesData): string
-    {
-        $scopesHtml = ''; 
-        foreach ($scopesData as $scopeData) {
-            $scopesHtml .= $this->viewScope->convert($scopeData);
-        }        
-
-        return "\n" . '<div class="block">' . "\n" . $scopesHtml . "</div>\n";
     }
 }

@@ -4,31 +4,25 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-/**
- * @todo create ScopeDataValue 
- */
+use Partigen\DataValue\ScopeDataInterface;
+
 class ScopeBlock extends AbstractBlock
 {
-    public const F = 'F';
-    public const G = 'G';
-    public const FG = 'FG';
-
-    private string $name;
+    private ScopeDataInterface $scopeData;
 
     /* Paired with other scope */
     private bool $isPaired = false;
 
-    public function setType(string $name): self
+    public function setScopeData(ScopeDataInterface $scopeData): self
     {
-        $this->name = strtoupper($name);
-        //$this->setClass(strtolower($name));
+        $this->scopeData = $scopeData;
 
         return $this;
     }
 
     public function getType(): string
     {
-        return $this->name;
+        return $this->scopeData->getName();
     }
 
     public function setPaired(): self
@@ -46,9 +40,9 @@ class ScopeBlock extends AbstractBlock
     public function getData(): array
     {
         return [
-            'type' => $this->name,
+            'name' => $this->scopeData->getName(),
             'paired' => $this->isPaired(),
-            'notes' => $this->get(NotesBlock::class)->setScope($this)->getData()
+            'notes' => $this->get(NotesBlock::class)->setScopeData($this->scopeData)->getData()
         ];
     }
 }

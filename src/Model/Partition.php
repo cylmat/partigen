@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Partigen\Model;
 
+use Partigen\Model\Block\PartitionBlock;
 use Partigen\Model\BlockFactoryInterface;
-use Partigen\Model\Block\ScopesBlock;
 use Partigen\View\ViewPartitionModel;
 
 final class Partition
 { 
     private const RESOURCES_PATH = __DIR__.'/../../resources';
 
-    private BlockFactoryInterface $factory;
     private ViewPartitionModel $view;
 
     public function __construct(BlockFactoryInterface $factory, ViewPartitionModel $view)
@@ -27,24 +26,13 @@ final class Partition
             file_get_contents(self::RESOURCES_PATH . '/partition.css')
         );
 
-        $data = $this->getBlocksData();
+        $scopeType = 'G';
+
+        $data = $this->factory->create(PartitionBlock::class)->setScopeType($scopeType)->getData();
         $pageHtml = $this->view->page(
             $this->view->convert($data)
         );
 
         return $styleHtml . $pageHtml;
-    }
-
-    private function getBlocksData(): array
-    {
-        $scopesBlock = $this->factory->create(ScopesBlock::class);
-
-        $blocks = [
-            $scopesBlock->g()->getData(),
-            //$scopesBlock->f()->getData(),
-            //$scopesBlock->fg()->getData()
-        ];
-
-        return $blocks;
     }
 }

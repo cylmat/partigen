@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace Partigen\View;
 
-use Partigen\Model\Block\ScopeBlock;
-
 class ViewNoteModel
 {
     private const X_SPACE_PX = 30;
     private const INIT_LEFT_MARGIN_PX = 40;
 
     private const Y_SPACE_PX = 8; // space betweeen notes
-    private const INIT_TOP_MARGIN_PX = 25 + (6 * self::Y_SPACE_PX); // init on bottom line
+    private const INIT_TOP_MARGIN_PX = -self::Y_SPACE_PX; // init on bottom line
 
     // <div> class name
     private const NOTECLASS = 'note';
     private const SPLITCLASS = 'split';
     private const NOTESPLITCLASS = 'notesplit';
 
+    private const NOTE_TEMPLATE = " <div class=\"%s\" style=\"%s\"></div>\n";
+
     public function convert(array $data): string
     {
         $index = $data['index'];
         $highs = $data['highs'];
-        $this->scope = $data['scope'];
 
         $data = $this->generateClassData($highs);
 
@@ -38,11 +37,18 @@ class ViewNoteModel
 
     private function generateClassData(array $highs): array
     {
-        $base = $this->getBaseline();
-
         $data = [];
         foreach ($highs as $note) {
-            $data[$note] = 0 === $note % 2 ? self::NOTESPLITCLASS : self::NOTECLASS;
+            $direction = $note > 0 ? 1 : -1;
+            $currentPos = $note - $direction;
+
+            // note outside lines
+            if ($currentPos < 0 || $currentPos > 8) {
+                $data[$note] = 0 === $note % 2 ? self::NOTESPLITCLASS : self::NOTECLASS;
+            } else {
+                // inside 5 lines
+                $data[$note] = self::NOTECLASS;
+            }
 
             if (0 === $note) {
                 $data[$note] = self::NOTECLASS;
@@ -50,12 +56,9 @@ class ViewNoteModel
             }
             
             // intermediate lines
-            $direction = $note > 0 ? 1 : -1;
-            $currentPos = $note - $direction;
             while (abs($currentPos) > 0) {
                 // only display intermediates lines onto or under scope's lines
-                $currentLinePos = $currentPos - $base;
-                if ($currentLinePos < 0 || $currentLinePos > 8) {
+                if ($currentPos < 0 || $currentPos > 8) {
                     if (0 === $currentPos % 2) {
                         $data[$currentPos] = self::SPLITCLASS;
                     }
@@ -69,7 +72,7 @@ class ViewNoteModel
 
     private function createClassHtml(int $index, int $baseHigh, string $class): string
     {
-        $top = self::INIT_TOP_MARGIN_PX + (self::Y_SPACE_PX * $this->getBaseline());
+        $top = self::INIT_TOP_MARGIN_PX + (self::Y_SPACE_PX * 10);
         $top -= $baseHigh * self::Y_SPACE_PX;
         $left = self::INIT_LEFT_MARGIN_PX + ($index * self::X_SPACE_PX);
 
@@ -77,39 +80,6 @@ class ViewNoteModel
         $style .= "left: $left" . 'px; ';
         $style .= "top: $top"  . 'px; ';
 
-        return ' <div class="'.$class.'" style="'.$style.'"></div>'."\n";
-    }
-
-    /*private function createIntermediateNoteLinesHtml(int $index, int $high): string
-    {
-        $direction = $high > 0 ? 1 : -1;
-        $currentPosition = $high;
-        $noteHtml = '';
-
-        $currentPosition -= $direction; // avoid erasing note's own line
-        while (abs($currentPosition) > 0) {
-            // only display intermediates lines onto or under scope's lines
-            $currentLinePosition = $currentPosition - $this->getBaseline();
-            if ($currentLinePosition < 0 || $currentLinePosition > 8) {
-                if (0 === $currentLinePosition % 2) {
-                    $noteHtml .= $this->createClassHtml($index, $currentPosition, self::NOTESPLITCLASS);
-                }
-            }
-            $currentPosition -= $direction;
-        }
-
-        return $noteHtml;
-    }*/
-
-    private function getBaseline(): int
-    {
-        switch ($this->scope) {
-            case ScopeBlock::G:
-                return -2;
-            case ScopeBlock::F:
-                return -6;
-        }
-
-        throw new \Exception;
+        return sprintf(self::NOTE_TEMPLATE, $class, $style);
     }
 }
