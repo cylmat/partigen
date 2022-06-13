@@ -26,7 +26,7 @@ class NotesBlock extends AbstractBlock
         return $this;
     }
 
-    public function getData(): array
+    public function getData(array $context = []): array
     {
         $notes = [];
 
@@ -87,19 +87,6 @@ class NotesBlock extends AbstractBlock
      */
     private function getScopeBoundDiff(): array
     {
-        /*switch ($this->scope->getName()) {
-            case ScopeBlock::G:
-                $maxLabel = self::G_MAX_NOTE;
-                $minLabel = $this->scope->isPaired() ? self::FG_CROSS_G : self::G_MIN_NOTE;
-                break;
-            case ScopeBlock::F:
-                $maxLabel = $this->scope->isPaired() ? self::FG_CROSS_F : self::F_MAX_NOTE;
-                $minLabel = self::F_MIN_NOTE;
-                break;
-            default:
-                throw new \RuntimeException("Scope type '".$this->scope->getType() . "' not allowed");
-        }*/
-
         $maxLabel = $this->scopeData->getMaxNote();
         $minLabel = $this->scopeData->getMinNote();
 

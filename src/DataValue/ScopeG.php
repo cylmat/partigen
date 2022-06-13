@@ -4,7 +4,7 @@ namespace Partigen\DataValue;
 
 class ScopeG extends AbstractScope
 {
-    protected const NAME = 'G';
+    public const NAME = 'G';
 
     protected const MAX_NOTE = 'C5';
 

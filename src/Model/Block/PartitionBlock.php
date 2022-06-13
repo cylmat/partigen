@@ -26,13 +26,13 @@ class PartitionBlock extends AbstractBlock
         return $this;
     }
 
-    public function getData(): array
+    public function getData(array $context = []): array
     {
         $partitionData = [];
         for ($s=0; $s<self::SCOPES_NUMBER_IN_PAGE; $s++) {
             $partitionData[] = $this->get(ScopeBlock::class)
                 ->setScopeData($this->dataValueFactory->create($this->scopeType))
-                ->getData();
+                ->getData($context);
         }
 
         return $partitionData;

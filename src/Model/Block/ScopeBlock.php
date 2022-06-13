@@ -37,12 +37,12 @@ class ScopeBlock extends AbstractBlock
         return $this->isPaired;
     }
 
-    public function getData(): array
+    public function getData(array $context = []): array
     {
         return [
             'name' => $this->scopeData->getName(),
             'paired' => $this->isPaired(),
-            'notes' => $this->get(NotesBlock::class)->setScopeData($this->scopeData)->getData()
+            'notes' => $this->get(NotesBlock::class)->setScopeData($this->scopeData)->getData($context)
         ];
     }
 }

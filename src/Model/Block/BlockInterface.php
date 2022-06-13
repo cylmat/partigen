@@ -6,5 +6,5 @@ namespace Partigen\Model\Block;
 
 interface BlockInterface
 {
-    public function getData(): array;
+    public function getData(array $context = []): array;
 }

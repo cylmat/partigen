@@ -2,3 +2,4 @@
 /build/
 /var/
 /vendor/
+/.env

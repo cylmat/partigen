@@ -10,12 +10,11 @@ use Partigen\Bridge\Html2Pdf;
 use Partigen\Bridge\Pdf2Image;
 use Partigen\Model\BlockFactory;
 use Partigen\Model\BlockFactoryInterface;
+use Partigen\Model\Params;
 
 final class ImageCreator
 {
-    public const FORMAT = 'format';
-    public const FORMAT_A4 = 'A4';
-
+    private Params $params;
     private Partition $partition;
     private Html2Pdf $html2pdf;
     private Pdf2Image $pdf2image;
@@ -31,8 +30,13 @@ final class ImageCreator
         return $container->build()->get(self::class)->create($creationParams);
     }
 
-    public function __construct(Partition $partition, Html2Pdf $html2pdf, Pdf2Image $pdf2image)
-    {
+    public function __construct(
+        Params $params,
+        Partition $partition,
+        Html2Pdf $html2pdf,
+        Pdf2Image $pdf2image
+    ) {
+        $this->params = $params;
         $this->partition = $partition;
         $this->html2pdf = $html2pdf;
         $this->pdf2image = $pdf2image;
@@ -40,23 +44,16 @@ final class ImageCreator
 
     public function create(array $creationParams = []): self
     {
-        self::validateParams($creationParams);
+        $this->params->validates($creationParams);
 
         try {
             $html = $this->partition->getHtml($creationParams);
-            $pdf = $this->html2pdf->generate($html);
+            $pdf = $this->html2pdf->setFormat($creationParams['format'])->generate($html);
             $this->path = $this->pdf2image->convert($pdf);
 
             return $this;
         } catch (\Exception $exception) {
             throw new \Exception("Image not generated: " . $exception->getMessage());
-        }
-    }
-
-    private static function validateParams(array $creationParams): void
-    {
-        if (!array_key_exists(self::FORMAT, $creationParams)) {
-            throw new \DomainException('No parameters set to create image');
         }
     }
 
