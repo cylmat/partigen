@@ -12,9 +12,10 @@ final class Html2Pdf
     private const DEBUG_OUTPUT_HTML = false;
     private const RESOURCES_PATH = __DIR__.'/../../resources';
     
-    public const FORMATS = ['A4', 'A5'];
+    public const FORMAT_A4 = 'A4';
+    public const FORMAT_A5 = 'A5';
 
-    public function setFormat(string $format = 'A4'): self
+    public function setFormat(string $format = self::FORMAT_A4): self
     {
         $this->format = $format;
         return $this;

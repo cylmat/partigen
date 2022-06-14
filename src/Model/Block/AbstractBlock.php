@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Partigen\Model\Block;
 
 use Partigen\Model\BlockFactory;
+use Partigen\Model\Params;
 
 abstract class AbstractBlock implements BlockInterface
 {
@@ -20,5 +21,5 @@ abstract class AbstractBlock implements BlockInterface
         return $this->factory->create($objectType);
     }
 
-    abstract public function getData(array $context = []): array;
+    abstract public function getData(Params $context): array;
 }

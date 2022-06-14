@@ -4,14 +4,12 @@ namespace Partigen\DataValue;
 
 abstract class AbstractScope implements ScopeDataInterface
 {
+    // max and min notes around scope bottom and top lines
+    public const MAX_OUTSIDE_VARIATION = 4;
+
     public function getName(): string
     {
         return static::NAME;
-    }
-
-    public function getMaxNote(): string
-    {
-        return static::MAX_NOTE;
     }
 
     public function getScopeLine(): string
@@ -22,10 +20,5 @@ abstract class AbstractScope implements ScopeDataInterface
     public function getBaseline(): string
     {
         return static::BASELINE;
-    }
-
-    public function getMinNote(): string
-    {
-        return static::MIN_NOTE;
     }
 }

@@ -9,7 +9,7 @@ class ViewScopeModel implements ViewModelInterface
     private const LINE_NUMBERS = 5;
 
     private const LINE_TEMPLATE = '<div class="line"></div>'."\n";
-    private const SCOPE_TEMPLATE = "<div class=\"scope %s-scope %s\">\n"; 
+    private const SCOPE_TEMPLATE = "<div class=\"scope %s-scope\">\n"; 
     private const NOTES_TEMPLATE = "<div class=\"notes\">\n%s</div>\n";
 
     private ViewNoteModel $viewNote;
@@ -26,8 +26,7 @@ class ViewScopeModel implements ViewModelInterface
             $lines5 .= self::LINE_TEMPLATE;
         }
 
-        $paired = $data['paired'] ? 'paired ' : '';
-        $scopeHtml = sprintf(self::SCOPE_TEMPLATE, strtolower($data['name']), $paired);
+        $scopeHtml = sprintf(self::SCOPE_TEMPLATE, strtolower($data['name']));
         $scopeHtml .= $this->notes($data['notes']);
         $scopeHtml .= $lines5 . '</div>'."\n";
 

@@ -20,15 +20,13 @@ final class Partition
         $this->view = $view;
     }
 
-    public function getHtml(array $creationParams): string
+    public function getHtml(Params $context): string
     {
         $styleHtml = $this->view->style(
             file_get_contents(self::RESOURCES_PATH . '/partition.css')
         );
 
-        $scopeType = 'G';
-
-        $data = $this->factory->create(PartitionBlock::class)->setScopeType($scopeType)->getData();
+        $data = $this->factory->create(PartitionBlock::class)->getData($context);
         $pageHtml = $this->view->page(
             $this->view->convert($data)
         );

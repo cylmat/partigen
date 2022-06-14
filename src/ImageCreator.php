@@ -47,8 +47,8 @@ final class ImageCreator
         $this->params->validates($creationParams);
 
         try {
-            $html = $this->partition->getHtml($creationParams);
-            $pdf = $this->html2pdf->setFormat($creationParams['format'])->generate($html);
+            $html = $this->partition->getHtml($this->params);
+            $pdf = $this->html2pdf->setFormat($this->params->getFormat())->generate($html);
             $this->path = $this->pdf2image->convert($pdf);
 
             return $this;
@@ -57,10 +57,10 @@ final class ImageCreator
         }
     }
 
-    public function display($ext = 'png'): void
+    public function display(): void
     {
         if (file_exists($this->path)) {
-            header('Content-Type: image/' . $ext);
+            header('Content-Type: image/' . $this->params->getImageExt());
             readfile($this->path);
             $this->remove();
         } else {

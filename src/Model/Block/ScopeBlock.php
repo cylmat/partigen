@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Partigen\Model\Block;
 
 use Partigen\DataValue\ScopeDataInterface;
+use Partigen\Model\Params;
 
 class ScopeBlock extends AbstractBlock
 {
     private ScopeDataInterface $scopeData;
-
-    /* Paired with other scope */
-    private bool $isPaired = false;
 
     public function setScopeData(ScopeDataInterface $scopeData): self
     {
@@ -25,23 +23,10 @@ class ScopeBlock extends AbstractBlock
         return $this->scopeData->getName();
     }
 
-    public function setPaired(): self
-    {
-        $this->isPaired = true;
-
-        return $this;
-    }
-
-    public function isPaired(): bool
-    {
-        return $this->isPaired;
-    }
-
-    public function getData(array $context = []): array
+    public function getData(Params $context): array
     {
         return [
             'name' => $this->scopeData->getName(),
-            'paired' => $this->isPaired(),
             'notes' => $this->get(NotesBlock::class)->setScopeData($this->scopeData)->getData($context)
         ];
     }

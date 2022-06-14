@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Partigen\Model;
 
+/**
+ * Baseline is the bottom line of scope
+ */
 final class BaselineService
 { 
     private static $labelTable = [];
@@ -24,7 +27,7 @@ final class BaselineService
     private static function initOnceLabelTable(): void
     {
         $count = 0;
-        for ($h=0; $h<=7; $h++) {
+        for ($h=0; $h<=8; $h++) {
             foreach (['C', 'D', 'E', 'F', 'G', 'A', 'B'] as $a) {
                 self::$labelTable[$a.$h] = $count++;
             }
