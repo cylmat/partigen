@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Partigen;
 
-var_dump('deploy');die();
-
 use DI\ContainerBuilder;
 use Partigen\Model\Partition;
 use Partigen\Bridge\Html2Pdf;
