@@ -7,6 +7,7 @@ namespace Partigen\Model;
 use Partigen\Bridge\Html2Pdf;
 use Partigen\DataValue\ScopeF;
 use Partigen\DataValue\ScopeG;
+use Partigen\Exceptions\ParamException;
 
 final class Params
 { 
@@ -37,6 +38,16 @@ final class Params
     ];
 
     private array $customerParams = [];
+    
+    public function getAllowedParams(): array
+    {
+        return $this->allowedParams;
+    }
+    
+    public function getDefaultValues(): array
+    {
+        return $this->defaults;
+    }
 
     /**
      * @throws \Throwable
@@ -45,13 +56,13 @@ final class Params
     {
         foreach ($customerParams as $key => $param) {
             if (!\in_array($key, $allowedKeys = \array_keys($this->allowedParams))) {
-                throw new \OutOfBoundsException(\sprintf('Key "%s" not allowed in values ["%s"]', $key, join('", "', $allowedKeys)));
+                throw new ParamException(\sprintf('Key "%s" not allowed in values ["%s"]', $key, join('", "', $allowedKeys)));
             }
 
             switch (\gettype($allowedValues = $this->allowedParams[$key])):
                 case 'array':
                     if (!\in_array($param, $this->allowedParams[$key])) {
-                        throw new \OutOfBoundsException(\sprintf('"%s" value "%s" not allowed in values ["%s"]', 
+                        throw new ParamException(\sprintf('"%s" value "%s" not allowed in values ["%s"]', 
                             ucfirst($key), 
                             $param, 
                             join('", "', $allowedValues)
@@ -60,7 +71,7 @@ final class Params
                     break;
                 case 'string':
                     if (!\preg_match($allowedValues, $customerParams[$key])) {
-                        throw new \RuntimeException(\sprintf('"%s" value doesn`t match "%s"', 
+                        throw new ParamException(\sprintf('"%s" value doesn`t match "%s"', 
                             $customerParams[$key],
                             $allowedValues
                         ));
