@@ -8,10 +8,7 @@ use Partigen\Model\Block\Abstracts\AbstractBlock;
 
 class Block extends AbstractBlock
 {
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
     public function __construct()
     {
