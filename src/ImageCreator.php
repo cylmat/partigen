@@ -13,20 +13,9 @@ class ImageCreator
     public const FORMAT = 'format';
     public const FORMAT_A4 = 'A4';
 
-    /**
-     * @var Html2Pdf
-     */
-    private $html2pdf;
-
-    /**
-     * @var Pdf2Image
-     */
-    private $pdf2image;
-
-    /**
-     * @var Partition
-     */
-    private $partition;
+    private Html2Pdf $html2pdf;
+    private Pdf2Image $pdf2image;
+    private Partition $partition;
 
     public function __construct(Html2Pdf $html2pdf, Pdf2Image $pdf2image, Partition $partition)
     {
