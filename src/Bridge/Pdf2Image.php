@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Partigen\Bridge;
 
+use Spatie\PdfToImage\Pdf;
+
 class Pdf2Image
 {
     public function convert(string $pdf): string
     {
-        $pdfConverter = new MemoryPdf($pdf);
+        $pdfConverter = new Pdf($pdf);
         $imgPath = tempnam('/tmp', '') . '.png';
 
         try {
