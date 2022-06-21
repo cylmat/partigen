@@ -63,7 +63,7 @@ final class Params
                 case 'array':
                     if (!\in_array($param, $this->allowedParams[$key])) {
                         throw new ParamException(\sprintf('"%s" value "%s" not allowed in values ["%s"]', 
-                            ucfirst($key), 
+                            $key, 
                             $param, 
                             join('", "', $allowedValues)
                         ));
