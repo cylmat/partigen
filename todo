@@ -1,4 +1,5 @@
 - can get parameters list: to display
 - read last_generated_date file: to avoid ddos
 - license
-- remove "orig" resoources
+- remove "orig" ressources
+- better align notes on lines
