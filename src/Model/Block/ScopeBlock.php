@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
+use Partigen\Config\Params;
 use Partigen\DataValue\ScopeDataInterface;
-use Partigen\Model\Params;
 
 class ScopeBlock extends AbstractBlock
 {
