@@ -19,7 +19,7 @@ final class Params
         'image_ext' => [
             'png'
         ],
-        'scope' => [
+        'scopes' => [
             ScopeG::NAME,
             ScopeF::NAME,
         ],
@@ -30,7 +30,7 @@ final class Params
 
     private array $defaults = [
         'format' => 'A4',
-        'scope' => ScopeG::NAME,
+        'scopes' => ScopeG::NAME,
         'image_ext' => 'png',
         'higher_note' => null,
         'lower_note' => null,
@@ -99,9 +99,10 @@ final class Params
         return $this->customerParams['image_ext'];
     }
 
-    public function getScope(): string
+    public function getScopes(): array
     {
-        return $this->customerParams['scope'];
+        $scopes = $this->customerParams['scopes']; // todo: explode from x,x,x,x
+        return [$scopes];
     }
 
     /** @return string|int|null */
