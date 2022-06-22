@@ -4,6 +4,11 @@ namespace Partigen\Service;
 
 class Randomizer
 {
+    public function getScope(array $scopeChoices): string
+    {
+        return \array_rand(\array_flip($scopeChoices));
+    }
+    
     /**
      * For $chordFrequency = 0, return always true
      * For $chordFrequency = 50, return 50% true or false
