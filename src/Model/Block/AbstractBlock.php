@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
+use Partigen\Config\Params;
 use Partigen\Model\BlockFactory;
-use Partigen\Model\Params;
 
 abstract class AbstractBlock implements BlockInterface
 {
