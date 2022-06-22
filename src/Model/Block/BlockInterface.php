@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-use Partigen\Model\Params;
+use Partigen\Config\Params;
 
 interface BlockInterface
 {
