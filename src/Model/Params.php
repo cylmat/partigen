@@ -19,10 +19,7 @@ final class Params
         'image_ext' => [
             'png'
         ],
-        'scopes' => [
-            ScopeG::NAME,
-            ScopeF::NAME,
-        ],
+        'scopes' => '/^[GF](,[GF])*$/',
         'higher_note' => '/^[ABCDEFG]\d|-?\d?\d$/',
         'lower_note' => '/^[ABCDEFG]\d|-?\d?\d$/',
         'chord_freq' => '/^\d?\d?\d$/',
@@ -101,8 +98,7 @@ final class Params
 
     public function getScopes(): array
     {
-        $scopes = $this->customerParams['scopes']; // todo: explode from x,x,x,x
-        return [$scopes];
+        return \explode(',', $this->customerParams['scopes']);
     }
 
     /** @return string|int|null */
