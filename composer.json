@@ -3,6 +3,9 @@
     "description": "Piano partition image generator and application",
     "license": "OSL-3.0",
     "type": "project",
+    "config": {
+        "bin-dir": "bin"
+    },
     "require": {
         "php-di/php-di": "^6.4",
         "spatie/pdf-to-image": "^2.2",

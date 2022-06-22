@@ -6,37 +6,29 @@ namespace Partigen\Bridge;
 
 use Spipu\Html2Pdf\Html2Pdf as Spipu_Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
-use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
-class Html2Pdf
+final class Html2Pdf
 {
-    /**
-     * @var string
-     */
-    private $format = 'A4';
-
     private const DEBUG_OUTPUT_HTML = false;
+    private const RESOURCES_PATH = __DIR__.'/../../resources';
+    
+    public const FORMAT_A4 = 'A4';
+    public const FORMAT_A5 = 'A5';
 
-    public function setFormat(string $format): self
+    public function setFormat(string $format = self::FORMAT_A4): self
     {
         $this->format = $format;
-
         return $this;
-    }
-
-    public function getFormat(): string
-    {
-        return $this->format;
     }
 
     public function generate(string $content): string
     {
         try {
-            $html2pdf = new Spipu_Html2Pdf('P', $this->getFormat(), 'fr');
+            $html2pdf = new Spipu_Html2Pdf('P', $this->format, 'fr');
             $html2pdf->setDefaultFont('Arial');
 
             $currentdir = getcwd();
-            chdir(__DIR__.'/../Resources');
+            chdir(self::RESOURCES_PATH);
             $html2pdf->writeHTML($content);
             chdir($currentdir);
 
@@ -59,7 +51,6 @@ class Html2Pdf
 
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
-
             throw new Html2PdfException($e->getMessage());
         }
     }

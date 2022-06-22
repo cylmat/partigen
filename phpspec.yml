@@ -1,48 +1,25 @@
 ###########
 # PHPSPEC #
+# @see http://www.phpspec.net/en/stable/cookbook/configuration.html
 ###########
 
-# WEBSITE
-# www.phpspec.net
-
-# DOC
-# http://www.phpspec.net/en/stable/cookbook/configuration.html
 suites:
     app_suite:
         namespace: Partigen
         psr4_prefix: Partigen
-        spec_prefix: spec
-        #> will be ./spec
-        spec_path: .
         src_path: '%paths.config%/src'
 
-        #> Can be pretty, html/h, dot, default: progress
+        #> will be ./spec
+        spec_prefix: spec
+        spec_path: .
+
         formatter.name: pretty
         code_generation: false
         stop_on_failure: false
         verbose: true
 
-        # composer_suite_detection: true 
-          # translates to:
-          # - root_directory: '.'
-          # - spec_prefix: spec
-
-# Must implements PhpSpec\Matcher\Matcher interface
-# matchers:
-#     - Acme\Matchers\ValidJsonMatcher
-#     - Acme\Matchers\PositiveIntegerMatcher
-
 # Bootstrap php file
-bootstrap: src/bootstrap.php
+bootstrap: vendor/autoload.php
 
-extensions:
-  # https://github.com/friends-of-phpspec/phpspec-code-coverage
-#   FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension:
-#     format:
-#       - text
-#       - html
-#     output:
-#       text: var/spec-coverage.txt
-#       html: var/spec-coverage
-#     whitelist:
-#       - src
+matchers:
+    - Partigen\Spec\BeExactlyMatcher

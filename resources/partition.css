@@ -11,22 +11,22 @@ table {
 }
 
 /*
- Block
-*/
+ * Block
+ */
 .block {
     position: relative;
     width: 100%;
-    margin-top: 70px;
-}
-
-.block-first {
     margin-top: 50px;
 }
 
+.block .paired {
+    top: -15px;
+}
+
 /*
- Scope
-*/
-.block .g-scope, .block .f-scope {
+ * Scope
+ */
+.block .scope {
     position: relative;
     height: 100px;
     background-repeat: no-repeat;
@@ -34,22 +34,22 @@ table {
 
 .block .g-scope {
     background-image: url(img/sol.png);
-    background-position: 0 -3px;
+    background-position: 0 12px;
 }
 
 .block .f-scope {
     background-image: url(img/fa.png);
-    background-position: 0 5px;
+    background-position: 0 20px;
 }
 
-.block .g-scope .line, .block .f-scope .line {
+.block .scope .line {
     height: 2px;
     border-bottom: solid 1px black;
 }
 
 /*
- Note
-*/
+ * Note
+ */
 .note, .notesplit, .split, .not {
     position: absolute;
     height: 13px;

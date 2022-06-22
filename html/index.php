@@ -2,17 +2,15 @@
 
 namespace tests\Partigen;
 
-use Partigen\Container;
 use Partigen\ImageCreator;
 
-require __DIR__.'/../src/bootstrap.php';
+\array_map(fn(string $keyValue) => putenv($keyValue), explode("\n", 
+    \file_exists($file = __DIR__.'/../.env') ? file_get_contents($file) : []
+));
 
-$path = Container::getInstance()->get(ImageCreator::class)->create(['format' => 'A4']);
+ini_set('display_errors', getenv('DISPLAY_ERRORS') ?: 'off');
+error_reporting(getenv('ERROR_REPORTING') ?: 0);
 
-if (file_exists($path)) {
-    header('Content-Type: image/png');
-    readfile($path);
-    unlink($path);
-} else {
-    throw new \Exception("Image not generated!");
-}
+require __DIR__.'/../vendor/autoload.php';
+
+ImageCreator::generate($_GET)->display();
