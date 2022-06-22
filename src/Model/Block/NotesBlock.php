@@ -6,8 +6,8 @@ namespace Partigen\Model\Block;
 
 use Partigen\DataValue\AbstractScope;
 use Partigen\DataValue\ScopeDataInterface;
-use Partigen\Model\BaselineService;
 use Partigen\Model\Params;
+use Partigen\Service\Baseline;
 use Partigen\Service\Randomizer;
 
 class NotesBlock extends AbstractBlock
@@ -15,10 +15,10 @@ class NotesBlock extends AbstractBlock
     private const NUMBERS_ON_A_LINE = 24;
 
     private ScopeDataInterface $scopeData;
-    private BaselineService $baselineService;
+    private Baseline $baselineService;
     private Randomizer $randomizer;
 
-    public function __construct(BaselineService $baselineService, Randomizer $randomizer)
+    public function __construct(Baseline $baselineService, Randomizer $randomizer)
     {
         $this->baselineService = $baselineService;
         $this->randomizer = $randomizer;
