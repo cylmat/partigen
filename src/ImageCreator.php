@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Partigen;
 
 use DI\ContainerBuilder;
-use Partigen\Model\Partition;
 use Partigen\Bridge\Html2Pdf;
 use Partigen\Bridge\Pdf2Image;
+use Partigen\Config\Params;
 use Partigen\Model\BlockFactory;
 use Partigen\Model\BlockFactoryInterface;
-use Partigen\Model\Params;
+use Partigen\Model\Partition;
 
 final class ImageCreator
 {
