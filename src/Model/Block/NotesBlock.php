@@ -8,6 +8,7 @@ use Partigen\DataValue\AbstractScope;
 use Partigen\DataValue\ScopeDataInterface;
 use Partigen\Model\BaselineService;
 use Partigen\Model\Params;
+use Partigen\Service\Randomizer;
 
 class NotesBlock extends AbstractBlock
 {
@@ -15,10 +16,12 @@ class NotesBlock extends AbstractBlock
 
     private ScopeDataInterface $scopeData;
     private BaselineService $baselineService;
+    private Randomizer $randomizer;
 
-    public function __construct(BaselineService $baselineService)
+    public function __construct(BaselineService $baselineService, Randomizer $randomizer)
     {
         $this->baselineService = $baselineService;
+        $this->randomizer = $randomizer;
     }
 
     public function setScopeData(ScopeDataInterface $scopeData): self
@@ -35,7 +38,7 @@ class NotesBlock extends AbstractBlock
         $lowerNote = $context->getLowerNote() ?? 'C0';
 
         for ($i = 0; $i < self::NUMBERS_ON_A_LINE; $i++) {
-            $isNote = rand(0, 99) >= $context->getChordFreq();
+            $isNote = $this->randomizer->isNoteOrChord($context->getChordFreq());
 
             if ($isNote) {
                 // Notes
@@ -86,7 +89,7 @@ class NotesBlock extends AbstractBlock
         $max = min($scopeMaxDiff, $customMaxDiff);
         $min = max($scopeMinDiff, $customMinDiff);
 
-        return rand($min, $max);
+        return $this->randomizer->getNoteHigh($min, $max);
     }
 
     /**
