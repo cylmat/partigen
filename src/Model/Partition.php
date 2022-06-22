@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\Model;
 
+use Partigen\Config\Params;
 use Partigen\Model\Block\PartitionBlock;
 use Partigen\Model\BlockFactoryInterface;
 use Partigen\View\ViewPartitionModel;
