@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Model;
+namespace Partigen\Service;
 
 /**
  * Baseline is the bottom line of scope
  */
-final class BaselineService
+final class Baseline
 { 
     private static $labelTable = [];
 
