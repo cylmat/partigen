@@ -23,8 +23,9 @@ class PartitionBlock extends AbstractBlock
     public function getData(Params $context): array
     {
         $partitionData = [];
-        $selectedScope = \array_rand(\array_flip($context->getScopes()));
+        $contextScopes = \array_flip($context->getScopes());
         for ($s=0; $s<self::SCOPES_NUMBER_IN_PAGE; $s++) {
+            $selectedScope = \array_rand($contextScopes);
             $partitionData[] = $this->get(ScopeBlock::class)
                 ->setScopeData($this->dataValueFactory->create($selectedScope))
                 ->getData($context);
