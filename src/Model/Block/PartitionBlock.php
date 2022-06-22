@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
+use Partigen\Config\Params;
 use Partigen\DataValue\ScopeDataValueFactory;
 use Partigen\Model\BlockFactory;
-use Partigen\Model\Params;
 use Partigen\Service\Randomizer;
 
 class PartitionBlock extends AbstractBlock
