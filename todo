@@ -2,3 +2,4 @@
 - read last_generated_date file: to avoid ddos
 - license
 - put Params in a Config directory
+- remove "orig" resoources
