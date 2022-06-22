@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+/**
+* class @todo
+*/
+
 namespace Partigen\Model\Block;
 
 class ChordBlock extends NoteBlock
