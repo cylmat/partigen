@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
+use Partigen\Config\Params;
 use Partigen\DataValue\AbstractScope;
 use Partigen\DataValue\ScopeDataInterface;
-use Partigen\Model\Params;
 use Partigen\Service\Baseline;
 use Partigen\Service\Randomizer;
 
