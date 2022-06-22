@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Model;
+namespace Partigen\Config;
 
 use Partigen\Bridge\Html2Pdf;
 use Partigen\DataValue\ScopeF;
