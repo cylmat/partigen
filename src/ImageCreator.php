@@ -68,7 +68,7 @@ final class ImageCreator
 
     public function download(): void
     {
-        $format = "Partigen-" . (new \DateTime())->format('Ymd');
+        $format = "Partigen-" . (new \DateTime())->format('Ymd') . '.' . $this->params->getImageExt();
 
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
