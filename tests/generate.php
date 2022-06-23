@@ -1,16 +1,4 @@
 <?php
 
-namespace tests\Partigen;
-
-use Partigen\Container;
-use Partigen\ImageCreator;
-
-require __DIR__.'/../src/bootstrap.php';
-
-$path = Container::getInstance()->get(ImageCreator::class)->create(['format' => 'A4']);
-
-if (file_exists($path)) {
-    unlink($path);
-} else {
-    throw new \Exception("Image not generated!");
-}
+require __DIR__.'/../vendor/autoload.php';
+\Partigen\ImageCreator::generate($_GET)->display();

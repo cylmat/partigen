@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace Partigen\Bridge;
 
-final class Pdf2Image
+use Spatie\PdfToImage\Pdf;
+
+class Pdf2Image
 {
-    public function convert(string $pdf): string
+    public function convertContentToRawData(string $pdfRawContent): string
     {
-        $pdfConverter = new MemoryPdf($pdf);
-        $imgPath = tempnam('/tmp', '') . '.png';
+        file_put_contents($pdfFile = tempnam('/tmp', ''), $pdfRawContent);
 
         try {
-            $pdfConverter->setOutputFormat('png')->saveImage($imgPath);
-            unlink($pdf);
-        } catch (\Exception $e) {
-            unlink($pdf);
-            unlink($imgPath);
-
-            throw new \Exception($e->getMessage());
+            return (string)(new Pdf($pdfFile))->getImageData('php://memory');
+        } catch (\Exception $exception) {
+            unlink($pdfFile);
+            throw $exception;
         }
-
-        return $imgPath;
     }
 }

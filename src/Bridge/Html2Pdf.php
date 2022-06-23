@@ -7,13 +7,13 @@ namespace Partigen\Bridge;
 use Spipu\Html2Pdf\Html2Pdf as Spipu_Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 
-final class Html2Pdf
+class Html2Pdf
 {
-    private const DEBUG_OUTPUT_HTML = false;
-    private const RESOURCES_PATH = __DIR__.'/../../resources';
-    
     public const FORMAT_A4 = 'A4';
     public const FORMAT_A5 = 'A5';
+    
+    private const RESOURCES_PATH = __DIR__.'/../../resources'; // @todo remove this
+    private const OUTPUT_STRING = 'S';
 
     public function setFormat(string $format = self::FORMAT_A4): self
     {
@@ -21,34 +21,18 @@ final class Html2Pdf
         return $this;
     }
 
-    public function generate(string $content): string
+    public function generateContent(string $htmlContent): string
     {
         try {
-            $html2pdf = new Spipu_Html2Pdf('P', $this->format, 'fr');
+            $html2pdf = new Spipu_Html2Pdf('P', $this->format);
             $html2pdf->setDefaultFont('Arial');
 
             $currentdir = getcwd();
-            chdir(self::RESOURCES_PATH);
-            $html2pdf->writeHTML($content);
+            chdir(self::RESOURCES_PATH); //@todo remove this
+            $html2pdf->writeHTML($htmlContent);
             chdir($currentdir);
 
-            if (self::DEBUG_OUTPUT_HTML) {
-                header("Content-type: text/html");
-                $html2pdf->output();
-                die();
-            }
-
-            $pdf = tempnam('/tmp', '');
-
-            if (false !== $pdf && is_string($pdf)) {
-                $pdfFile = $pdf . '.pdf';
-                $html2pdf->output($pdfFile, 'F'); //in file
-
-                return $pdfFile;
-            } else {
-                throw new \DomainException("Temporary file '$pdf' was not created");
-            }
-
+            return $html2pdf->output(null, self::OUTPUT_STRING);
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
             throw new Html2PdfException($e->getMessage());
