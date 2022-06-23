@@ -15,11 +15,11 @@ use Partigen\Model\Partition;
 final class ImageCreator
 {
     private Params $params;
-    private Partition $partition;
     private Html2Pdf $html2pdf;
     private Pdf2Image $pdf2image;
+    private Partition $partition;
 
-    private string $path;
+    private string $image;
 
     public static function generate(array $creationParams = []): self
     {
@@ -47,9 +47,11 @@ final class ImageCreator
         $this->params->validates($creationParams);
 
         try {
-            $html = $this->partition->getHtml($this->params);
-            $pdf = $this->html2pdf->setFormat($this->params->getFormat())->generate($html);
-            $this->path = $this->pdf2image->convert($pdf);
+            $htmlContent = $this->partition->getHtml($this->params);
+            $pdfContent = $this->html2pdf
+                ->setFormat($this->params->getFormat())
+                ->generateContent($htmlContent);
+            $this->image = $this->pdf2image->convertContentToRawData($pdfContent);
 
             return $this;
         } catch (\Exception $exception) {
@@ -59,30 +61,24 @@ final class ImageCreator
 
     public function display(): void
     {
-        if (file_exists($this->path)) {
-            header('Content-Type: image/' . $this->params->getImageExt());
-            readfile($this->path);
-            $this->remove();
-        } else {
-            throw new \Exception("Image not generated!");
-        }
+        header('Content-Type: image/' . $this->params->getImageExt());
+        echo $this->image;
+        die();
     }
 
-    public function remove(): ?bool
+    public function download(): void
     {
-        if (file_exists($this->path)) {
-            return unlink($this->path);
-        }
+        $format = "Partigen-" . (new \DateTime())->format('Ymd');
 
-        return null;
-    }
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header("Content-Disposition: attachment; filename=\"$format\"");
+        header('Content-Length: '.strlen($this->image));
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Expires: 0');
 
-    public function getPath(): string
-    {
-        if (null === $this->path) {
-            throw new \Exception("Image was not created yet!");
-        }
-
-        return $this->path;
+        echo $this->image;
+        die();
     }
 }
