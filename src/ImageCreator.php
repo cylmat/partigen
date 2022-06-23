@@ -66,7 +66,7 @@ final class ImageCreator
         die();
     }
 
-    public function download()
+    public function download(): void
     {
         $format = "Partigen-" . (new \DateTime())->format('Ymd');
 
