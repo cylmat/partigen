@@ -13,7 +13,10 @@ class Pdf2Image
         file_put_contents($pdfFile = tempnam('/tmp', ''), $pdfRawContent);
 
         try {
-            return (string)(new Pdf($pdfFile))->getImageData('php://memory');
+            $image = (string)(new Pdf($pdfFile))->getImageData('php://memory');
+            unlink($pdfFile);
+
+            return $image;
         } catch (\Exception $exception) {
             unlink($pdfFile);
             throw $exception;
