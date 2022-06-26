@@ -21,13 +21,16 @@ final class ImageCreator
 
     private string $image;
 
-    public static function generate(array $creationParams = []): self
+    public static function generate(array $creationParams = [], array $defaultCustomConfig = []): self
     {
         $container = (new ContainerBuilder())
             ->addDefinitions([
                 BlockFactoryInterface::class => \DI\autowire(BlockFactory::class),
             ]);
-        return $container->build()->get(self::class)->create($creationParams);
+        return $container->build()->get(self::class)
+            ->setDefaultConfig($defaultCustomConfig)
+            ->create($creationParams)
+        ;
     }
 
     public function __construct(
@@ -40,6 +43,13 @@ final class ImageCreator
         $this->partition = $partition;
         $this->html2pdf = $html2pdf;
         $this->pdf2image = $pdf2image;
+    }
+
+    public function setDefaultConfig(array $defaultCustomConfig): self
+    {
+        $this->params->initDefault($defaultCustomConfig);
+
+        return $this;
     }
 
     public function create(array $creationParams = []): self

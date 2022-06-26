@@ -49,7 +49,6 @@ class NotesBlock extends AbstractBlock
                 // Chords
                 $notes[] = [
                     'highs' => [
-                        /** @todo generate real chords */
                         $base = $this->getRandomizedNoteFromBaseline($lowerNote, $higherNote),
                         $base - 2,
                         $base + 2

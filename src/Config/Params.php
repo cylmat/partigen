@@ -22,10 +22,10 @@ final class Params
         'scopes' => '/^[GF](,[GF])*$/',
         'higher_note' => '/^[ABCDEFG]\d|-?\d?\d$/',
         'lower_note' => '/^[ABCDEFG]\d|-?\d?\d$/',
-        'chord_freq' => '/^\d?\d?\d$/',
+        'chord_freq' => '/^\d\d?|^100$/',
     ];
 
-    private array $defaults = [
+    private array $default = [
         'format' => 'A4',
         'scopes' => ScopeG::NAME,
         'image_ext' => 'png',
@@ -35,6 +35,21 @@ final class Params
     ];
 
     private array $customerParams = [];
+
+    public function __construct()
+    {
+        $this->initDefault();
+    }
+
+    public function initDefault(array $defaultCustomConfig = []): void
+    {
+        // key validation is made in validates() itself
+        foreach ($defaultCustomConfig as $key => $param) {
+            $this->default[$key] = $param;
+        }
+        
+        $this->customerParams = $this->default;
+    }
     
     public function getAllowedParams(): array
     {
@@ -43,22 +58,26 @@ final class Params
     
     public function getDefaultValues(): array
     {
-        return $this->defaults;
+        return $this->default;
     }
-
-    // @todo init default in constructor
-    // params override by config file
 
     /**
      * @throws \Throwable
      */
     public function validates(array $customerParams): self
     {
+        // settings
         foreach ($customerParams as $key => $param) {
+            $this->customerParams[$key] = $param;
+        }
+
+        foreach ($this->customerParams as $key => $param) {
+            // allowed keys
             if (!\in_array($key, $allowedKeys = \array_keys($this->allowedParams))) {
                 throw new ParamException(\sprintf('Key "%s" not allowed in values ["%s"]', $key, join('", "', $allowedKeys)));
             }
 
+            // check each regexp or allowed values
             switch (\gettype($allowedValues = $this->allowedParams[$key])):
                 case 'array':
                     if (!\in_array($param, $this->allowedParams[$key])) {
@@ -70,9 +89,16 @@ final class Params
                     }
                     break;
                 case 'string':
-                    if (!\preg_match($allowedValues, $customerParams[$key])) {
+                    if (\is_numeric($param)) {
+                        $param = "$param";
+                    }
+                    if (null === $param){
+                        break;
+                    }
+    
+                    if (!\preg_match($allowedValues, $param)) {
                         throw new ParamException(\sprintf('"%s" value doesn`t match "%s"', 
-                            $customerParams[$key],
+                            $this->customerParams[$key],
                             $allowedValues
                         ));
                     }
@@ -80,22 +106,14 @@ final class Params
             endswitch;
         }
 
-        foreach ($this->defaults as $key => $default) {
-            if (!isset($customerParams[$key])) {
-                $customerParams[$key] = $default;
-            }
-        }
-
         // min - max
         if (
-            ($lower = (int)$customerParams['lower_note'])
-            && ($higher = (int)$customerParams['higher_note'])
+            ($lower = (int)$this->customerParams['lower_note'])
+            && ($higher = (int)$this->customerParams['higher_note'])
             && ($lower > $higher)
         ) {
             throw new ParamException("lower_note note can't be higher than higher_note");
         }
-
-        $this->customerParams = $customerParams;
 
         return $this;
     }

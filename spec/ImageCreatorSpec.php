@@ -7,9 +7,6 @@ use Partigen\Bridge\Html2Pdf;
 use Partigen\Bridge\Pdf2Image;
 use PhpSpec\ObjectBehavior;
 
-/**
- * @todo all specs !
- */
 class ImageCreatorSpec extends ObjectBehavior
 {
     function let(Html2Pdf $html2pdf, Pdf2Image $pdf2image)

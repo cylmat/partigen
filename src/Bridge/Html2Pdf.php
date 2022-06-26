@@ -12,7 +12,7 @@ class Html2Pdf
     public const FORMAT_A4 = 'A4';
     public const FORMAT_A5 = 'A5';
     
-    private const RESOURCES_PATH = __DIR__.'/../../resources'; // @todo remove this
+    private const RESOURCES_PATH = __DIR__.'/../../resources';
     private const OUTPUT_STRING = 'S';
 
     public function setFormat(string $format = self::FORMAT_A4): self
@@ -28,7 +28,7 @@ class Html2Pdf
             $html2pdf->setDefaultFont('Arial');
 
             $currentdir = getcwd();
-            chdir(self::RESOURCES_PATH); //@todo remove this
+            chdir(self::RESOURCES_PATH);
             $html2pdf->writeHTML($htmlContent);
             chdir($currentdir);
 
