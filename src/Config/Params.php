@@ -46,10 +46,13 @@ final class Params
         return $this->defaults;
     }
 
+    // @todo init default in constructor
+    // params override by config file
+
     /**
      * @throws \Throwable
      */
-    public function validates(array &$customerParams): void
+    public function validates(array $customerParams): self
     {
         foreach ($customerParams as $key => $param) {
             if (!\in_array($key, $allowedKeys = \array_keys($this->allowedParams))) {
@@ -83,7 +86,18 @@ final class Params
             }
         }
 
+        // min - max
+        if (
+            ($lower = (int)$customerParams['lower_note'])
+            && ($higher = (int)$customerParams['higher_note'])
+            && ($lower > $higher)
+        ) {
+            throw new ParamException("lower_note note can't be higher than higher_note");
+        }
+
         $this->customerParams = $customerParams;
+
+        return $this;
     }
 
     public function getFormat(): string

@@ -19,10 +19,6 @@ table {
     margin-top: 50px;
 }
 
-.block .paired {
-    top: -15px;
-}
-
 /*
  * Scope
  */
@@ -34,26 +30,27 @@ table {
 
 .block .g-scope {
     background-image: url(img/sol.png);
-    background-position: 0 12px;
+    background-position: 0 -2px;
 }
 
 .block .f-scope {
     background-image: url(img/fa.png);
-    background-position: 0 20px;
+    background-position: 0 13px;
 }
 
 .block .scope .line {
-    height: 2px;
+    margin-top: -3px;
     border-bottom: solid 1px black;
 }
 
 /*
  * Note
  */
-.note, .notesplit, .split, .not {
+.note, .notesplit, .split {
     position: absolute;
-    height: 13px;
+    height: 22px;
     width: 22px;
+    background-repeat: no-repeat;
 }
 
 .note {

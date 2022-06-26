@@ -86,8 +86,12 @@ class NotesBlock extends AbstractBlock
 
         [$scopeMinDiff, $scopeMaxDiff] = $this->getScopeBoundDiff();
 
+        // setting bounds
         $max = min($scopeMaxDiff, $customMaxDiff);
+        $max = max($scopeMinDiff, $max);
+
         $min = max($scopeMinDiff, $customMinDiff);
+        $min = min($scopeMaxDiff, $min);
 
         return $this->randomizer->getNoteHigh($min, $max);
     }

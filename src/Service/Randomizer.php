@@ -2,7 +2,7 @@
 
 namespace Partigen\Service;
 
-class Randomizer
+final class Randomizer
 {
     public function getScope(array $scopeChoices): string
     {

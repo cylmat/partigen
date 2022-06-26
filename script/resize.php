@@ -12,8 +12,10 @@ function resize($file, $w, $h=-1): void
     imagepng($new, "$PATH/img/$file");
 }
 
-resize("sol.png", 30);
-resize("fa.png", 33);
-resize("ronde.png", 22);
-resize("rondesplit.png", 22);
-resize("split.png", 22);
+//resize("sol.png", 30);
+//resize("fa.png", 33);
+
+$note = 21;
+resize("ronde.png", $note);
+resize("rondesplit.png", $note);
+resize("split.png", $note);

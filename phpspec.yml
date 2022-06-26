@@ -1,6 +1,10 @@
 ###########
 # PHPSPEC #
-# @see http://www.phpspec.net/en/stable/cookbook/configuration.html
+# @see 
+#      http://phpspec.net/en/stable/cookbook/configuration.html
+#      http://phpspec.net/en/stable/cookbook/matchers.html
+#
+# $this->getWrappedObject();
 ###########
 
 suites:
