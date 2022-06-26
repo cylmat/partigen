@@ -5,7 +5,6 @@
 - license
 - chord block class
 - remove "orig" ressources
-- params error messages
 - fix display chords
 - generate real chords (other than m/M)
 
@@ -14,4 +13,4 @@ v2
 - tempo (soupires...)
 
 DOC
-override default config
+->override default config

@@ -25,10 +25,17 @@ final class Params
         'chord_freq' => '/^\d\d?|^100$/',
     ];
 
+    private array $regexErrorMsg = [
+        'scopes' => "Values '%s' must be one of G,F or both",
+        'higher_note' => "Value '%s' must be a note (e.g. E4) or a difference with scope line",
+        'lower_note' => "Value '%s' must be a note (e.g. E4) or a difference with scope line",
+        'chord_freq' => "Value '%s' must be a integer between 0 and 100",
+    ];
+
     private array $default = [
         'format' => 'A4',
-        'scopes' => ScopeG::NAME,
         'image_ext' => 'png',
+        'scopes' => ScopeG::NAME,
         'higher_note' => null,
         'lower_note' => null,
         'chord_freq' => 0,
@@ -88,6 +95,7 @@ final class Params
                         ));
                     }
                     break;
+                // regexp
                 case 'string':
                     if (\is_numeric($param)) {
                         $param = "$param";
@@ -97,9 +105,8 @@ final class Params
                     }
     
                     if (!\preg_match($allowedValues, $param)) {
-                        throw new ParamException(\sprintf('"%s" value doesn`t match "%s"', 
-                            $this->customerParams[$key],
-                            $allowedValues
+                        throw new ParamException(\sprintf($this->regexErrorMsg[$key], 
+                            $this->customerParams[$key]
                         ));
                     }
                     break;
