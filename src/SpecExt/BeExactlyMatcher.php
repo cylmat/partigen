@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Spec;
+namespace Partigen\SpecExt;
 
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\BasicMatcher;

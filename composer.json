@@ -6,13 +6,15 @@
     "config": {
         "bin-dir": "bin"
     },
+    "prefer-stable": true,
     "require": {
         "php-di/php-di": "^6.4",
         "spatie/pdf-to-image": "^2.2",
         "spipu/html2pdf": "^5.2"
     },
     "require-dev": {
-        "kint-php/kint": "^3.3",
+        "friends-of-phpspec/phpspec-code-coverage": "^6.1",
+        "kint-php/kint": "^4.1",
         "phpmd/phpmd": "^2.9",
         "phpspec/phpspec": "^6.2",
         "phpunit/phpunit": "^9.0",

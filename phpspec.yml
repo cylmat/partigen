@@ -26,4 +26,19 @@ suites:
 bootstrap: vendor/autoload.php
 
 matchers:
-    - Partigen\Spec\BeExactlyMatcher
+    - Partigen\SpecExt\BeExactlyMatcher
+
+extensions:
+#   FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension: 
+#     format:
+#       - text
+#     lower_upper_bound: 35
+#     high_lower_bound: 70
+#     show_only_summary: true
+#     whitelist:
+#       - src
+
+# Memo
+# shouldBe, shouldBeLike, shouldThrow, shouldHaveType, shouldImplement
+# shouldHaveCount, shouldBeString, shouldContain, shouldMatch(//)
+# shouldHaveKey, shouldHaveKeyWithValue, shouldIterateAs, shouldIterateLike
