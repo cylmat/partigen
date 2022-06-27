@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Partigen\Bridge;
 
+use Partigen\Model\PartitionPage;
 use Spipu\Html2Pdf\Html2Pdf as Spipu_Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 
@@ -12,7 +13,6 @@ class Html2Pdf
     public const FORMAT_A4 = 'A4';
     public const FORMAT_A5 = 'A5';
     
-    private const RESOURCES_PATH = __DIR__.'/../../resources';
     private const OUTPUT_STRING = 'S';
 
     public function setFormat(string $format = self::FORMAT_A4): self
@@ -28,7 +28,7 @@ class Html2Pdf
             $html2pdf->setDefaultFont('Arial');
 
             $currentdir = getcwd();
-            chdir(self::RESOURCES_PATH);
+            chdir(PartitionPage::RESOURCES_DIRECTORY); // used to load images
             $html2pdf->writeHTML($htmlContent);
             chdir($currentdir);
 

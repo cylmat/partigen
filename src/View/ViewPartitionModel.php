@@ -15,16 +15,6 @@ class ViewPartitionModel implements ViewModelInterface
         $this->viewScope = $viewScope;
     }
 
-    public function style(string $styleContent): string
-    {
-        return "<style type=\"text/css\">$styleContent</style>";
-    }
-
-    public function page(string $pageContent): string
-    {
-        return "<page>\n$pageContent</page>";
-    }
-
     public function convert(array $data): string
     {
         $html = '';

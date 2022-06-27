@@ -10,14 +10,14 @@ use Partigen\Bridge\Pdf2Image;
 use Partigen\Config\Params;
 use Partigen\Model\BlockFactory;
 use Partigen\Model\BlockFactoryInterface;
-use Partigen\Model\Partition;
+use Partigen\Model\PartitionPage;
 
 final class ImageCreator
 {
     private Params $params;
     private Html2Pdf $html2pdf;
     private Pdf2Image $pdf2image;
-    private Partition $partition;
+    private PartitionPage $partition;
 
     private string $image;
 
@@ -35,7 +35,7 @@ final class ImageCreator
 
     public function __construct(
         Params $params,
-        Partition $partition,
+        PartitionPage $partition,
         Html2Pdf $html2pdf,
         Pdf2Image $pdf2image
     ) {

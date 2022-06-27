@@ -1,13 +1,5 @@
-* {
-    box-sizing: border-box;
-}
-
 page {
     font-size: 14px;
-}
-
-table {
-    border-collapse: collapse;
 }
 
 /*

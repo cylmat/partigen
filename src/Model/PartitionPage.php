@@ -9,9 +9,9 @@ use Partigen\Model\Block\PartitionBlock;
 use Partigen\Model\BlockFactoryInterface;
 use Partigen\View\ViewPartitionModel;
 
-final class Partition
+final class PartitionPage
 { 
-    private const RESOURCES_PATH = __DIR__.'/../../resources';
+    public const RESOURCES_DIRECTORY = __DIR__.'/../../resources';
 
     private ViewPartitionModel $view;
 
@@ -23,15 +23,25 @@ final class Partition
 
     public function getHtml(Params $context): string
     {
-        $styleHtml = $this->view->style(
-            file_get_contents(self::RESOURCES_PATH . '/partition.css')
+        $styleHtml = $this->style(
+            file_get_contents(self::RESOURCES_DIRECTORY . '/partition.css')
         );
 
         $data = $this->factory->create(PartitionBlock::class)->getData($context);
-        $pageHtml = $this->view->page(
+        $pageHtml = $this->page(
             $this->view->convert($data)
         );
 
         return $styleHtml . $pageHtml;
+    }
+
+    public function style(string $styleContent): string
+    {
+        return "<style type=\"text/css\">$styleContent</style>";
+    }
+
+    public function page(string $pageContent): string
+    {
+        return "<page>\n$pageContent</page>";
     }
 }
