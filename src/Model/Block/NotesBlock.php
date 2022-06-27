@@ -63,20 +63,20 @@ class NotesBlock extends AbstractBlock
     /**
      * Return integer from baseline (bottom line of scope)
      *  e.g. in G scope: 0 will be E3 (bottom line), -1 will be D3, etc...
-     * 
+     *
      * @param string|int $customMinLabelOrDiff Can be a string (e.g. 'C5'), or a difference (e.g. 5)
      * @param string|int $customMinDiff Can be a string (e.g. 'C2'), or a difference (e.g. -5)
      */
     private function getRandomizedNoteFromBaseline($customMinLabelOrDiff, $customMaxLabelOrDiff): int
     {
         $scopeLine = $this->baselineService::diffLabelWithBaseline($this->scopeData->getScopeLine(), $this->scopeData->getBaseline());
-        
+
         if (\is_string($customMaxLabelOrDiff)) { // is a label
             $customMaxDiff = $this->baselineService::diffLabelWithBaseline($customMaxLabelOrDiff, $this->scopeData->getBaseline());
         } else { // is a integer
             $customMaxDiff = $customMaxLabelOrDiff + $scopeLine;
         }
-        
+
         if (\is_string($customMinLabelOrDiff)) { // is a label
             $customMinDiff = $this->baselineService::diffLabelWithBaseline($customMinLabelOrDiff, $this->scopeData->getBaseline());
         } else { // is a integer

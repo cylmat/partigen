@@ -56,7 +56,7 @@ class ViewNoteModel
                 $data[$note] = self::NOTECLASS;
                 continue;
             }
-            
+
             // intermediate lines
             while (abs($currentPos) > 0) {
                 // only display intermediates lines onto or under scope's lines
@@ -88,8 +88,8 @@ class ViewNoteModel
             $top += ($baseHigh < 0) ? -1 : 1;
         }
 
-        $style = "left: $left".'px; ';
-        $style .= "top: $top".'px; ';
+        $style = "left: $left" . 'px; ';
+        $style .= "top: $top" . 'px; ';
 
         return sprintf(self::NOTE_TEMPLATE, $class, $style);
     }

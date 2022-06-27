@@ -83,7 +83,7 @@ final class ImageCreator
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header("Content-Disposition: attachment; filename=\"$format\"");
-        header('Content-Length: '.strlen($this->image));
+        header('Content-Length: ' . strlen($this->image));
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         header('Expires: 0');

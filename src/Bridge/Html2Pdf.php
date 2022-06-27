@@ -12,7 +12,7 @@ class Html2Pdf
 {
     public const FORMAT_A4 = 'A4';
     public const FORMAT_A5 = 'A5';
-    
+
     private const OUTPUT_STRING = 'S';
 
     public function setFormat(string $format = self::FORMAT_A4): self

@@ -10,8 +10,8 @@ use Partigen\Model\BlockFactoryInterface;
 use Partigen\View\ViewPartitionModel;
 
 final class PartitionPage
-{ 
-    public const RESOURCES_DIRECTORY = __DIR__.'/../../resources';
+{
+    public const RESOURCES_DIRECTORY = __DIR__ . '/../../resources';
 
     private ViewPartitionModel $view;
 

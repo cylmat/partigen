@@ -7,7 +7,7 @@ namespace Partigen\Model\Block;
 class ChordBlock extends NoteBlock
 {
     const MAJ = 'MAJ';
-    
+
     private const TYPE_MAJ = [0, 2, 4];
     private string $type;
 
@@ -41,7 +41,7 @@ class ChordBlock extends NoteBlock
         $chord = '';
 
         switch ($this->type) {
-            case self::MAJ: 
+            case self::MAJ:
                 if ($this->interval > 0) {
                     //display from top
                     foreach (array_reverse(self::TYPE_MAJ) as $inter) {

@@ -10,7 +10,7 @@ use Partigen\DataValue\ScopeG;
 use Partigen\Exceptions\ParamException;
 
 final class Params
-{ 
+{
     private array $allowedParams = [
         'format' => [
             Html2Pdf::FORMAT_A4,
@@ -54,15 +54,15 @@ final class Params
         foreach ($defaultCustomConfig as $key => $param) {
             $this->default[$key] = $param;
         }
-        
+
         $this->customerParams = $this->default;
     }
-    
+
     public function getAllowedParams(): array
     {
         return $this->allowedParams;
     }
-    
+
     public function getDefaultValues(): array
     {
         return $this->default;
@@ -85,12 +85,13 @@ final class Params
             }
 
             // check each regexp or allowed values
-            switch (\gettype($allowedValues = $this->allowedParams[$key])):
+            switch (\gettype($allowedValues = $this->allowedParams[$key])) :
                 case 'array':
                     if (!\in_array($param, $this->allowedParams[$key])) {
-                        throw new ParamException(\sprintf('"%s" value "%s" not allowed in values ["%s"]', 
-                            $key, 
-                            $param, 
+                        throw new ParamException(\sprintf(
+                            '"%s" value "%s" not allowed in values ["%s"]',
+                            $key,
+                            $param,
                             join('", "', $allowedValues)
                         ));
                     }
@@ -100,12 +101,13 @@ final class Params
                     if (\is_numeric($param)) {
                         $param = "$param";
                     }
-                    if (null === $param){
+                    if (null === $param) {
                         break;
                     }
-    
+
                     if (!\preg_match($allowedValues, $param)) {
-                        throw new ParamException(\sprintf($this->regexErrorMsg[$key], 
+                        throw new ParamException(\sprintf(
+                            $this->regexErrorMsg[$key],
                             $this->customerParams[$key]
                         ));
                     }

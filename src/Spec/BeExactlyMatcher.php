@@ -26,7 +26,8 @@ class BeExactlyMatcher extends BasicMatcher
         $subject_dump = ob_get_clean();
 
         return new FailureException(
-            sprintf("\nExpected \n'%s'\n\n Doesn't match \n'%s'",
+            sprintf(
+                "\nExpected \n'%s'\n\n Doesn't match \n'%s'",
                 $subject_dump,
                 var_export($arguments[0], true)
             )
