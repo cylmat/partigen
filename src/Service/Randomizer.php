@@ -17,7 +17,7 @@ final class Randomizer
     public function isNoteOrChord(int $chordFrequency): bool
     {
         if ($chordFrequency < 0 || 100 < $chordFrequency) {
-            return \OutOfBoundsException("Chord frequency must be inside 0 and 100");
+            throw new \OutOfBoundsException("Chord frequency must be inside 0 and 100");
         }
 
         return rand(0, 99) >= $chordFrequency;

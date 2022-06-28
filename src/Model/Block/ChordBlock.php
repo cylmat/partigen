@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Partigen\Model\Block;
 
-class ChordBlock extends NoteBlock
+use Partigen\Config\Params;
+
+class ChordBlock extends AbstractBlock
 {
-    const MAJ = 'MAJ';
+    public const MAJ = 'MAJ';
 
     private const TYPE_MAJ = [0, 2, 4];
+
     private string $type;
 
     /*
@@ -20,50 +23,31 @@ class ChordBlock extends NoteBlock
     public function setType(string $type): self
     {
         $this->type = $type;
-
         return $this;
     }
 
     public function setBaseInterval(int $baseInterval): self
     {
-        return $this->setInterval($baseInterval);
+        /** @todo to implements */
+        return $this;
     }
 
-    public function getData(array $context = []): array
+    public function getData(Params $context): array
     {
         $chord = $this->getChordType();
 
         return $chord;
     }
 
-    private function getChordType()
+    private function getChordType(): array
     {
-        $chord = '';
+        /** @todo to implements */
+        $chord = [];
 
         switch ($this->type) {
             case self::MAJ:
-                if ($this->interval > 0) {
-                    //display from top
-                    foreach (array_reverse(self::TYPE_MAJ) as $inter) {
-                        $note = $this->get(NoteBlock::class)
-                                ->setNum($this->num)
-                                ->setInterval($this->interval + $inter);
-                        if ($inter === 0) {
-                            $note->disableOutlines();
-                        }
-                        $chord .= $note;
-                    }
-                } else {
-                    //display from bottom
-                    foreach (self::TYPE_MAJ as $inter) {
-                        $note = $this->get(NoteBlock::class)
-                                ->setNum($this->num)
-                                ->setInterval($this->interval + $inter);
-                        if ($inter === 0) {
-                            $note->disableOutlines();
-                        }
-                        $chord .= $note;
-                    }
+                foreach (self::TYPE_MAJ as $inter) {
+                    $note = [];
                 }
                 break;
         }

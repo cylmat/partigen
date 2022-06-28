@@ -16,7 +16,7 @@ abstract class AbstractBlock implements BlockInterface
         $this->factory = $factory;
     }
 
-    public function get(string $objectType): self
+    public function get(string $objectType): BlockInterface
     {
         return $this->factory->create($objectType);
     }

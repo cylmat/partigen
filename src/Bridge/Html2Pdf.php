@@ -15,6 +15,8 @@ class Html2Pdf
 
     private const OUTPUT_STRING = 'S';
 
+    private string $format;
+
     public function setFormat(string $format = self::FORMAT_A4): self
     {
         $this->format = $format;
@@ -32,7 +34,7 @@ class Html2Pdf
             $html2pdf->writeHTML($htmlContent);
             chdir($currentdir);
 
-            return $html2pdf->output(null, self::OUTPUT_STRING);
+            return $html2pdf->output('', self::OUTPUT_STRING);
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
             throw new Html2PdfException($e->getMessage());

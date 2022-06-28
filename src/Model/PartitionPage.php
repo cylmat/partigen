@@ -13,6 +13,7 @@ final class PartitionPage
 {
     public const RESOURCES_DIRECTORY = __DIR__ . '/../../resources';
 
+    private BlockFactoryInterface $factory;
     private ViewPartitionModel $view;
 
     public function __construct(BlockFactoryInterface $factory, ViewPartitionModel $view)

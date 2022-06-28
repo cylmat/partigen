@@ -22,6 +22,7 @@ class PartitionBlock extends AbstractBlock
         Randomizer $randomizer
     ) {
         parent::__construct($factory);
+
         $this->dataValueFactory = $dataValueFactory;
         $this->randomizer = $randomizer;
     }
@@ -31,6 +32,7 @@ class PartitionBlock extends AbstractBlock
         $partitionData = [];
         for ($s = 0; $s < self::SCOPES_NUMBER_IN_PAGE; $s++) {
             $selectedScope = $this->randomizer->getScope($context->getScopes());
+            /** @phpstan-ignore-next-line */
             $partitionData[] = $this->get(ScopeBlock::class)
                 ->setScopeData($this->dataValueFactory->create($selectedScope))
                 ->getData($context);

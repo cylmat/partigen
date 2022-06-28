@@ -27,7 +27,10 @@ class ScopeBlock extends AbstractBlock
     {
         return [
             'name' => $this->scopeData->getName(),
-            'notes' => $this->get(NotesBlock::class)->setScopeData($this->scopeData)->getData($context)
+            /** @phpstan-ignore-next-line */
+            'notes' => $this->get(NotesBlock::class)
+                ->setScopeData($this->scopeData)
+                ->getData($context)
         ];
     }
 }

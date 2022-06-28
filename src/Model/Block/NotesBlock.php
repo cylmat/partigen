@@ -65,7 +65,7 @@ class NotesBlock extends AbstractBlock
      *  e.g. in G scope: 0 will be E3 (bottom line), -1 will be D3, etc...
      *
      * @param string|int $customMinLabelOrDiff Can be a string (e.g. 'C5'), or a difference (e.g. 5)
-     * @param string|int $customMinDiff Can be a string (e.g. 'C2'), or a difference (e.g. -5)
+     * @param string|int $customMaxLabelOrDiff Can be a string (e.g. 'C2'), or a difference (e.g. -5)
      */
     private function getRandomizedNoteFromBaseline($customMinLabelOrDiff, $customMaxLabelOrDiff): int
     {
