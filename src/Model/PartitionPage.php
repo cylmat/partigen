@@ -6,20 +6,19 @@ namespace Partigen\Model;
 
 use Partigen\Config\Params;
 use Partigen\Model\Block\PartitionBlock;
-use Partigen\Model\BlockFactoryInterface;
 use Partigen\View\ViewPartitionModel;
 
 final class PartitionPage
 {
     public const RESOURCES_DIRECTORY = __DIR__ . '/../../resources';
 
-    private BlockFactoryInterface $factory;
     private ViewPartitionModel $view;
+    private PartitionBlock $partitionBlock;
 
-    public function __construct(BlockFactoryInterface $factory, ViewPartitionModel $view)
+    public function __construct(PartitionBlock $partitionBlock, ViewPartitionModel $view)
     {
-        $this->factory = $factory;
         $this->view = $view;
+        $this->partitionBlock = $partitionBlock;
     }
 
     public function getHtml(Params $context): string
@@ -28,7 +27,7 @@ final class PartitionPage
             file_get_contents(self::RESOURCES_DIRECTORY . '/partition.css')
         );
 
-        $data = $this->factory->create(PartitionBlock::class)->getData($context);
+        $data = $this->partitionBlock->getData($context);
         $pageHtml = $this->page(
             $this->view->convert($data)
         );

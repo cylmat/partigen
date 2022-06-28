@@ -10,7 +10,7 @@ use Partigen\DataValue\ScopeDataInterface;
 use Partigen\Service\Baseline;
 use Partigen\Service\Randomizer;
 
-class NotesBlock extends AbstractBlock
+class NotesBlock implements BlockInterface
 {
     private const NUMBERS_ON_A_LINE = 24;
 

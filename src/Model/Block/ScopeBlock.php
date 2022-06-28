@@ -7,9 +7,15 @@ namespace Partigen\Model\Block;
 use Partigen\Config\Params;
 use Partigen\DataValue\ScopeDataInterface;
 
-class ScopeBlock extends AbstractBlock
+class ScopeBlock implements BlockInterface
 {
     private ScopeDataInterface $scopeData;
+    private NotesBlock $notesBlock;
+
+    public function __construct(NotesBlock $notesBlock)
+    {
+        $this->notesBlock = $notesBlock;
+    }
 
     public function setScopeData(ScopeDataInterface $scopeData): self
     {
@@ -28,7 +34,7 @@ class ScopeBlock extends AbstractBlock
         return [
             'name' => $this->scopeData->getName(),
             /** @phpstan-ignore-next-line */
-            'notes' => $this->get(NotesBlock::class)
+            'notes' => $this->notesBlock
                 ->setScopeData($this->scopeData)
                 ->getData($context)
         ];

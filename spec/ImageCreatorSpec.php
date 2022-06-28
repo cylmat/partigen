@@ -12,19 +12,27 @@ use Prophecy\Argument;
 
 class ImageCreatorSpec extends ObjectBehavior
 {
-    function let(Html2Pdf $html2pdf, Pdf2Image $pdf2image)
-    {
-        $container = $this->getContainer();
+    private $params;
+    private $partition;
+    private $html2pdf;
+    private $pdf2image;
 
-        $html2pdf->setFormat(Argument::type('string'))->willReturn($html2pdf);
-        $html2pdf->generateContent(Argument::type('string'))->willReturn('');
-        $pdf2image->convertContentToRawData(Argument::type('string'))->willReturn('');
-        
+    function let(
+        Params $params,
+        PartitionPage $partition,
+        Html2Pdf $html2pdf,
+        Pdf2Image $pdf2image
+    ) {
+        $this->params = $params;
+        $this->partition = $partition;
+        $this->html2pdf = $html2pdf;
+        $this->pdf2image = $pdf2image;
+
         $this->beConstructedWith(
-            $container->get(Params::class),
-            $container->get(PartitionPage::class),
-            $html2pdf,
-            $pdf2image
+            $this->params,
+            $this->partition,
+            $this->html2pdf,
+            $this->pdf2image
         );
     }
 
@@ -35,6 +43,14 @@ class ImageCreatorSpec extends ObjectBehavior
 
     function it_can_create()
     {
-        $this->create();
+        $this->params->getFormat()->willReturn('A4');
+        $this->params->validates(Argument::any())->shouldBeCalled();
+        $this->partition->getHtml($this->params)->willReturn('partition-html');
+
+        $this->html2pdf->setFormat('A4')->willReturn($this->html2pdf);
+        $this->html2pdf->generateContent('partition-html')->willReturn('pdf-content');
+        $this->pdf2image->convertContentToRawData('pdf-content')->willReturn('image-content');
+
+        $this->create()->shouldImplement($this);
     }
 }

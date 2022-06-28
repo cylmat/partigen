@@ -6,7 +6,7 @@ namespace Partigen\Model\Block;
 
 use Partigen\Config\Params;
 
-class ChordBlock extends AbstractBlock
+class ChordBlock implements BlockInterface
 {
     public const MAJ = 'MAJ';
 

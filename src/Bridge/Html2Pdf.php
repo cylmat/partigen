@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Partigen\Bridge;
 
+use Partigen\Factory;
 use Partigen\Model\PartitionPage;
-use Spipu\Html2Pdf\Html2Pdf as Spipu_Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 
 class Html2Pdf
@@ -15,7 +15,13 @@ class Html2Pdf
 
     private const OUTPUT_STRING = 'S';
 
+    private Factory $factory;
     private string $format;
+
+    public function __construct(Factory $factory)
+    {
+        $this->factory = $factory;
+    }
 
     public function setFormat(string $format = self::FORMAT_A4): self
     {
@@ -26,7 +32,7 @@ class Html2Pdf
     public function generateContent(string $htmlContent): string
     {
         try {
-            $html2pdf = new Spipu_Html2Pdf('P', $this->format);
+            $html2pdf = $this->factory->createHtml2Pdf($this->format);
             $html2pdf->setDefaultFont('Arial');
 
             $currentdir = getcwd();

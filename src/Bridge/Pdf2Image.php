@@ -4,16 +4,23 @@ declare(strict_types=1);
 
 namespace Partigen\Bridge;
 
-use Spatie\PdfToImage\Pdf;
+use Partigen\Factory;
 
 class Pdf2Image
 {
+    private $factory;
+
+    public function __construct(Factory $factory)
+    {
+        $this->factory = $factory;
+    }
+
     public function convertContentToRawData(string $pdfRawContent): string
     {
         file_put_contents($pdfFile = tempnam('/tmp', ''), $pdfRawContent);
 
         try {
-            $image = (string)(new Pdf($pdfFile))->getImageData('php://memory');
+            $image = (string)$this->factory->createPdf2Image($pdfFile)->getImageData('php://memory');
             unlink($pdfFile);
 
             return $image;

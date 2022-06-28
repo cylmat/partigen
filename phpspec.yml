@@ -8,7 +8,7 @@
 ###########
 
 suites:
-    app_suite:
+    app:
         namespace: Partigen
         psr4_prefix: Partigen
         src_path: '%paths.config%/src'
