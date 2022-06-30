@@ -22,7 +22,6 @@ class ParamsSpec extends ObjectBehavior
             'scopes' => 'defaults',
             'higher_note' => null,
             'lower_note' => null,
-            'chord_freq' => 0,
         ]);
     }
 
@@ -34,14 +33,12 @@ class ParamsSpec extends ObjectBehavior
             'scopes' => 'G',
             'higher_note' => null,
             'lower_note' => null,
-            'chord_freq' => 55,
         ]);
         $this->getFormat()->shouldBe('A5');
         $this->getImageExt()->shouldBe('png');
         $this->getScopes()->shouldBe(['G']);
         $this->getHigherNote()->shouldBe(null);
         $this->getLowerNote()->shouldBe(null);
-        $this->getChordFreq()->shouldBe(55);
     }
 
     function it_should_not_validates_not_exists_param()

@@ -22,7 +22,6 @@ final class Params
         'scopes' => '/^[GF](,[GF])*$/',
         'higher_note' => '/^[ABCDEFG]\d|-?\d?\d$/',
         'lower_note' => '/^[ABCDEFG]\d|-?\d?\d$/',
-        'chord_freq' => '/^\d\d?|^100$/',
     ];
 
     /** @var string[] */
@@ -30,7 +29,6 @@ final class Params
         'scopes' => "Values '%s' must be one of G,F or both",
         'higher_note' => "Value '%s' must be a note (e.g. E4) or a difference with scope line",
         'lower_note' => "Value '%s' must be a note (e.g. E4) or a difference with scope line",
-        'chord_freq' => "Value '%s' must be a integer between 0 and 100",
     ];
 
     /** @var mixed[] */
@@ -40,7 +38,6 @@ final class Params
         'scopes' => ScopeG::NAME,
         'higher_note' => null,
         'lower_note' => null,
-        'chord_freq' => 0,
     ];
 
     private array $customerParams = [];
@@ -156,10 +153,5 @@ final class Params
     {
         $note = $this->customerParams['lower_note'];
         return \is_numeric($note) ? (int)$note : $note;
-    }
-
-    public function getChordFreq(): int
-    {
-        return (int)$this->customerParams['chord_freq'];
     }
 }
