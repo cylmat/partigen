@@ -15,20 +15,10 @@ class ViewPartitionModel implements ViewModelInterface
         $this->viewScope = $viewScope;
     }
 
-    public function style(string $styleContent): string
-    {
-        return "<style type=\"text/css\">$styleContent</style>";
-    }
-
-    public function page(string $pageContent): string
-    {
-        return "<page>\n$pageContent</page>";
-    }
-
-    public function convert(array $data): string
+    public function convert(array $scopesData): string
     {
         $html = '';
-        foreach ($data as $scopeData) {
+        foreach ($scopesData as $scopeData) {
             $scope = $this->viewScope->convert($scopeData);
             $html .= sprintf(self::SCOPE_TEMPLATE, $scope);
         }

@@ -1,16 +1,21 @@
 <?php
 
-namespace spec\Partigen\Service;
+namespace spec\Partigen\Bridge;
 
-use Partigen\Model\Image;
-use Partigen\Service\Pdf2Image;
-use PhpSpec\ObjectBehavior;
+use Partigen\Bridge\Pdf2Image;
+use Partigen\Factory;
+use Partigen\SpecExt\ObjectBehavior;
+use Prophecy\Argument;
+use Spatie\PdfToImage\Pdf;
 
 class Pdf2ImageSpec extends ObjectBehavior
 {
-    function let(Image $image)
+    function let(Factory $factory, Pdf $pdf)
     {
-        $this->beConstructedWith($image);
+        $pdf->getImageData('php://memory')->willReturn(new \Imagick());
+        $factory->createPdf2Image(Argument::type('string'))->willReturn($pdf);
+
+        $this->beConstructedWith($factory);
     }
 
     function it_is_initializable()
@@ -18,8 +23,8 @@ class Pdf2ImageSpec extends ObjectBehavior
         $this->shouldHaveType(Pdf2Image::class);
     }
 
-    function it_can_convert()
+    function it_can_convert_content()
     {
-        //$this->convert('/tmp/file.pdf')->shouldHaveType(Image::class);
+        $this->convertContentToRawData('*pdf_raw_content*')->shouldBe('');
     }
 }

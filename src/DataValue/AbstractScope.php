@@ -7,6 +7,10 @@ abstract class AbstractScope implements ScopeDataInterface
     // max and min notes around scope bottom and top lines
     public const MAX_OUTSIDE_VARIATION = 4;
 
+    protected const NAME = '';
+    protected const SCOPELINE = '';
+    protected const BASELINE = '';
+
     public function getName(): string
     {
         return static::NAME;
@@ -14,7 +18,7 @@ abstract class AbstractScope implements ScopeDataInterface
 
     public function getScopeLine(): string
     {
-        return static::SCOPE_LINE;
+        return static::SCOPELINE;
     }
 
     public function getBaseline(): string

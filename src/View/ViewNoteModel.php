@@ -6,11 +6,13 @@ namespace Partigen\View;
 
 class ViewNoteModel
 {
-    private const X_SPACE_PX = 30;
+    private const X_SPACE_PX = 22 + 10;
     private const INIT_LEFT_MARGIN_PX = 40;
 
-    private const Y_SPACE_PX = 8; // space betweeen notes
-    private const INIT_TOP_MARGIN_PX = -self::Y_SPACE_PX; // init on bottom line
+    private const Y_SPACE_PX = 6; // space betweeen notes
+    private const INIT_TOP_MARGIN_PX = 55; // init on bottom line
+
+    private const MAX_PAGE_WIDTH = 730; // px
 
     // <div> class name
     private const NOTECLASS = 'note';
@@ -28,7 +30,7 @@ class ViewNoteModel
 
         $noteHtml = '';
         foreach ($data as $high => $class) {
-            // $noteHtml need to be after to display correctly
+            // noteHtml need to be after to display correctly
             $noteHtml = $this->createClassHtml($index, $high, $class) . $noteHtml;
         }
 
@@ -42,20 +44,21 @@ class ViewNoteModel
             $direction = $note > 0 ? 1 : -1;
             $currentPos = $note - $direction;
 
-            // note outside lines
-            if ($currentPos < 0 || $currentPos > 8) {
-                $data[$note] = 0 === $note % 2 ? self::NOTESPLITCLASS : self::NOTECLASS;
-            } else {
-                // inside 5 lines
-                $data[$note] = self::NOTECLASS;
-            }
-
+            // scope's key level
             if (0 === $note) {
                 $data[$note] = self::NOTECLASS;
                 continue;
             }
-            
-            // intermediate lines
+
+            // note outside lines
+            if ($currentPos < 0 || $currentPos > 8) {
+                $data[$note] = 0 === $note % 2 ? self::NOTESPLITCLASS : self::NOTECLASS;
+            } else {
+                // inside scope lines
+                $data[$note] = self::NOTECLASS;
+            }
+
+            // set intermediate note's lines
             while (abs($currentPos) > 0) {
                 // only display intermediates lines onto or under scope's lines
                 if ($currentPos < 0 || $currentPos > 8) {
@@ -72,13 +75,22 @@ class ViewNoteModel
 
     private function createClassHtml(int $index, int $baseHigh, string $class): string
     {
-        $top = self::INIT_TOP_MARGIN_PX + (self::Y_SPACE_PX * 10);
-        $top -= $baseHigh * self::Y_SPACE_PX;
         $left = self::INIT_LEFT_MARGIN_PX + ($index * self::X_SPACE_PX);
+        $top = self::INIT_TOP_MARGIN_PX - ($baseHigh * self::Y_SPACE_PX);
 
-        $style = '';
-        $style .= "left: $left" . 'px; ';
-        $style .= "top: $top"  . 'px; ';
+        if ($left > self::MAX_PAGE_WIDTH) {
+            return '';
+        }
+
+        /**
+         * @desc bug display! keep it
+         */
+        if (self::SPLITCLASS === $class) {
+            $top += ($baseHigh < 0) ? -1 : 1;
+        }
+
+        $style = "left: $left" . 'px; ';
+        $style .= "top: $top" . 'px;';
 
         return sprintf(self::NOTE_TEMPLATE, $class, $style);
     }

@@ -1,10 +1,14 @@
 ###########
 # PHPSPEC #
-# @see http://www.phpspec.net/en/stable/cookbook/configuration.html
+# @see 
+#      http://phpspec.net/en/stable/cookbook/configuration.html
+#      http://phpspec.net/en/stable/cookbook/matchers.html
+#
+# $this->getWrappedObject();
 ###########
 
 suites:
-    app_suite:
+    app:
         namespace: Partigen
         psr4_prefix: Partigen
         src_path: '%paths.config%/src'
@@ -22,4 +26,14 @@ suites:
 bootstrap: vendor/autoload.php
 
 matchers:
-    - Partigen\Spec\BeExactlyMatcher
+    - Partigen\SpecExt\BeExactlyMatcher
+
+extensions:
+  FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension: 
+    format:
+      - text #html
+    lower_upper_bound: 35
+    high_lower_bound: 70
+    show_only_summary: true
+    whitelist:
+      - src

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Partigen\Spec;
+namespace Partigen\SpecExt;
 
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\BasicMatcher;
@@ -26,7 +26,8 @@ class BeExactlyMatcher extends BasicMatcher
         $subject_dump = ob_get_clean();
 
         return new FailureException(
-            sprintf("\nExpected \n'%s'\n\n Doesn't match \n'%s'",
+            sprintf(
+                "\nExpected \n'%s'\n\n Doesn't match \n'%s'",
                 $subject_dump,
                 var_export($arguments[0], true)
             )
@@ -35,15 +36,6 @@ class BeExactlyMatcher extends BasicMatcher
 
     protected function getNegativeFailureException(string $name, $subject, $arguments): FailureException
     {
-        /*ob_start();
-        var_dump($subject);
-        $subject_dump = ob_get_clean();
-
-        return new FailureException(
-            sprintf("\nExpected \n'%s'\n\n Doesn't match \n'%s'",
-                $subject_dump,
-                var_export($arguments, true)
-            )
-        );*/
+        return new FailureException(/** @todo to implements */);
     }
 }

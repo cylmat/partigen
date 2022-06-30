@@ -10,7 +10,7 @@ use Partigen\DataValue\ScopeDataInterface;
 use Partigen\Service\Baseline;
 use Partigen\Service\Randomizer;
 
-class NotesBlock extends AbstractBlock
+class NotesBlock implements BlockInterface
 {
     private const NUMBERS_ON_A_LINE = 24;
 
@@ -38,18 +38,18 @@ class NotesBlock extends AbstractBlock
         $lowerNote = $context->getLowerNote() ?? 'C0';
 
         for ($i = 0; $i < self::NUMBERS_ON_A_LINE; $i++) {
-            $isNote = $this->randomizer->isNoteOrChord($context->getChordFreq());
+            $isChord = $this->randomizer->isChord(0);
 
-            if ($isNote) {
+            if (!$isChord) {
                 // Notes
                 $notes[] = [
                     'highs' => [$this->getRandomizedNoteFromBaseline($lowerNote, $higherNote)],
                 ];
             } else {
                 // Chords
+                 // @todo to implements
                 $notes[] = [
                     'highs' => [
-                        /** @todo generate real chords */
                         $base = $this->getRandomizedNoteFromBaseline($lowerNote, $higherNote),
                         $base - 2,
                         $base + 2
@@ -64,20 +64,20 @@ class NotesBlock extends AbstractBlock
     /**
      * Return integer from baseline (bottom line of scope)
      *  e.g. in G scope: 0 will be E3 (bottom line), -1 will be D3, etc...
-     * 
+     *
      * @param string|int $customMinLabelOrDiff Can be a string (e.g. 'C5'), or a difference (e.g. 5)
-     * @param string|int $customMinDiff Can be a string (e.g. 'C2'), or a difference (e.g. -5)
+     * @param string|int $customMaxLabelOrDiff Can be a string (e.g. 'C2'), or a difference (e.g. -5)
      */
     private function getRandomizedNoteFromBaseline($customMinLabelOrDiff, $customMaxLabelOrDiff): int
     {
         $scopeLine = $this->baselineService::diffLabelWithBaseline($this->scopeData->getScopeLine(), $this->scopeData->getBaseline());
-        
+
         if (\is_string($customMaxLabelOrDiff)) { // is a label
             $customMaxDiff = $this->baselineService::diffLabelWithBaseline($customMaxLabelOrDiff, $this->scopeData->getBaseline());
         } else { // is a integer
             $customMaxDiff = $customMaxLabelOrDiff + $scopeLine;
         }
-        
+
         if (\is_string($customMinLabelOrDiff)) { // is a label
             $customMinDiff = $this->baselineService::diffLabelWithBaseline($customMinLabelOrDiff, $this->scopeData->getBaseline());
         } else { // is a integer
@@ -86,8 +86,12 @@ class NotesBlock extends AbstractBlock
 
         [$scopeMinDiff, $scopeMaxDiff] = $this->getScopeBoundDiff();
 
+        // setting bounds
         $max = min($scopeMaxDiff, $customMaxDiff);
+        $max = max($scopeMinDiff, $max);
+
         $min = max($scopeMinDiff, $customMinDiff);
+        $min = min($scopeMaxDiff, $min);
 
         return $this->randomizer->getNoteHigh($min, $max);
     }

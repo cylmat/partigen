@@ -8,31 +8,28 @@ use DI\ContainerBuilder;
 use Partigen\Bridge\Html2Pdf;
 use Partigen\Bridge\Pdf2Image;
 use Partigen\Config\Params;
-use Partigen\Model\BlockFactory;
-use Partigen\Model\BlockFactoryInterface;
-use Partigen\Model\Partition;
+use Partigen\Model\PartitionPage;
 
 final class ImageCreator
 {
     private Params $params;
     private Html2Pdf $html2pdf;
     private Pdf2Image $pdf2image;
-    private Partition $partition;
+    private PartitionPage $partition;
 
     private string $image;
 
-    public static function generate(array $creationParams = []): self
+    public static function generate(array $creationParams = [], array $defaultCustomConfig = []): self
     {
-        $container = (new ContainerBuilder())
-            ->addDefinitions([
-                BlockFactoryInterface::class => \DI\autowire(BlockFactory::class),
-            ]);
-        return $container->build()->get(self::class)->create($creationParams);
+        return (new ContainerBuilder())->build()->get(self::class)
+            ->setDefaultConfig($defaultCustomConfig)
+            ->create($creationParams)
+        ;
     }
 
     public function __construct(
         Params $params,
-        Partition $partition,
+        PartitionPage $partition,
         Html2Pdf $html2pdf,
         Pdf2Image $pdf2image
     ) {
@@ -40,6 +37,13 @@ final class ImageCreator
         $this->partition = $partition;
         $this->html2pdf = $html2pdf;
         $this->pdf2image = $pdf2image;
+    }
+
+    public function setDefaultConfig(array $defaultCustomConfig): self
+    {
+        $this->params->initDefault($defaultCustomConfig);
+
+        return $this;
     }
 
     public function create(array $creationParams = []): self
@@ -73,7 +77,7 @@ final class ImageCreator
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header("Content-Disposition: attachment; filename=\"$format\"");
-        header('Content-Length: '.strlen($this->image));
+        header('Content-Length: ' . strlen($this->image));
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         header('Expires: 0');
