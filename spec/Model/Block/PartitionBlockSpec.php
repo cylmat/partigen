@@ -43,6 +43,7 @@ class PartitionBlockSpec extends ObjectBehavior
             ['data'],
             ['data'],
             ['data'],
+            ['data'],
         ]);
     }
 }

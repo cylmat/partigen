@@ -28,13 +28,13 @@ class ParamsSpec extends ObjectBehavior
     function it_should_validates()
     {
         $this->validates([
-            'format' => 'A5',
+            'format' => 'A4',
             'image_ext' => 'png',
             'scopes' => 'G',
             'higher_note' => null,
             'lower_note' => null,
         ]);
-        $this->getFormat()->shouldBe('A5');
+        $this->getFormat()->shouldBe('A4');
         $this->getImageExt()->shouldBe('png');
         $this->getScopes()->shouldBe(['G']);
         $this->getHigherNote()->shouldBe(null);
