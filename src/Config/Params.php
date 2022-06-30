@@ -13,8 +13,7 @@ final class Params
     /** @var mixed[] */
     private array $allowedParams = [
         'format' => [
-            Html2Pdf::FORMAT_A4,
-            Html2Pdf::FORMAT_A5
+            Html2Pdf::FORMAT_A4
         ],
         'image_ext' => [
             'png'
