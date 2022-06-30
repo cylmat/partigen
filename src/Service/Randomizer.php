@@ -11,7 +11,7 @@ final class Randomizer
 
     /**
      * Is chord or simple note
-     * 
+     *
      * For $chordFrequency = 0, return always false
      * For $chordFrequency = 50, return 50% true or false
      * For $chordFrequency = 100, return always true

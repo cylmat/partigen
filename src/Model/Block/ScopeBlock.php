@@ -33,7 +33,6 @@ class ScopeBlock implements BlockInterface
     {
         return [
             'name' => $this->scopeData->getName(),
-            /** @phpstan-ignore-next-line */
             'notes' => $this->notesBlock
                 ->setScopeData($this->scopeData)
                 ->getData($context)

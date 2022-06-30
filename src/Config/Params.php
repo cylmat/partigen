@@ -87,7 +87,7 @@ final class Params
             }
 
             // check each regexp or allowed values
-            switch (\gettype($allowedValues = $this->allowedParams[$key])):
+            switch (\gettype($allowedValues = $this->allowedParams[$key])) :
                 case 'array':
                     if (!\in_array($param, $this->allowedParams[$key])) {
                         throw new ParamException(\sprintf(

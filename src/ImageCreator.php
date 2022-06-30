@@ -8,8 +8,6 @@ use DI\ContainerBuilder;
 use Partigen\Bridge\Html2Pdf;
 use Partigen\Bridge\Pdf2Image;
 use Partigen\Config\Params;
-use Partigen\Model\BlockFactory;
-use Partigen\Model\BlockFactoryInterface;
 use Partigen\Model\PartitionPage;
 
 final class ImageCreator
@@ -23,11 +21,7 @@ final class ImageCreator
 
     public static function generate(array $creationParams = [], array $defaultCustomConfig = []): self
     {
-        $container = (new ContainerBuilder())
-            ->addDefinitions([
-                BlockFactoryInterface::class => \DI\autowire(BlockFactory::class),
-            ]);
-        return $container->build()->get(self::class)
+        return (new ContainerBuilder())->build()->get(self::class)
             ->setDefaultConfig($defaultCustomConfig)
             ->create($creationParams)
         ;

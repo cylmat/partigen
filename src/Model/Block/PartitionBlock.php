@@ -31,7 +31,6 @@ class PartitionBlock implements BlockInterface
         $partitionData = [];
         for ($s = 0; $s < self::SCOPES_NUMBER_IN_PAGE; $s++) {
             $selectedScope = $this->randomizer->getScope($context->getScopes());
-            /** @phpstan-ignore-next-line */
             $partitionData[] = $this->scopeBlock
                 ->setScopeData($this->factory->createScopeData($selectedScope))
                 ->getData($context);

@@ -28,9 +28,14 @@
         }
     },
     "scripts": {
+        "all-tests": [
+            "@cs",
+            "@spec",
+            "@stan"
+        ],
         "cs": "phpcs",
         "cbf": "phpcbf",
-        "md": "phpmd src ansi cleancode,codesize,controversial,design,naming,unusedcode",
+        "md": "phpmd src ansi codesize,controversial,design,naming,unusedcode",
         "spec": "phpspec run",
         "stan": "phpstan analyse src --memory-limit=2G --level=5"
     }
