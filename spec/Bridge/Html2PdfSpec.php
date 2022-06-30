@@ -4,7 +4,7 @@ namespace spec\Partigen\Bridge;
 
 use Partigen\Bridge\Html2Pdf;
 use Partigen\Factory;
-use PhpSpec\ObjectBehavior;
+use Partigen\SpecExt\ObjectBehavior;
 use PhpSpec\Wrapper\Collaborator;
 use Spipu\Html2Pdf\Html2Pdf as Spipu_Html2Pdf;
 

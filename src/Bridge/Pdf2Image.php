@@ -23,7 +23,7 @@ class Pdf2Image
             $image = (string)$this->factory->createPdf2Image($pdfFile)->getImageData('php://memory');
             unlink($pdfFile);
 
-            return $image;
+            return (string)$image;
         } catch (\Exception $exception) {
             unlink($pdfFile);
             throw $exception;

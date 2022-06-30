@@ -15,10 +15,10 @@ class ViewPartitionModel implements ViewModelInterface
         $this->viewScope = $viewScope;
     }
 
-    public function convert(array $data): string
+    public function convert(array $scopesData): string
     {
         $html = '';
-        foreach ($data as $scopeData) {
+        foreach ($scopesData as $scopeData) {
             $scope = $this->viewScope->convert($scopeData);
             $html .= sprintf(self::SCOPE_TEMPLATE, $scope);
         }

@@ -44,20 +44,21 @@ class ViewNoteModel
             $direction = $note > 0 ? 1 : -1;
             $currentPos = $note - $direction;
 
-            // note outside lines
-            if ($currentPos < 0 || $currentPos > 8) {
-                $data[$note] = 0 === $note % 2 ? self::NOTESPLITCLASS : self::NOTECLASS;
-            } else {
-                // inside 5 lines
-                $data[$note] = self::NOTECLASS;
-            }
-
+            // scope's key level
             if (0 === $note) {
                 $data[$note] = self::NOTECLASS;
                 continue;
             }
 
-            // intermediate lines
+            // note outside lines
+            if ($currentPos < 0 || $currentPos > 8) {
+                $data[$note] = 0 === $note % 2 ? self::NOTESPLITCLASS : self::NOTECLASS;
+            } else {
+                // inside scope lines
+                $data[$note] = self::NOTECLASS;
+            }
+
+            // set intermediate note's lines
             while (abs($currentPos) > 0) {
                 // only display intermediates lines onto or under scope's lines
                 if ($currentPos < 0 || $currentPos > 8) {
@@ -74,8 +75,8 @@ class ViewNoteModel
 
     private function createClassHtml(int $index, int $baseHigh, string $class): string
     {
-        $top = self::INIT_TOP_MARGIN_PX - ($baseHigh * self::Y_SPACE_PX);
         $left = self::INIT_LEFT_MARGIN_PX + ($index * self::X_SPACE_PX);
+        $top = self::INIT_TOP_MARGIN_PX - ($baseHigh * self::Y_SPACE_PX);
 
         if ($left > self::MAX_PAGE_WIDTH) {
             return '';
@@ -89,7 +90,7 @@ class ViewNoteModel
         }
 
         $style = "left: $left" . 'px; ';
-        $style .= "top: $top" . 'px; ';
+        $style .= "top: $top" . 'px;';
 
         return sprintf(self::NOTE_TEMPLATE, $class, $style);
     }

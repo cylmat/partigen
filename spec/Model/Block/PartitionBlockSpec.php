@@ -3,11 +3,10 @@
 namespace spec\Partigen\Model\Block;
 
 use Partigen\Config\Params;
-use Partigen\DataValue\ScopeDataValueFactory;
 use Partigen\DataValue\ScopeG;
+use Partigen\Factory;
 use Partigen\Model\Block\PartitionBlock;
 use Partigen\Model\Block\ScopeBlock;
-use Partigen\Model\BlockFactory;
 use Partigen\Service\Randomizer;
 use Partigen\SpecExt\ObjectBehavior;
 use Prophecy\Argument;
@@ -15,19 +14,18 @@ use Prophecy\Argument;
 class PartitionBlockSpec extends ObjectBehavior
 {
     function let(
-        BlockFactory $factory,
-        ScopeDataValueFactory $dataValueFactory,
+        ScopeBlock $scopeBlock,
         Randomizer $randomizer,
-        ScopeBlock $scopeBlock
+        Factory $factory
     ) {
         $randomizer->getScope(['G'])->willReturn('G');
-        $dataValueFactory->create('G')->willReturn(new ScopeG());
+        $factory->createScopeData('G')->willReturn(new ScopeG());
         
         $scopeBlock->setScopeData(new ScopeG())->willReturn($scopeBlock);
         $scopeBlock->getData(Argument::type(Params::class))->willReturn(['data']);
-        $factory->create(ScopeBlock::class)->willReturn($scopeBlock);
+        $factory->createBlock(ScopeBlock::class)->willReturn($scopeBlock);
 
-        $this->beConstructedWith($factory, $dataValueFactory, $randomizer);
+        $this->beConstructedWith($scopeBlock, $randomizer, $factory);
     }
 
     function it_is_initializable()

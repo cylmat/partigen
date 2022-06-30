@@ -38,9 +38,9 @@ class NotesBlock implements BlockInterface
         $lowerNote = $context->getLowerNote() ?? 'C0';
 
         for ($i = 0; $i < self::NUMBERS_ON_A_LINE; $i++) {
-            $isNote = $this->randomizer->isNoteOrChord($context->getChordFreq());
+            $isChord = $this->randomizer->isChord($context->getChordFreq());
 
-            if ($isNote) {
+            if (!$isChord) {
                 // Notes
                 $notes[] = [
                     'highs' => [$this->getRandomizedNoteFromBaseline($lowerNote, $higherNote)],

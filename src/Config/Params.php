@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Partigen\Config;
 
 use Partigen\Bridge\Html2Pdf;
-use Partigen\DataValue\ScopeF;
 use Partigen\DataValue\ScopeG;
 use Partigen\Exceptions\ParamException;
 
 final class Params
 {
+    /** @var mixed[] */
     private array $allowedParams = [
         'format' => [
             Html2Pdf::FORMAT_A4,
@@ -25,6 +25,7 @@ final class Params
         'chord_freq' => '/^\d\d?|^100$/',
     ];
 
+    /** @var string[] */
     private array $regexErrorMsg = [
         'scopes' => "Values '%s' must be one of G,F or both",
         'higher_note' => "Value '%s' must be a note (e.g. E4) or a difference with scope line",
@@ -32,6 +33,7 @@ final class Params
         'chord_freq' => "Value '%s' must be a integer between 0 and 100",
     ];
 
+    /** @var mixed[] */
     private array $default = [
         'format' => 'A4',
         'image_ext' => 'png',
@@ -85,7 +87,7 @@ final class Params
             }
 
             // check each regexp or allowed values
-            switch (\gettype($allowedValues = $this->allowedParams[$key])) :
+            switch (\gettype($allowedValues = $this->allowedParams[$key])):
                 case 'array':
                     if (!\in_array($param, $this->allowedParams[$key])) {
                         throw new ParamException(\sprintf(

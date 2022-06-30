@@ -8,17 +8,18 @@ use Partigen\Config\Params;
 use Partigen\Model\Block\PartitionBlock;
 use Partigen\View\ViewPartitionModel;
 
+// @todo set in controller instead of model
 final class PartitionPage
 {
     public const RESOURCES_DIRECTORY = __DIR__ . '/../../resources';
 
-    private ViewPartitionModel $view;
     private PartitionBlock $partitionBlock;
+    private ViewPartitionModel $view;
 
     public function __construct(PartitionBlock $partitionBlock, ViewPartitionModel $view)
     {
-        $this->view = $view;
         $this->partitionBlock = $partitionBlock;
+        $this->view = $view;
     }
 
     public function getHtml(Params $context): string
