@@ -10,7 +10,7 @@ use Partigen\Service\Randomizer;
 
 class PartitionBlock implements BlockInterface
 {
-    private const SCOPES_NUMBER_IN_PAGE = 6;
+    private const SCOPES_NUMBER_IN_PAGE = 7;
 
     private ScopeBlock $scopeBlock;
     private Randomizer $randomizer;
