@@ -5,7 +5,7 @@ namespace Partigen\DataValue;
 abstract class AbstractScope implements ScopeDataInterface
 {
     // max and min notes around scope bottom and top lines
-    public const MAX_OUTSIDE_VARIATION = 20;
+    public const MAX_OUTSIDE_VARIATION = 15;
 
     protected const NAME = '';
     protected const SCOPELINE = '';

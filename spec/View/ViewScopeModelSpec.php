@@ -56,7 +56,7 @@ class ViewScopeModelSpec extends ObjectBehavior
                     ],
                 ]
             ]
-        )->shouldContain('style="margin-top: 50px; margin-bottom: 0px;"');
+        )->shouldContain('style="margin-top: 72px; margin-bottom: 0px;"');
 
         // bottom
         $this->viewNoteModel->convert([
@@ -73,6 +73,6 @@ class ViewScopeModelSpec extends ObjectBehavior
                     ],
                 ]
             ]
-        )->shouldContain('style="margin-top: 0px; margin-bottom: 80px;"');
+        )->shouldContain('style="margin-top: 0px; margin-bottom: 120px;"');
     }
 }
