@@ -17,7 +17,7 @@ class ViewPartitionModel implements ViewModelInterface
 
     public function convert(array $scopesData): string
     {
-        $html = '';
+        $html = "<div class=\"header\"></div>\n";
         foreach ($scopesData as $scopeData) {
             $scope = $this->viewScope->convert($scopeData);
             $html .= sprintf(self::SCOPE_TEMPLATE, $scope);

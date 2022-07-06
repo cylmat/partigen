@@ -2,9 +2,9 @@
 
 namespace spec\Partigen\View;
 
+use Partigen\SpecExt\ObjectBehavior;
 use Partigen\View\ViewNoteModel;
 use Partigen\View\ViewScopeModel;
-use PhpSpec\ObjectBehavior;
 
 class ViewScopeModelSpec extends ObjectBehavior
 {
@@ -25,7 +25,7 @@ class ViewScopeModelSpec extends ObjectBehavior
     {
         $this->viewNoteModel->convert([
             'index' => 0,
-            'highs' => 2
+            'highs' => [2]
         ])->willReturn('note-data');
 
         $this->convert(
@@ -33,10 +33,46 @@ class ViewScopeModelSpec extends ObjectBehavior
                 'name' => 'G',
                 'notes' => [
                     [
-                        'highs' => 2,
+                        'highs' => [2],
                     ],
                 ]
             ]
         )->shouldContain("<div class=\"notes\">\nnote-data</div>");
+    }
+
+    function it_should_convert_outscope()
+    {
+        $this->viewNoteModel->convert([
+            'index' => 0,
+            'highs' => [20]
+        ])->willReturn('note-data');
+
+        $this->convert(
+            [
+                'name' => 'G',
+                'notes' => [
+                    [
+                        'highs' => [20],
+                    ],
+                ]
+            ]
+        )->shouldContain('style="margin-top: 50px; margin-bottom: 0px;"');
+
+        // bottom
+        $this->viewNoteModel->convert([
+            'index' => 0,
+            'highs' => [-20]
+        ])->willReturn('note-data');
+
+        $this->convert(
+            [
+                'name' => 'G',
+                'notes' => [
+                    [
+                        'highs' => [-20],
+                    ],
+                ]
+            ]
+        )->shouldContain('style="margin-top: 0px; margin-bottom: 80px;"');
     }
 }

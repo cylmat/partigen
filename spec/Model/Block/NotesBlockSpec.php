@@ -34,7 +34,7 @@ class NotesBlockSpec extends ObjectBehavior
         ]);
 
         $diffScopeLineG = 2;
-        $this->getData($params)->shouldHaveCount(24);
+        $this->getData($params)->shouldHaveCount(30);
         $this->getData($params)->shouldHaveHighsValuesBetween($diffScopeLineG, $diffScopeLineG + 3);
     }
 
@@ -50,7 +50,7 @@ class NotesBlockSpec extends ObjectBehavior
         ]);
 
         $diffScopeLineF = 6;
-        $this->getData($params)->shouldHaveCount(24);
+        $this->getData($params)->shouldHaveCount(30);
         $this->getData($params)->shouldHaveHighsValuesBetween($diffScopeLineF - 3, $diffScopeLineF);
     }
 

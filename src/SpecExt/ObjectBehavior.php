@@ -17,11 +17,6 @@ class ObjectBehavior extends PhpSpecObjectBehavior
         BypassFinals::enable();
     }
 
-    public function setSpecificationSubject(Subject $subject): void
-    {
-        $this->object = $subject;
-    }
-
     protected function prophesize(string $class): ObjectProphecy
     {
         return (new Prophet())->prophesize($class);
