@@ -11,7 +11,7 @@ use Partigen\Service\Randomizer;
 class PartitionBlock implements BlockInterface
 {
     // will be overriden and hidded by ViewScopeModel
-    private const SCOPES_NUMBER_IN_PAGE = 7; // max displayed scopes
+    private const SCOPES_NUMBER_IN_PAGE = 10; // max displayed scopes
 
     private ScopeBlock $scopeBlock;
     private Randomizer $randomizer;
