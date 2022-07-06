@@ -2,13 +2,16 @@ page {
     font-size: 14px;
 }
 
+ .header {
+    margin-top: 10px;
+}
+
 /*
  * Block
  */
 .block {
     position: relative;
     width: 100%;
-    margin-top: 50px;
 }
 
 /*

@@ -6,13 +6,13 @@ namespace Partigen\View;
 
 class ViewNoteModel
 {
-    private const X_SPACE_PX = 22 + 10;
-    private const INIT_LEFT_MARGIN_PX = 40;
-
-    private const Y_SPACE_PX = 6; // space betweeen notes
+    public const Y_SPACE_PX = 6; // space vertical betweeen notes
     private const INIT_TOP_MARGIN_PX = 55; // init on bottom line
 
-    private const MAX_PAGE_WIDTH = 730; // px
+    private const X_SPACE_PX = 22 + 10; // space betweeen notes
+    private const INIT_LEFT_MARGIN_PX = 40; // init left for first note
+
+    private const MAX_PAGE_WIDTH = 730; // max horizontal displayed px
 
     // <div> class name
     private const NOTECLASS = 'note';

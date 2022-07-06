@@ -12,7 +12,8 @@ use Partigen\Service\Randomizer;
 
 class NotesBlock implements BlockInterface
 {
-    private const NUMBERS_ON_A_LINE = 24;
+    // will be overriden and hidden by ViewScopeModel
+    private const NUMBERS_ON_A_LINE = 30;
 
     private ScopeDataInterface $scopeData;
     private Baseline $baselineService;
