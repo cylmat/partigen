@@ -9,7 +9,7 @@ class ViewScopeModel implements ViewModelInterface
     private const LINE_NUMBERS = 5; // number of displayed lines for each scope
     private const SCOPE_HEIGHT_PX = 100;
 
-    private const MAX_OUTSCOPE_VERTICAL_PX = 1100; // number of "added" notes px to display scope
+    private const MAX_OUTSCOPE_VERTICAL_PX = 1000; // number of "added" notes px to display scope
     private static $totalOutscopeVerticalPx = 10 - 30; // (10px in partition.css -> start with header height)
 
     private const LINE_TEMPLATE = '<div class="line"></div>' . "\n";
