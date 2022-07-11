@@ -1,8 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [dev]
+## [1.1.0-dev]
 ### Fixed
+- Label param regexp
 - Variation of display adaptation outscope
 - Limit page height
 

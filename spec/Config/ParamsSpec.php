@@ -65,4 +65,12 @@ class ParamsSpec extends ObjectBehavior
             'lower_note' => 5,
         ]);
     }
+
+    function it_should_not_allow_higher_than_b8()
+    {
+        $this->shouldThrow(ParamException::class)->duringValidates([
+            'higher_note' => 'B9',
+            'lower_note' => 'B9',
+        ]);
+    }
 }

@@ -19,15 +19,15 @@ final class Params
             'png'
         ],
         'scopes' => '/^[GF](,[GF])*$/',
-        'higher_note' => '/^[ABCDEFG]\d|-?\d?\d$/',
-        'lower_note' => '/^[ABCDEFG]\d|-?\d?\d$/',
+        'higher_note' => '/^([CDEFGAB][0-8]|-?[1-2]?\d)$/',
+        'lower_note' => '/^([CDEFGAB][0-8]|-?[1-2]?\d)$/',
     ];
 
     /** @var string[] */
     private array $regexErrorMsg = [
         'scopes' => "Values '%s' must be one of G,F or both",
-        'higher_note' => "Value '%s' must be a note (e.g. E4) or a difference with scope line",
-        'lower_note' => "Value '%s' must be a note (e.g. E4) or a difference with scope line",
+        'higher_note' => "Value '%s' must be a note (B8 max) or a difference with scope line (20 max)",
+        'lower_note' => "Value '%s' must be a note (B8 max) or a difference with scope line (20 max)",
     ];
 
     /** @var mixed[] */
