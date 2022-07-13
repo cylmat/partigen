@@ -22,6 +22,7 @@ class ParamsSpec extends ObjectBehavior
             'scopes' => 'defaults',
             'higher_note' => null,
             'lower_note' => null,
+            'paired' => null,
         ]);
     }
 
@@ -33,12 +34,14 @@ class ParamsSpec extends ObjectBehavior
             'scopes' => 'G',
             'higher_note' => null,
             'lower_note' => null,
+            'paired' => '1',
         ]);
         $this->getFormat()->shouldBe('A4');
         $this->getImageExt()->shouldBe('png');
         $this->getScopes()->shouldBe(['G']);
-        $this->getHigherNote()->shouldBe(null);
-        $this->getLowerNote()->shouldBe(null);
+        $this->getHigherNote()->shouldBe('B8');
+        $this->getLowerNote()->shouldBe('C0');
+        $this->isPaired()->shouldBe(true);
     }
 
     function it_should_not_validates_not_exists_param()
@@ -63,6 +66,14 @@ class ParamsSpec extends ObjectBehavior
         $this->shouldThrow(ParamException::class)->duringValidates([
             'higher_note' => 1,
             'lower_note' => 5,
+        ]);
+    }
+
+    function it_should_not_allow_higher_than_b8()
+    {
+        $this->shouldThrow(ParamException::class)->duringValidates([
+            'higher_note' => 'B9',
+            'lower_note' => 'B9',
         ]);
     }
 }

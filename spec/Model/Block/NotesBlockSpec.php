@@ -3,6 +3,7 @@
 namespace spec\Partigen\Model\Block;
 
 use Partigen\Config\Params;
+use Partigen\DataValue\ScopeF;
 use Partigen\DataValue\ScopeG;
 use Partigen\Model\Block\NotesBlock;
 use Partigen\Service\Baseline;
@@ -12,6 +13,9 @@ use PhpSpec\Exception\Example\FailureException;
 
 class NotesBlockSpec extends ObjectBehavior
 {
+    private static $diffScopeLineG = 2;
+    private static $diffScopeLineF = 6;
+
     function let()
     {
         $this->beConstructedWith(new Baseline(), new Randomizer());
@@ -22,36 +26,41 @@ class NotesBlockSpec extends ObjectBehavior
         $this->shouldHaveType(NotesBlock::class);
     }
 
-    function it_should_return_scopeline_for_G(ScopeG $scopeData)
+    function it_should_return_G_higher_bound()
     {
-        $scopeData->getScopeLine()->willReturn('G3');
-        $scopeData->getBaseLine()->willReturn('E3');
-        $this->setScopeData($scopeData);
-
+        $this->setScopeData(new ScopeG());
         $params = (new Params)->validates([
             'higher_note' => '3',
             'lower_note' => '0',
         ]);
 
-        $diffScopeLineG = 2;
         $this->getData($params)->shouldHaveCount(30);
-        $this->getData($params)->shouldHaveHighsValuesBetween($diffScopeLineG, $diffScopeLineG + 3);
+        $this->getData($params)->shouldHaveHighsValuesBetween(static::$diffScopeLineG, static::$diffScopeLineG + 3);
     }
 
-    function it_should_return_scopeline_for_F(ScopeG $scopeData)
+    function it_should_return_F_lower_bound()
     {
-        $scopeData->getScopeLine()->willReturn('F2');
-        $scopeData->getBaseLine()->willReturn('G1');
-        $this->setScopeData($scopeData);
-
+        $this->setScopeData(new ScopeF());
         $params = (new Params)->validates([
             'higher_note' => '0',
             'lower_note' => '-3',
         ]);
 
-        $diffScopeLineF = 6;
         $this->getData($params)->shouldHaveCount(30);
-        $this->getData($params)->shouldHaveHighsValuesBetween($diffScopeLineF - 3, $diffScopeLineF);
+        $this->getData($params)->shouldHaveHighsValuesBetween(static::$diffScopeLineF - 3, static::$diffScopeLineF);
+    }
+
+    function it_should_not_be_out_of_paired()
+    {
+        $params = (new Params)->validates([
+            'paired' => '1',
+        ]);
+
+        $this->setScopeData(new ScopeG());
+        $this->getData($params)->shouldHaveHighsValuesBetween(-2, static::$diffScopeLineG + 50);
+
+        $this->setScopeData(new ScopeF());
+        $this->getData($params)->shouldHaveHighsValuesBetween(static::$diffScopeLineF - 50, (8) + 2);
     }
 
     public function getMatchers(): array

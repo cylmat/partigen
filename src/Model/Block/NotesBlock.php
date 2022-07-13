@@ -35,8 +35,7 @@ class NotesBlock implements BlockInterface
     public function getData(Params $context): array
     {
         $notes = [];
-        $higherNote = $context->getHigherNote() ?? 'B8';
-        $lowerNote = $context->getLowerNote() ?? 'C0';
+        [$min, $max] = $this->getFinalBounds($context);
 
         for ($i = 0; $i < self::NUMBERS_ON_A_LINE; $i++) {
             $isChord = $this->randomizer->isChord(0);
@@ -44,14 +43,14 @@ class NotesBlock implements BlockInterface
             if (!$isChord) {
                 // Notes
                 $notes[] = [
-                    'highs' => [$this->getRandomizedNoteFromBaseline($lowerNote, $higherNote)],
+                    'highs' => [$this->randomizer->getNoteHigh($min, $max)],
                 ];
             } else {
                 // Chords
                  // @todo to implements
                 $notes[] = [
                     'highs' => [
-                        $base = $this->getRandomizedNoteFromBaseline($lowerNote, $higherNote),
+                        $base = $this->randomizer->getNoteHigh($min, $max),
                         $base - 2,
                         $base + 2
                     ],
@@ -62,15 +61,57 @@ class NotesBlock implements BlockInterface
         return $notes;
     }
 
+    private function getFinalBounds(Params $context): array
+    {
+        [$minScopeBound, $maxScopeBound] = $this->getScopeBounds($context);
+        [$minCustomBound, $maxCustomBound] = $this->getCustomBounds($context);
+
+        $max = min($maxScopeBound, $maxCustomBound);
+        $min = max($minScopeBound, $minCustomBound);
+
+        return [$min, $max];
+    }
+
+    private function getScopeBounds(Params $context): array
+    {
+        [$lowerNote, $higherNote] = $this->getScopeVariationDiff();
+        $baseline = $this->scopeData->getBaseline();
+
+        if ($context->isPaired()) {
+            $pairedLower = $this->scopeData->getPairedLower();
+            $pairedUpper = $this->scopeData->getPairedUpper();
+            $scopeMinPairedDiff = $this->baselineService::diffLabelWithBaseline($pairedLower, $baseline);
+            $scopeMaxPairedDiff = $this->baselineService::diffLabelWithBaseline($pairedUpper, $baseline);
+
+            $lowerNote = max($lowerNote, $scopeMinPairedDiff);
+            $higherNote = min($higherNote, $scopeMaxPairedDiff);
+        }
+
+        return [$lowerNote, $higherNote];
+    }
+
     /**
-     * Return integer from baseline (bottom line of scope)
+     * Give maximum difference for current scope
+     */
+    private function getScopeVariationDiff(): array
+    {
+        return [
+            0 - AbstractScope::MAX_OUTSIDE_VARIATION, // bottom line
+            8 + AbstractScope::MAX_OUTSIDE_VARIATION // top line
+        ];
+    }
+
+    /**
+     * Return min and max from baseline (bottom line of scope)
      *  e.g. in G scope: 0 will be E3 (bottom line), -1 will be D3, etc...
      *
-     * @param string|int $customMinLabelOrDiff Can be a string (e.g. 'C5'), or a difference (e.g. 5)
-     * @param string|int $customMaxLabelOrDiff Can be a string (e.g. 'C2'), or a difference (e.g. -5)
+     * $customMinLabelOrDiff Can be a string (e.g. 'C5'), or a difference (e.g. 5)
+     * $customMaxLabelOrDiff Can be a string (e.g. 'C2'), or a difference (e.g. -5)
      */
-    private function getRandomizedNoteFromBaseline($customMinLabelOrDiff, $customMaxLabelOrDiff): int
+    private function getCustomBounds(Params $context): array
     {
+        $customMinLabelOrDiff = $context->getLowerNote();
+        $customMaxLabelOrDiff = $context->getHigherNote();
         $scopeLine = $this->baselineService::diffLabelWithBaseline($this->scopeData->getScopeLine(), $this->scopeData->getBaseline());
 
         if (\is_string($customMaxLabelOrDiff)) { // is a label
@@ -85,26 +126,6 @@ class NotesBlock implements BlockInterface
             $customMinDiff = $customMinLabelOrDiff + $scopeLine;
         }
 
-        [$scopeMinDiff, $scopeMaxDiff] = $this->getScopeBoundDiff();
-
-        // setting bounds
-        $max = min($scopeMaxDiff, $customMaxDiff);
-        $max = max($scopeMinDiff, $max);
-
-        $min = max($scopeMinDiff, $customMinDiff);
-        $min = min($scopeMaxDiff, $min);
-
-        return $this->randomizer->getNoteHigh($min, $max);
-    }
-
-    /**
-     * Give maximum difference for current scope
-     */
-    private function getScopeBoundDiff(): array
-    {
-        return [
-            0 - AbstractScope::MAX_OUTSIDE_VARIATION, // bottom line
-            8 + AbstractScope::MAX_OUTSIDE_VARIATION // top line
-        ];
+        return [$customMinDiff, $customMaxDiff];
     }
 }

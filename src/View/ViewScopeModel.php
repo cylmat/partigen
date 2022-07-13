@@ -7,8 +7,10 @@ namespace Partigen\View;
 class ViewScopeModel implements ViewModelInterface
 {
     private const LINE_NUMBERS = 5; // number of displayed lines for each scope
-    private const MAX_OUTSCOPE_VERTICAL_PX = 480; // number of "added" notes px to display scope
-    private static $totalOutscopeVerticalPx = 0;
+    private const SCOPE_HEIGHT_PX = 100;
+
+    private const MAX_OUTSCOPE_VERTICAL_PX = 1000; // number of "added" notes px to display scope
+    private static $totalOutscopeVerticalPx = 10 - 30; // (10px in partition.css -> start with header height)
 
     private const LINE_TEMPLATE = '<div class="line"></div>' . "\n";
     private const SCOPE_TEMPLATE = "<div class=\"scope %s-scope\" style=\"%s\">\n";
@@ -28,6 +30,8 @@ class ViewScopeModel implements ViewModelInterface
             $lines5 .= self::LINE_TEMPLATE;
         }
 
+        $this->addOutscopeLimit(self::SCOPE_HEIGHT_PX);
+
         $style = $this->getOutscopeNotesStyle($data['notes']);
         $scopeHtml = sprintf(self::SCOPE_TEMPLATE, strtolower($data['name']), $style);
         $scopeHtml .= $this->notes($data['notes']);
@@ -36,6 +40,7 @@ class ViewScopeModel implements ViewModelInterface
         if ($this->isOutofpage()) {
             return '';
         }
+
         return $scopeHtml;
     }
 
@@ -67,17 +72,22 @@ class ViewScopeModel implements ViewModelInterface
         // Add a margin (px) for scopes
         // if notes upper top line or notes under bottom line
         $marginTop = $marginBottom = 0;
-        if (($top = max($min, $max)) > 10) {
-            $marginTop = (abs($top) - 10) * 5;
+        if ($max > 8) {
+            $marginTop = ($max - 8) * ViewNoteModel::Y_SPACE_PX;
         }
-        if (($bottom = min($min, $max)) < 0) {
-            $marginBottom = abs($bottom) * 4;
+        if ($min < 0) {
+            $marginBottom = abs($min) * ViewNoteModel::Y_SPACE_PX;
         }
 
         // total of added margin pixels
-        self::$totalOutscopeVerticalPx += $marginTop + $marginBottom;
+        $this->addOutscopeLimit($marginTop + $marginBottom);
 
         return "margin-top: {$marginTop}px; margin-bottom: {$marginBottom}px;";
+    }
+
+    private function addOutscopeLimit(int $size): void
+    {
+        self::$totalOutscopeVerticalPx += $size;
     }
 
     private function isOutofpage(): bool

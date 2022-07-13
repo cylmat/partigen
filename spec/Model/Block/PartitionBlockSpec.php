@@ -36,14 +36,6 @@ class PartitionBlockSpec extends ObjectBehavior
     function it_can_get_data(Params $params)
     {
         $params->getScopes()->willReturn(['G']);
-        $this->getData($params->getWrappedObject())->shouldBe([
-            ['data'],
-            ['data'],
-            ['data'],
-            ['data'],
-            ['data'],
-            ['data'],
-            ['data'],
-        ]);
+        $this->getData($params->getWrappedObject())->shouldBe(\array_fill(0, 10, ['data']));
     }
 }
