@@ -31,7 +31,7 @@ class ViewScopeModel implements ViewModelInterface
         }
 
         $this->addOutscopeLimit(self::SCOPE_HEIGHT_PX);
-        
+
         $style = $this->getOutscopeNotesStyle($data['notes']);
         $scopeHtml = sprintf(self::SCOPE_TEMPLATE, strtolower($data['name']), $style);
         $scopeHtml .= $this->notes($data['notes']);

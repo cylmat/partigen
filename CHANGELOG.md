@@ -1,7 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [1.1.0-dev]
+## [1.1.0]
+### Added
+- Paired scope
+
 ### Fixed
 - Label param regexp
 - Variation of display adaptation outscope

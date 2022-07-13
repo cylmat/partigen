@@ -21,6 +21,7 @@ final class Params
         'scopes' => '/^[GF](,[GF])*$/',
         'higher_note' => '/^([CDEFGAB][0-8]|-?[1-2]?\d)$/',
         'lower_note' => '/^([CDEFGAB][0-8]|-?[1-2]?\d)$/',
+        'paired' => '/^1$/',
     ];
 
     /** @var string[] */
@@ -28,6 +29,7 @@ final class Params
         'scopes' => "Values '%s' must be one of G,F or both",
         'higher_note' => "Value '%s' must be a note (B8 max) or a difference with scope line (20 max)",
         'lower_note' => "Value '%s' must be a note (B8 max) or a difference with scope line (20 max)",
+        'paired' => "Value '%s' must be set to 1",
     ];
 
     /** @var mixed[] */
@@ -37,6 +39,7 @@ final class Params
         'scopes' => ScopeG::NAME,
         'higher_note' => null,
         'lower_note' => null,
+        'paired' => null,
     ];
 
     private array $customerParams = [];
@@ -140,17 +143,23 @@ final class Params
         return \explode(',', $this->customerParams['scopes']);
     }
 
-    /** @return string|int|null */
+    /** @return string|int */
     public function getHigherNote()
     {
-        $note = $this->customerParams['higher_note'];
+        $note = $this->customerParams['higher_note'] ?? 'B8';
         return \is_numeric($note) ? (int)$note : $note;
     }
 
-    /** @return string|int|null */
+    /** @return string|int */
     public function getLowerNote()
     {
-        $note = $this->customerParams['lower_note'];
+        $note = $this->customerParams['lower_note'] ?? 'C0';
         return \is_numeric($note) ? (int)$note : $note;
+    }
+
+    /** @return bool */
+    public function isPaired(): bool
+    {
+        return (bool)($this->customerParams['paired'] ?? false);
     }
 }

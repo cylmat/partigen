@@ -8,4 +8,6 @@ class ScopeG extends AbstractScope
 
     protected const SCOPELINE = 'G3';
     protected const BASELINE = 'E3';
+
+    protected const PAIRED_LOWER = 'C3';
 }
